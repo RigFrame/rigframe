@@ -1,0 +1,139 @@
+# Boat report: check each new or changed boat file, run it, and hand back the report.
+#
+# Pull requests (including from forks) run with a read-only token and no secrets. Each boat comes back as an
+# artifact, rig-report-<file name>: the report, the 3D viewer (viewer.html, works offline), figures and data.
+# The changed boat files are also saved as "preview-input", which boat-preview.yml picks up to publish a
+# live preview and comment the link on the pull request.
+# Push to main: every boat is re-run and published to the gh-pages branch under boats/<file name>/.
+name: Boat report
+
+on:
+  pull_request:
+    paths: ["boats/*.yaml", "src/**", "schema/**", "data/**"]
+  push:
+    branches: [main]
+    paths: ["boats/*.yaml", "src/**", "schema/**", "data/**"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: boat-report-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  find:
+    name: Find the boat files
+    runs-on: ubuntu-latest
+    outputs:
+      boats: ${{ steps.list.outputs.boats }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: list
+        name: List new or changed boat files
+        env:
+          EVENT: ${{ github.event_name }}
+          BASE: ${{ github.base_ref }}
+        run: |
+          if [ "$EVENT" = "pull_request" ]; then
+            git diff --name-only --diff-filter=AM "origin/$BASE...HEAD" -- 'boats/*.yaml' > changed.txt
+            # A change to the code or schema, with no boat file in it, re-runs the examples.
+            [ -s changed.txt ] || ls boats/*.yaml > changed.txt
+          else
+            ls boats/*.yaml > changed.txt
+          fi
+          echo "boats=$(jq -R . changed.txt | jq -cs .)" >> "$GITHUB_OUTPUT"
+          cat changed.txt
+      - name: Save the boat files for the preview
+        if: github.event_name == 'pull_request'
+        env:
+          PR: ${{ github.event.number }}
+        run: |
+          mkdir -p preview-input/boats
+          echo "$PR" > preview-input/pr-number
+          while read -r f; do cp "$f" preview-input/boats/; done < changed.txt
+      - uses: actions/upload-artifact@v4
+        if: github.event_name == 'pull_request'
+        with:
+          name: preview-input
+          path: preview-input
+          retention-days: 7
+
+  report:
+    name: Boat report
+    needs: find
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        boat: ${{ fromJson(needs.find.outputs.boats) }}
+    env:
+      BOAT: ${{ matrix.boat }}          # file names come from forks: use them through env, never inline
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install rigframe
+        run: pip install -e .           # add [opensees] once the engine's cross-check is in
+      - name: Check the boat files
+        run: rigframe validate "$BOAT"
+      - name: Run the analysis
+        id: run
+        run: |
+          stem=$(basename "$BOAT" .yaml)
+          case "$stem" in *[!a-z0-9-]*) echo "File names may use a-z, 0-9 and hyphens only: $BOAT"; exit 1;; esac
+          echo "stem=$stem" >> "$GITHUB_OUTPUT"
+          rigframe run "$BOAT" --out "reports/$stem"
+      - name: Headline on the Summary page
+        if: always() && steps.run.outcome != 'skipped'
+        env:
+          STEM: ${{ steps.run.outputs.stem }}
+        run: |
+          cat "reports/$STEM/SUMMARY.md" >> "$GITHUB_STEP_SUMMARY" || true
+          {
+            echo
+            echo "**3D viewer:** download **rig-report-$STEM** under Artifacts below, unzip it and open \`viewer.html\`."
+            echo "On a pull request, a comment with a link to an online preview follows in a minute or two."
+          } >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        if: always() && steps.run.outcome != 'skipped'
+        with:
+          name: rig-report-${{ steps.run.outputs.stem }}
+          path: reports/${{ steps.run.outputs.stem }}
+          retention-days: 90
+
+  publish:
+    name: Publish reports
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: report
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    concurrency:
+      group: gh-pages
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: rig-report-*
+          path: site
+      - name: Push to the gh-pages branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git fetch origin gh-pages; then git worktree add pages origin/gh-pages && git -C pages switch -C gh-pages
+          else git worktree add --orphan -b gh-pages pages; fi
+          rm -rf pages/boats && mkdir -p pages/boats
+          for d in site/rig-report-*; do cp -r "$d" "pages/boats/${d#site/rig-report-}"; done
+          touch pages/.nojekyll
+          python tools/site_index.py pages
+          cd pages
+          git add -A
+          git commit -m "Publish reports for ${GITHUB_SHA::7}" || exit 0
+          git push origin gh-pages

@@ -1,0 +1,94 @@
+# yaml-language-server: $schema=../schema/boat.schema.json
+#
+# Blank boat file: a masthead sloop with one spreader set, caps and single lowers.
+# Copy it to boats/<builder>-<model>-<year>.yaml and replace what you know.
+#
+# How to write a value
+#   bare:        I: 53.15 ft                    counts as an estimate
+#   with source: I: {value: 53.15 ft, basis: published, ref: gob}
+#   basis is one of: measured | maker | published | estimate
+#   Keep the unit the source used (ft, in, mm, m, kg, lb). rigframe converts.
+#   Put any note that contains a comma in quotes:  note: "aft lowers, both sides"
+#
+# Axes: x forward from the main mast's centreline, y to port, z up from the sheer (deck edge).
+# Give |y| for anything that has a port and a starboard twin; both sides are built.
+# docs/boat-yaml.md explains every field and how to measure it.
+
+schema_version: 1
+
+boat:
+  name: Builder Model                  # e.g. Catalina 36
+  year: 1990
+  rig: masthead sloop                  # see docs for the list; masts and stays below must match it
+  notes: >
+    Anything a reader of the report should know: changes from factory, a new mast, a bowsprit.
+  sources:
+    sbd: "sailboatdata.com, Builder Model, https://sailboatdata.com/..., read 2026-10-27"
+
+hull:
+  displacement: {value: 7000 kg, basis: estimate}
+  beam: {value: 3.6 m, basis: estimate}
+  GZ30: {value: 0.70 m, basis: estimate, note: Righting arm at 30 degrees. Replace from a stability curve.}
+
+sail_plan:
+  I: {value: 45 ft, basis: estimate}   # forestay hounds above the sheer
+  J: {value: 14 ft, basis: estimate}   # mast front face to the forestay tack
+  P: {value: 40 ft, basis: estimate}   # main luff
+  E: {value: 14 ft, basis: estimate}   # main foot
+  headsail_LP: {value: 135 %, basis: estimate}
+  headsail_furling: true
+  main_furling: none                   # none | in-mast | in-boom
+  reef_fraction: {value: 60 %, basis: estimate}
+
+masts:
+  - id: main
+    x: 0 m
+    step: {value: keel, basis: estimate}            # keel | deck
+    heel_z: {value: -1.6 m, basis: estimate}        # keel-stepped only: heel below the sheer
+    gooseneck_z: {value: 1.0 m, basis: estimate}    # gooseneck above the sheer
+    above_hounds: {value: 0.20 m, basis: estimate}  # masthead above the forestay tang
+    section:
+      profile: unknown                              # maker and profile name, if you can find it
+      chord: {value: 220 mm, basis: estimate}       # fore-and-aft
+      width: {value: 140 mm, basis: estimate}       # athwartships
+      wall: {value: 4.0 mm, basis: estimate}
+      torsion: closed
+      E: 70 GPa
+      yield: {value: 240 MPa, basis: estimate}
+      # From the maker, if you have them (they win over the outline):
+      # A: 30 cm^2
+      # I_fore_aft: 1500 cm^4
+      # I_athwart: 700 cm^4
+    spreaders:                                      # bottom to top; height as % of hounds height, or a length
+      - {height: {value: 50 %, basis: estimate}, length: {value: 1.2 m, basis: estimate}, sweep: {value: 0 deg, basis: estimate}}
+    spreader_section: {chord: 110 mm, depth: 32 mm, A: 4.5 cm^2, I_vertical: 10 cm^4, I_horizontal: 60 cm^4, J: 25 cm^4}
+    shrouds:
+      arrangement: continuous                       # continuous | discontinuous (two or more spreader sets)
+      cap:
+        size: {value: 8 mm, basis: estimate}        # or 5/16 in
+        chainplate: {x: {value: 0 m, basis: estimate}, y: {value: 1.5 m, basis: estimate}}
+        pretension: 20 %                            # dock tune, % of the wire's breaking load
+      lowers:
+        single:                                     # or forward: and aft:
+          size: {value: 8 mm, basis: estimate}
+          chainplate: {x: {value: 0 m, basis: estimate}, y: {value: 1.5 m, basis: estimate}}
+          pretension: 12 %
+
+stays:
+  - id: forestay
+    kind: forestay
+    top: {mast: main, at: hounds}
+    bottom: {x: {value: 14 ft, basis: estimate, note: At J.}, y: 0 m, z: 0 m}
+    size: {value: 8 mm, basis: estimate}
+    pretension: 20 %
+    carries: headsail
+  - id: backstay
+    kind: backstay
+    top: {mast: main, at: hounds}
+    bottom: {x: {value: -6.0 m, basis: estimate}, y: 0 m, z: {value: 0.3 m, basis: estimate}}
+    legs: single                                    # single | split
+    size: {value: 6 mm, basis: estimate}
+    adjusts: forestay                               # the backstay adjuster sets the forestay tension
+
+# load_cases: leave out for the default set (full sails at RM x1.0 and x1.5, headsail only,
+# reefed main only, forestay sag). Docs list the sail plans you can use.

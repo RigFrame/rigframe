@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rigframe"
+version = "0.1.0.dev0"
+description = "A sailboat's standing rig analysed as a 3D frame, from one YAML file."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.12"
+dependencies = [
+    "numpy>=2.0",
+    "scipy>=1.13",
+    "matplotlib>=3.9",
+    "pandas>=2.2",
+    "PyNiteFEA>=1.0.1",
+    "sectionproperties>=3.3",
+    "pint>=0.24",
+    "PyYAML>=6.0",
+    "jsonschema>=4.22",
+    "plotly>=6.0",          # only for plotly.js, which the 3D viewer inlines so it works offline
+]
+
+[project.optional-dependencies]
+# OpenSeesPy: free for research, education and internal use; commercial redistribution needs a licence.
+opensees = ["openseespy>=3.7"]
+pdf = ["playwright>=1.45"]
+dev = ["pytest>=8"]
+
+[project.scripts]
+rigframe = "rigframe.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+rigframe = ["boat.schema.json", "wire_1x19_316.csv", "viewer_template.html"]

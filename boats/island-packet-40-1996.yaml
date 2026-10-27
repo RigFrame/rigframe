@@ -1,0 +1,115 @@
+# yaml-language-server: $schema=../schema/boat.schema.json
+#
+# Island Packet 40 (1996): masthead cutter, one spreader set, caps, forward and aft lowers,
+# staysail stay, twin backstay, no running backstays.
+# Built from published data only. Every "estimate" is a placeholder until someone measures a boat.
+
+schema_version: 1
+
+boat:
+  name: Island Packet 40
+  year: 1996
+  designer: Robert K. Johnson
+  rig: masthead cutter
+  notes: >
+    Good Old Boat calls the rig a fractional cutter, but I is within inches of the mast height above
+    the sheer and the backstays are sized like the lowers, so it is modelled as masthead. No
+    intermediates are listed, which with caps and fore and aft lowers means one spreader set (an
+    inference). IP Home Port lists maximum Loos PT-3 readings; convert with the table on your own gauge.
+  sources:
+    gob: Good Old Boat sail data, Island Packet 40, https://goodoldboat.com/saildata/boat/island-packet-40/
+    iphp: IP Home Port, IP40 model info and standing-rigging table, https://iphomeport.com/forum/model_info.php?ip_model=IP40
+    cw: Cruising World, Island Packet 40, https://www.cruisingworld.com/sailboats/island-packet-40/
+    listing: Broker listing for a 1998 IP40 (keel-stepped mast)
+
+hull:
+  displacement: {value: 22800 lb, basis: published, ref: gob, note: Cruising World gives 22280 lb; the higher figure is used.}
+  beam: {value: 3.94 m, basis: published, ref: cw}
+  GZ30: {value: 0.70 m, basis: estimate, note: No stability curve found.}
+
+sail_plan:
+  I: {value: 49.83 ft, basis: published, ref: gob}
+  J: {value: 17.75 ft, basis: published, ref: gob, note: To the forestay tack at the bowsprit end.}
+  P: {value: 42.83 ft, basis: published, ref: gob}
+  E: {value: 15.50 ft, basis: published, ref: gob}
+  J2: {value: 3.90 m, basis: estimate, note: Staysail stay tack on the foredeck.}
+  headsail_LP: {value: 130 %, basis: published, ref: cw}
+  staysail_LP: {value: 100 %, basis: estimate, note: Self-tending staysail on a boom.}
+  headsail_furling: true
+  main_furling: none
+  reef_fraction: {value: 60 %, basis: estimate}
+  main_load_shape: triangular
+
+masts:
+  - id: main
+    x: 0 m
+    step: {value: keel, basis: published, ref: listing}
+    heel_z: {value: -1.60 m, basis: estimate}
+    gooseneck_z: {value: 1.95 m, basis: estimate}
+    above_hounds: {value: 0.20 m, basis: estimate}
+    section:
+      shape: oval
+      chord: {value: 254 mm, basis: estimate, note: Maker not known.}
+      width: {value: 165 mm, basis: estimate}
+      wall: {value: 5.0 mm, basis: estimate}
+      torsion: closed
+      E: 70 GPa
+      yield: {value: 240 MPa, basis: estimate}
+    spreaders:
+      - {height: {value: 50 %, basis: estimate}, length: {value: 1.45 m, basis: estimate}, sweep: {value: 0 deg, basis: estimate}}
+    spreader_section:
+      chord: 130 mm
+      depth: 38 mm
+      A: {value: 6.0 cm^2, basis: estimate}
+      I_vertical: {value: 16 cm^4, basis: estimate}
+      I_horizontal: {value: 120 cm^4, basis: estimate}
+      J: {value: 40 cm^4, basis: estimate}
+    spreader_root: released
+    shrouds:
+      arrangement: continuous
+      cap:
+        size: {value: 3/8 in, basis: published, ref: iphp}
+        chainplate: {x: {value: -0.10 m, basis: estimate}, y: {value: 1.80 m, basis: estimate}}
+        pretension: 20 %
+      lowers:
+        forward:
+          size: {value: 5/16 in, basis: published, ref: iphp}
+          chainplate: {x: {value: 0.55 m, basis: estimate}, y: {value: 1.72 m, basis: estimate}}
+          pretension: 10 %
+        aft:
+          size: {value: 5/16 in, basis: published, ref: iphp}
+          chainplate: {x: {value: -0.80 m, basis: estimate}, y: {value: 1.72 m, basis: estimate}}
+          pretension: 15 %
+
+stays:
+  - id: forestay
+    kind: forestay
+    top: {mast: main, at: hounds}
+    bottom: {x: {value: 17.75 ft, basis: published, ref: gob}, y: 0 m, z: 0 m}
+    size: {value: 3/8 in, basis: estimate, note: Not in the rigging table.}
+    pretension: 20 %
+    carries: headsail
+  - id: staysail_stay
+    kind: inner_forestay
+    top: {mast: main, at: {value: 50 %, basis: estimate, note: Tang at the spreader root. The input most likely to change the answer.}}
+    bottom: {x: {value: 3.90 m, basis: estimate}, y: 0 m, z: 0 m}
+    size: {value: 5/16 in, basis: estimate}
+    pretension: 10 %
+    carries: staysail
+  - id: backstay
+    kind: backstay
+    top: {mast: main, at: hounds}
+    bottom: {x: {value: -7.40 m, basis: estimate}, y: {value: 1.10 m, basis: estimate}, z: {value: 0.45 m, basis: estimate}}
+    legs: split
+    size: {value: 5/16 in, basis: published, ref: iphp}
+    adjusts: forestay
+
+load_cases:
+  - {name: "Full sails, RM ×1.0", sails: full, RM_factor: 1.0}
+  - {name: "Full sails, RM ×1.5", sails: full, RM_factor: 1.5}
+  - {name: "Headsail only, RM ×1.0", sails: headsail_only, RM_factor: 1.0}
+  - {name: "Reefed main only, RM ×1.0", sails: reefed_main_only, RM_factor: 1.0}
+  - {name: "Staysail and reefed main, RM ×1.0", sails: staysail_reefed_main, RM_factor: 1.0}
+  - {name: "Staysail and reefed main, staysail on its stay, RM ×1.0", sails: staysail_reefed_main, RM_factor: 1.0, headsail_load: along_stay}
+  - {name: "Forestay sag, RM ×1.0", sails: full, RM_factor: 1.0, headsail_load: along_stay}
+  - {name: "Forestay sag, RM ×1.5", sails: full, RM_factor: 1.5, headsail_load: along_stay}

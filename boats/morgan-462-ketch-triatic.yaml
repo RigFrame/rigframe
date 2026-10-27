@@ -1,0 +1,136 @@
+# yaml-language-server: $schema=../schema/boat.schema.json
+#
+# Morgan 462 ketch, with a triatic stay from the main masthead to the mizzen masthead.
+# Only the sail plan and hull are published. The whole rig below is an estimate: each mast copies the
+# Island Packet 40 layout (one spreader set, caps, fore and aft lowers), the mizzen smaller.
+# morgan-462-ketch-split-backstays.yaml is the same boat with split main backstays instead.
+
+schema_version: 1
+
+boat:
+  name: Morgan 462
+  designer: Henry Scheel
+  rig: masthead ketch
+  variant: triatic
+  notes: >
+    Built 1979-84, also as a sloop. No public source gives the spars or standing rigging, so every rig
+    value is an estimate. With the triatic, the main has no backstay; the mizzen backstays tune the
+    forestay through the triatic.
+  sources:
+    gob: Good Old Boat sail data, Morgan 462 ketch, https://goodoldboat.com/saildata/boat/morgan-462-ketch/
+    murray: Murray Yacht Sales, Morgan 46 reviews (sailboatdata figures), https://murrayyachtsales.com/morgan-46-reviews-and-more/
+
+hull:
+  displacement: {value: 30000 lb, basis: published, ref: murray, note: Good Old Boat's table says 33000 lb; the lower figure has more sources.}
+  beam: {value: 13.5 ft, basis: published, ref: murray}
+  GZ30: {value: 0.70 m, basis: estimate}
+
+sail_plan:
+  I: {value: 50.75 ft, basis: published, ref: gob}
+  J: {value: 18.75 ft, basis: published, ref: gob}
+  P: {value: 43.25 ft, basis: published, ref: gob}
+  E: {value: 13.00 ft, basis: published, ref: gob}
+  PY: {value: 26.50 ft, basis: published, ref: gob}
+  EY: {value: 9.00 ft, basis: published, ref: gob}
+  headsail_LP: {value: 130 %, basis: estimate, note: Good Old Boat lists 130 % and 150 % genoas.}
+  headsail_furling: true
+  main_furling: none
+  reef_fraction: {value: 60 %, basis: estimate}
+  main_load_shape: triangular
+
+masts:
+  - id: main
+    x: 0 m
+    step: {value: keel, basis: estimate}
+    heel_z: {value: -1.80 m, basis: estimate}
+    gooseneck_z: {value: 1.80 m, basis: estimate}
+    above_hounds: {value: 0.20 m, basis: estimate}
+    section:
+      shape: oval
+      chord: {value: 280 mm, basis: estimate}
+      width: {value: 180 mm, basis: estimate}
+      wall: {value: 5.5 mm, basis: estimate}
+      torsion: closed
+      E: 70 GPa
+      yield: {value: 240 MPa, basis: estimate}
+    spreaders:
+      - {height: {value: 50 %, basis: estimate}, length: {value: 1.55 m, basis: estimate}, sweep: 0 deg}
+    spreader_section: {chord: 140 mm, depth: 40 mm, A: 7.0 cm^2, I_vertical: 20 cm^4, I_horizontal: 160 cm^4, J: 50 cm^4}
+    shrouds:
+      arrangement: continuous
+      cap:
+        size: {value: 7/16 in, basis: estimate}
+        chainplate: {x: {value: -0.10 m, basis: estimate}, y: {value: 1.85 m, basis: estimate}}
+        pretension: 20 %
+      lowers:
+        forward:
+          size: {value: 3/8 in, basis: estimate}
+          chainplate: {x: {value: 0.50 m, basis: estimate}, y: {value: 1.80 m, basis: estimate}}
+          pretension: 10 %
+        aft:
+          size: {value: 3/8 in, basis: estimate}
+          chainplate: {x: {value: -0.75 m, basis: estimate}, y: {value: 1.80 m, basis: estimate}}
+          pretension: 12 %
+
+  - id: mizzen
+    x: {value: -7.00 m, basis: estimate}
+    hounds_z: {value: 10.00 m, basis: estimate}
+    step: {value: deck, basis: estimate}
+    gooseneck_z: {value: 1.70 m, basis: estimate}
+    above_hounds: {value: 0.15 m, basis: estimate}
+    section:
+      shape: oval
+      chord: {value: 190 mm, basis: estimate}
+      width: {value: 125 mm, basis: estimate}
+      wall: {value: 4.0 mm, basis: estimate}
+      torsion: closed
+      E: 70 GPa
+      yield: {value: 240 MPa, basis: estimate}
+    spreaders:
+      - {height: {value: 50 %, basis: estimate}, length: {value: 0.95 m, basis: estimate}, sweep: 0 deg}
+    spreader_section: {chord: 100 mm, depth: 28 mm, A: 3.5 cm^2, I_vertical: 5 cm^4, I_horizontal: 40 cm^4, J: 12 cm^4}
+    shrouds:
+      arrangement: continuous
+      cap:
+        size: {value: 1/4 in, basis: estimate}
+        chainplate: {x: {value: -7.10 m, basis: estimate}, y: {value: 1.70 m, basis: estimate}}
+        pretension: 15 %
+      lowers:
+        forward:
+          size: {value: 1/4 in, basis: estimate}
+          chainplate: {x: {value: -6.60 m, basis: estimate}, y: {value: 1.65 m, basis: estimate}}
+          pretension: 10 %
+        aft:
+          size: {value: 1/4 in, basis: estimate}
+          chainplate: {x: {value: -7.55 m, basis: estimate}, y: {value: 1.65 m, basis: estimate}}
+          pretension: 10 %
+
+stays:
+  - id: forestay
+    kind: forestay
+    top: {mast: main, at: hounds}
+    bottom: {x: {value: 18.75 ft, basis: published, ref: gob}, y: 0 m, z: 0 m}
+    size: {value: 7/16 in, basis: estimate}
+    pretension: 20 %
+    carries: headsail
+  - id: triatic
+    kind: triatic
+    top: {mast: main, at: hounds}
+    bottom: {mast: mizzen, at: hounds}
+    size: {value: 5/16 in, basis: estimate}
+  - id: mizzen_backstay
+    kind: mizzen_backstay
+    top: {mast: mizzen, at: hounds}
+    bottom: {x: {value: -9.30 m, basis: estimate}, y: {value: 1.20 m, basis: estimate}, z: {value: 0.40 m, basis: estimate}}
+    legs: split
+    size: {value: 5/16 in, basis: estimate}
+    adjusts: forestay
+
+load_cases:
+  - {name: "Full sails, RM ×1.0", sails: full, RM_factor: 1.0}
+  - {name: "Full sails, RM ×1.5", sails: full, RM_factor: 1.5}
+  - {name: "Jib and jigger, RM ×1.0", sails: jib_and_jigger, RM_factor: 1.0}
+  - {name: "Reefed main only, RM ×1.0", sails: reefed_main_only, RM_factor: 1.0}
+  - {name: "Forestay sag, RM ×1.0", sails: full, RM_factor: 1.0, headsail_load: along_stay}
+  - {name: "Forestay sag, RM ×1.5", sails: full, RM_factor: 1.5, headsail_load: along_stay}
+  - {name: "Jib and jigger, forestay sag, RM ×1.0", sails: jib_and_jigger, RM_factor: 1.0, headsail_load: along_stay}

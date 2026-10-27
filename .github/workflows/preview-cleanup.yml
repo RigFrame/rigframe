@@ -1,0 +1,33 @@
+# Remove a pull request's preview from gh-pages when the pull request closes (merged or not).
+# pull_request_target runs with write access, so this checks out only the gh-pages branch, never the
+# pull request's code.
+name: Remove preview
+
+on:
+  pull_request_target:
+    types: [closed]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: gh-pages
+  cancel-in-progress: false
+
+jobs:
+  clean:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+      - name: Delete previews/pr-<number>
+        env:
+          PR: ${{ github.event.number }}
+        run: |
+          [ -d "previews/pr-$PR" ] || { echo "No preview for $PR"; exit 0; }
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm -r --quiet "previews/pr-$PR"
+          git commit -m "Remove preview for pull request $PR"
+          git push origin gh-pages

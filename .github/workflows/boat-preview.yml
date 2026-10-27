@@ -1,0 +1,102 @@
+# Boat preview: after "Boat report" passes on a pull request, publish its boats' reports and 3D viewers to
+# gh-pages under previews/pr-<number>/, and comment the links on the pull request.
+#
+# This workflow can write, so it never runs code from the pull request. It checks out main, takes only the
+# boat YAML files from the "preview-input" artifact (data, read with yaml.safe_load and checked against the
+# schema), and runs them with main's rigframe. The pull-request number in the artifact is checked against
+# the run's head commit before anything is written.
+name: Boat preview
+
+on:
+  workflow_run:
+    workflows: ["Boat report"]
+    types: [completed]
+
+permissions:
+  contents: write
+  pull-requests: write
+  actions: read
+
+concurrency:
+  group: gh-pages
+  cancel-in-progress: false
+
+jobs:
+  preview:
+    if: github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4                       # main: trusted code only
+      - uses: actions/download-artifact@v4
+        with:
+          name: preview-input
+          path: incoming
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ github.token }}
+      - name: Check what came from the pull request
+        id: pr
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+        run: |
+          pr=$(head -c 12 incoming/pr-number)
+          case "$pr" in ''|*[!0-9]*) echo "Not a pull-request number: $pr"; exit 1;; esac
+          sha=$(gh api "repos/$REPO/pulls/$pr" --jq .head.sha)
+          [ "$sha" = "$HEAD_SHA" ] || { echo "Pull request $pr is at $sha, not $HEAD_SHA"; exit 1; }
+          find incoming/boats -type f ! -regex '.*/[a-z0-9-]+\.yaml' -print -delete
+          echo "number=$pr" >> "$GITHUB_OUTPUT"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install rigframe from main
+        run: pip install -e .           # editable: the demo engine reads tests/reference/ from the checkout
+      - name: Run the boat files
+        run: |
+          for f in incoming/boats/*.yaml; do
+            stem=$(basename "$f" .yaml)
+            rigframe validate "$f" && rigframe run "$f" --out "site/$stem"
+          done
+      - name: Push to gh-pages
+        env:
+          PR: ${{ steps.pr.outputs.number }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git fetch origin gh-pages; then git worktree add pages origin/gh-pages && git -C pages switch -C gh-pages
+          else git worktree add --orphan -b gh-pages pages; fi
+          rm -rf "pages/previews/pr-$PR" && mkdir -p "pages/previews/pr-$PR"
+          cp -r site/. "pages/previews/pr-$PR/"
+          touch pages/.nojekyll
+          cd pages
+          git add -A
+          git commit -m "Preview for pull request $PR" || exit 0
+          git push origin gh-pages
+      - name: Comment the links
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ steps.pr.outputs.number }}
+          OWNER: ${{ github.repository_owner }}
+          NAME: ${{ github.event.repository.name }}
+          HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+        run: |
+          base="https://${OWNER,,}.github.io/$NAME/previews/pr-$PR"
+          {
+            echo "### Rig report preview"
+            echo
+            echo "| Boat file | 3D viewer | Report |"
+            echo "|---|---|---|"
+            for d in site/*/; do
+              stem=$(basename "$d")
+              viewer="no results yet"; [ -f "$d/viewer.html" ] && viewer="[Open the 3D viewer]($base/$stem/viewer.html)"
+              report="[Report]($base/$stem/REPORT.html)"; [ -f "$d/REPORT.pdf" ] && report="$report · [PDF]($base/$stem/REPORT.pdf)"
+              echo "| \`$stem.yaml\` | $viewer | $report |"
+            done
+            echo
+            echo "Built from commit ${HEAD_SHA::7}. GitHub Pages can take a minute or two to show a new version."
+            echo "The preview updates when you push a change, and is removed when this pull request closes."
+            echo "Everything is also in the **rig-report-…** zip under the check's Artifacts."
+          } > comment.md
+          gh pr comment "$PR" --repo "$OWNER/$NAME" --body-file comment.md --edit-last --create-if-none \
+            || gh pr comment "$PR" --repo "$OWNER/$NAME" --body-file comment.md

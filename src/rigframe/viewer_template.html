@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>__TITLE__</title>
+<style>
+:root{--bg:#fbfaf7;--surface:#f1efe8;--ink:#0b0b0b;--muted:#6b6a65;--line:#d8d7d2;--accent:#2a78d6;--accent-ink:#fff;--warn:#8a4b00;--warn-bg:#fbefd9}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#171716;--surface:#232321;--ink:#eeede8;--muted:#a3a29b;--line:#3a3a37;--accent:#5b9cf0;--accent-ink:#0b0b0b;--warn:#f2c27a;--warn-bg:#3a2c14;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#171716;--surface:#232321;--ink:#eeede8;--muted:#a3a29b;--line:#3a3a37;--accent:#5b9cf0;--accent-ink:#0b0b0b;--warn:#f2c27a;--warn-bg:#3a2c14;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 ui-sans-serif,-apple-system,"Segoe UI",sans-serif}
+main{max-width:1200px;margin:0 auto;padding-block:16px;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+h1{font-size:20px;font-weight:600;margin:0 0 4px;text-wrap:balance}
+.sub{color:var(--muted);font-size:13px;margin:0 0 10px;max-width:80ch}
+.sub a{color:var(--accent)}
+.warn{background:var(--warn-bg);color:var(--warn);border-radius:8px;padding:6px 12px;font-size:13px;margin:0 0 12px;max-width:80ch}
+.row{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:10px}
+.grp{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);width:100%;margin-top:2px}
+button{font:inherit;font-size:12px;padding:4px 10px;border-radius:6px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+button.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-bottom:8px}
+.card{background:var(--surface);border-radius:8px;padding:8px 12px;min-width:0}
+.lab{font-size:12px;color:var(--muted)}.val{font-size:18px;font-weight:600;font-variant-numeric:tabular-nums}.small{font-size:12px;color:var(--muted);overflow-wrap:anywhere}
+#plot{width:100%;height:min(660px,75vh);min-height:420px}
+.note{font-size:12px;color:var(--muted);margin-top:6px;max-width:90ch}
+</style></head><body><main>
+<h1>__H1__</h1>
+<p class="sub">__SUB__</p>
+<p class="warn">__WARN__</p>
+<div class="row" id="caseRow" role="group" aria-label="Load case"></div>
+<div class="row"><label class="lab" for="sc">Displacement ×</label><input type="range" id="sc" min="1" max="30" step="1" value="8" style="width:140px">
+<span id="scOut" style="font-weight:600;min-width:22px">8</span>
+<label class="lab" style="display:flex;align-items:center;gap:6px;margin-left:10px"><input type="checkbox" id="und" checked>Undeformed</label></div>
+<div class="cards" id="cards"></div>
+<div id="plot"></div>
+<p class="note">Colour is utilisation on one scale: wires = tension ÷ design MBL; masts and spreaders = peak fibre stress ÷
+<span id="sy"></span> MPa (assumed aluminium yield). Spar stress = |N|/A + combined two-axis bending. Dotted grey = slack wire.
+Drag to rotate, scroll to zoom, hover any member. The button tooltip names the solver for each case.</p>
+</main>
+__PLOTLY__
+<script>
+const D=__DATA__;
+const RAMP=["#f3c7a9","#efa47a","#eb7f4c","#e0602a","#c24a1a","#962f0c","#651c05"],UMAX=0.5;
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+let ci=D.cases.length>1?1:0,scale=8,showU=true;
+document.getElementById("sy").textContent=D.yield_MPa;
+function col(u){const f=Math.max(0,Math.min(1,u/UMAX))*(RAMP.length-1),i=Math.floor(f),t=f-i;if(i>=RAMP.length-1)return RAMP[RAMP.length-1];
+  const h=s=>[1,3,5].map(k=>parseInt(s.substr(k,2),16)),A=h(RAMP[i]),B=h(RAMP[i+1]);return "rgb("+A.map((v,k)=>Math.round(v+(B[k]-v)*t)).join(",")+")";}
+function P(g,c,i,s){const p=g.xyz[i],d=c.d[i];return[p[0]+s*d[0]/1000,p[1]+s*d[1]/1000,p[2]+s*d[2]/1000];}
+function seg(pts,o){return Object.assign({type:"scatter3d",mode:"lines",x:pts.map(p=>p[0]),y:pts.map(p=>p[1]),z:pts.map(p=>p[2]),showlegend:false},o);}
+const ALL=Object.values(D.geos).flatMap(g=>g.xyz),rng=k=>[Math.min(...ALL.map(p=>p[k]))-1,Math.max(...ALL.map(p=>p[k]))+1];
+const RX=rng(0),RZ=rng(2),YM=Math.max(3,...ALL.map(p=>Math.abs(p[1])+0.5)),RY=[-YM,YM];
+function card(lab,id,small){return `<div class="card"><div class="lab">${esc(lab)}</div><div class="val" id="${id}">–</div><div class="small" id="${id}S">${esc(small||"")}</div></div>`;}
+function cards(g){let h=card("Peak mast stress","cMast")+card("Most utilised wire","cWire")+card("Peak spreader stress","cSpr");
+  g.heads.forEach((m,k)=>{h+=card((g.heads.length>1?m.mast.charAt(0).toUpperCase()+m.mast.slice(1)+" masthead":"Masthead")+" movement","cHead"+k,"forward / port, mm");});
+  document.getElementById("cards").innerHTML=h;}
+let shownGeo=null;
+function build(){
+  const c=D.cases[ci],g=D.geos[c.g],ink=css("--ink"),mut=css("--muted"),tr=[];
+  if(shownGeo!==c.g){cards(g);shownGeo=c.g;}
+  if(showU){g.beams.forEach(b=>tr.push(seg([g.xyz[b[0]],g.xyz[b[1]]],{line:{color:"rgba(150,150,145,0.35)",width:b[2]==="mast"?7:4},hoverinfo:"skip"})));
+    g.wires.forEach(w=>tr.push(seg([g.xyz[w[0]],g.xyz[w[1]]],{line:{color:"rgba(150,150,145,0.25)",width:2},hoverinfo:"skip"})));}
+  g.beams.forEach((b,k)=>{const r=c.b[k],u=r[0]/D.yield_MPa,isM=b[2]==="mast";
+    const txt=`<b>${esc(b[3])}</b><br>peak stress ${r[0].toFixed(1)} MPa · ${(100*u).toFixed(0)}% of ${D.yield_MPa} MPa<br>axial ${r[1].toFixed(1)} kN (compression)<br>M fore-aft ${r[2].toFixed(2)} kN·m · M athwart ${r[3].toFixed(2)} kN·m`;
+    tr.push(seg([P(g,c,b[0],scale),P(g,c,b[1],scale)],{line:{color:r[0]<0.01?"rgba(150,150,145,0.6)":col(u),width:isM?11:7},text:[txt,txt],hovertemplate:"%{text}<extra></extra>"}));});
+  g.wires.forEach((w,k)=>{const r=c.w[k],slack=r[0]<0.5,u=r[0]/w[4];
+    const txt=`<b>${esc(w[2])}</b><br>${esc(w[3])} 1x19 316 · MBL ${w[4].toFixed(1)} kN<br>tension ${r[0].toFixed(2)} kN · ${(100*u).toFixed(1)}% MBL<br>${slack?"slack":"SF "+(w[4]/r[0]).toFixed(2)} · wire stress ${r[1].toFixed(0)} MPa`;
+    const a=P(g,c,w[0],scale),bb=P(g,c,w[1],scale),pts=[];for(let i=0;i<=6;i++){const f=i/6;pts.push([a[0]+f*(bb[0]-a[0]),a[1]+f*(bb[1]-a[1]),a[2]+f*(bb[2]-a[2])]);}
+    tr.push(seg(pts,{line:{color:slack?"rgba(140,140,135,0.8)":col(u),width:slack?2:5,dash:slack?"dot":"solid"},text:pts.map(()=>txt),hovertemplate:"%{text}<extra></extra>"}));});
+  tr.push({type:"scatter3d",mode:"markers",x:[0],y:[0],z:[RZ[0]],marker:{size:0.1,color:[0],cmin:0,cmax:100*UMAX,colorscale:RAMP.map((v,i)=>[i/(RAMP.length-1),v]),showscale:true,
+    colorbar:{title:{text:"utilisation %",font:{color:mut,size:12}},tickfont:{color:mut,size:11},ticksuffix:"%",thickness:12,len:0.6,outlinewidth:0}},hoverinfo:"skip",showlegend:false});
+  const ax=(t,r)=>({title:{text:t,font:{color:mut,size:12}},tickfont:{color:mut,size:11},gridcolor:"rgba(136,135,128,0.25)",zerolinecolor:"rgba(136,135,128,0.4)",showbackground:false,range:r});
+  const sx=RX[1]-RX[0],sy=RY[1]-RY[0],sz=RZ[1]-RZ[0],m=Math.max(sx,sz);
+  Plotly.react("plot",tr,{paper_bgcolor:"rgba(0,0,0,0)",margin:{l:0,r:0,t:0,b:0},uirevision:"keep",
+    scene:{xaxis:ax("x fwd (m)",RX),yaxis:ax("y port (m)",RY),zaxis:ax("z (m)",RZ),aspectmode:"manual",aspectratio:{x:sx/m*1.05,y:sy/m*1.05,z:sz/m*1.05},camera:{eye:{x:1.2,y:-1.6,z:0.35},center:{x:0,y:0,z:-0.05}}},
+    hoverlabel:{bgcolor:css("--surface"),font:{color:ink,size:12},bordercolor:css("--line")}},{displaylogo:false,responsive:true});
+  const peak=kind=>{let s=-1,k=-1;g.beams.forEach((b,j)=>{if(b[2]===kind&&c.b[j][0]>s){s=c.b[j][0];k=j;}});return[s,k];};
+  const [mb,mk]=peak("mast"),[sb,sk]=peak("spreader");
+  let wu=-1,wk=0;g.wires.forEach((w,k)=>{const u=c.w[k][0]/w[4];if(u>wu){wu=u;wk=k;}});
+  const set=(id,t)=>{const e=document.getElementById(id);if(e)e.textContent=t;};
+  set("cMast",`${mb.toFixed(0)} MPa · ${(100*mb/D.yield_MPa).toFixed(0)}%`);
+  set("cMastS",`${g.beams[mk][3]}, z ${g.xyz[g.beams[mk][0]][2].toFixed(1)} to ${g.xyz[g.beams[mk][1]][2].toFixed(1)} m`);
+  set("cWire",`${(100*wu).toFixed(0)}% MBL`);set("cWireS",`${g.wires[wk][2]}, SF ${(1/wu).toFixed(2)}`);
+  if(sk>=0){set("cSpr",`${sb.toFixed(0)} MPa · ${(100*sb/D.yield_MPa).toFixed(0)}%`);set("cSprS",g.beams[sk][3]);}
+  g.heads.forEach((m,k)=>{const d=c.d[m.node];set("cHead"+k,`${d[0].toFixed(0)} / ${d[1].toFixed(0)}`);});
+}
+const row=document.getElementById("caseRow");let lastGrp=null;
+D.cases.forEach((c,i)=>{if(c.grp&&c.grp!==lastGrp){const h=document.createElement("div");h.className="grp";h.textContent=c.grp;row.appendChild(h);lastGrp=c.grp;}
+  const b=document.createElement("button");b.className=i===ci?"on":"";b.textContent=c.l;b.title=c.s;b.dataset.i=i;b.setAttribute("aria-pressed",i===ci);
+  b.onclick=()=>{ci=i;row.querySelectorAll("button").forEach(x=>{const on=+x.dataset.i===i;x.classList.toggle("on",on);x.setAttribute("aria-pressed",on);});build();};row.appendChild(b);});
+document.getElementById("sc").oninput=e=>{scale=+e.target.value;document.getElementById("scOut").textContent=scale;build();};
+document.getElementById("und").onchange=e=>{showU=e.target.checked;build();};
+if(window.Plotly){build();}else{document.getElementById("plot").textContent="The 3D view needs plotly.js, which didn't load. This copy fetches it from the internet: connect, or use a report built with the plotly library inlined.";}
+</script></body></html>

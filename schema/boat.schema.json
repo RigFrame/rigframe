@@ -1,0 +1,298 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/thomastron/rigframe/main/schema/boat.schema.json",
+  "title": "rigframe boat file",
+  "description": "One sailboat rig: hull, sail plan, masts, shrouds, stays and load cases. See docs/boat-yaml.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "boat", "hull", "sail_plan", "masts", "stays"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "boat": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "rig"],
+      "properties": {
+        "name": {"type": "string", "description": "Builder and model, e.g. 'Beneteau Oceanis 440'."},
+        "year": {"type": "integer", "minimum": 1850, "maximum": 2100},
+        "designer": {"type": "string"},
+        "rig": {
+          "enum": ["masthead sloop", "fractional sloop", "masthead cutter", "fractional cutter", "masthead ketch",
+                   "fractional ketch", "masthead yawl", "fractional yawl"],
+          "description": "The rig type. The masts and stays below must agree with it."
+        },
+        "variant": {"type": "string", "description": "What makes this file different from another file for the same boat, e.g. 'split backstays'."},
+        "notes": {"type": "string"},
+        "sources": {
+          "type": "object",
+          "description": "Short id -> full citation (title, publisher, URL, date read). Values elsewhere point here with ref.",
+          "additionalProperties": {"type": "string"}
+        }
+      }
+    },
+    "hull": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["displacement", "beam", "GZ30"],
+      "properties": {
+        "displacement": {"$ref": "#/$defs/mass"},
+        "beam": {"$ref": "#/$defs/length"},
+        "GZ30": {"$ref": "#/$defs/length", "description": "Righting arm at 30 degrees of heel. RM30 = displacement x g x GZ30."},
+        "RM30": {"$ref": "#/$defs/moment", "description": "Righting moment at 30 degrees, if published. Wins over GZ30."}
+      }
+    },
+    "sail_plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["I", "J", "P", "E"],
+      "properties": {
+        "I": {"$ref": "#/$defs/length", "description": "Forestay hounds height above the sheer line."},
+        "J": {"$ref": "#/$defs/length", "description": "Main mast (front face) to the forestay tack."},
+        "P": {"$ref": "#/$defs/length", "description": "Main luff."},
+        "E": {"$ref": "#/$defs/length", "description": "Main foot."},
+        "J2": {"$ref": "#/$defs/length", "description": "Cutter: main mast to the staysail stay tack."},
+        "PY": {"$ref": "#/$defs/length", "description": "Ketch or yawl: mizzen luff."},
+        "EY": {"$ref": "#/$defs/length", "description": "Ketch or yawl: mizzen foot."},
+        "headsail_LP": {"$ref": "#/$defs/percent", "description": "Genoa LP as a percentage of J (135 % for a 135 genoa)."},
+        "staysail_LP": {"$ref": "#/$defs/percent", "description": "Staysail LP as a percentage of J2."},
+        "headsail_furling": {"type": "boolean"},
+        "main_furling": {"enum": ["none", "in-mast", "in-boom"]},
+        "reef_fraction": {"$ref": "#/$defs/percent", "description": "Deep-reefed main luff as a percentage of P."},
+        "main_load_shape": {"enum": ["triangular", "uniform"], "default": "triangular"}
+      }
+    },
+    "masts": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 2,
+      "items": {"$ref": "#/$defs/mast"}
+    },
+    "stays": {
+      "type": "array",
+      "minItems": 2,
+      "items": {"$ref": "#/$defs/stay"}
+    },
+    "load_cases": {
+      "type": "array",
+      "description": "Leave out to run the default set for the rig type.",
+      "items": {"$ref": "#/$defs/load_case"}
+    },
+    "analysis": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "wire": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "construction": {"enum": ["1x19"], "default": "1x19"},
+            "material": {"enum": ["316", "304", "Dyform"], "default": "316"},
+            "E": {"$ref": "#/$defs/modulus", "description": "Effective modulus on the gross area. Default 107.5 GPa."}
+          }
+        },
+        "max_element": {"$ref": "#/$defs/length", "description": "Longest mast element. Default 0.5 m."},
+        "stay_segments": {"type": "integer", "minimum": 4, "maximum": 40, "description": "Segments per stay in the stay-sag cases. Default 12."},
+        "crosscheck": {"enum": ["opensees", "none"], "default": "opensees"}
+      }
+    }
+  },
+
+  "$defs": {
+    "basis": {
+      "enum": ["measured", "maker", "published", "estimate"],
+      "description": "measured: taken on this boat. maker: spar or rigging maker's data. published: builder, class, design office, review or listing. estimate: anything else, including values copied from an example."
+    },
+    "sourced": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "basis"],
+      "properties": {
+        "value": {},
+        "basis": {"$ref": "#/$defs/basis"},
+        "ref": {"type": "string", "description": "A key in boat.sources, or a short citation."},
+        "note": {"type": "string"}
+      }
+    },
+
+    "length_str":  {"type": "string", "pattern": "^-?(\\d+(\\.\\d+)?|\\.\\d+|\\d+/\\d+|\\d+ \\d+/\\d+) ?(mm|cm|m|in|ft)$"},
+    "mass_str":    {"type": "string", "pattern": "^\\d+(\\.\\d+)? ?(kg|t|lb)$"},
+    "percent_str": {"type": "string", "pattern": "^\\d+(\\.\\d+)? ?%$"},
+    "angle_str":   {"type": "string", "pattern": "^-?\\d+(\\.\\d+)? ?(deg|°)$"},
+    "area_str":    {"type": "string", "pattern": "^\\d+(\\.\\d+)?(e-?\\d+)? ?(mm\\^2|cm\\^2|m\\^2|in\\^2)$"},
+    "inertia_str": {"type": "string", "pattern": "^\\d+(\\.\\d+)?(e-?\\d+)? ?(mm\\^4|cm\\^4|m\\^4|in\\^4)$"},
+    "stress_str":  {"type": "string", "pattern": "^\\d+(\\.\\d+)? ?(MPa|GPa|ksi|psi)$"},
+    "moment_str":  {"type": "string", "pattern": "^\\d+(\\.\\d+)? ?(N\\*m|kN\\*m|kgf\\*m|lbf\\*ft|ft\\*lbf)$"},
+    "linear_mass_str": {"type": "string", "pattern": "^\\d+(\\.\\d+)? ?(kg/m|lb/ft)$"},
+
+    "length":  {"oneOf": [{"$ref": "#/$defs/length_str"},  {"allOf": [{"$ref": "#/$defs/sourced"}, {"properties": {"value": {"$ref": "#/$defs/length_str"}}}]}]},
+    "mass":    {"oneOf": [{"$ref": "#/$defs/mass_str"},    {"allOf": [{"$ref": "#/$defs/sourced"}, {"properties": {"value": {"$ref": "#/$defs/mass_str"}}}]}]},
+    "percent": {"oneOf": [{"$ref": "#/$defs/percent_str"}, {"allOf": [{"$ref": "#/$defs/sourced"}, {"properties": {"value": {"$ref": "#/$defs/percent_str"}}}]}]},
+    "angle":   {"oneOf": [{"$ref": "#/$defs/angle_str"},   {"allOf": [{"$ref": "#/$defs/sourced"}, {"properties": {"value": {"$ref": "#/$defs/angle_str"}}}]}]},
+    "area":    {"oneOf": [{"$ref": "#/$defs/area_str"},    {"allOf": [{"$ref": "#/$defs/sourced"}, {"properties": {"value": {"$ref": "#/$defs/area_str"}}}]}]},
+    "inertia": {"oneOf": [{"$ref": "#/$defs/inertia_str"}, {"allOf": [{"$ref": "#/$defs/sourced"}, {"properties": {"value": {"$ref": "#/$defs/inertia_str"}}}]}]},
+    "modulus": {"oneOf": [{"$ref": "#/$defs/stress_str"},  {"allOf": [{"$ref": "#/$defs/sourced"}, {"properties": {"value": {"$ref": "#/$defs/stress_str"}}}]}]},
+    "moment":  {"oneOf": [{"$ref": "#/$defs/moment_str"},  {"allOf": [{"$ref": "#/$defs/sourced"}, {"properties": {"value": {"$ref": "#/$defs/moment_str"}}}]}]},
+    "linear_mass": {"oneOf": [{"$ref": "#/$defs/linear_mass_str"}, {"allOf": [{"$ref": "#/$defs/sourced"}, {"properties": {"value": {"$ref": "#/$defs/linear_mass_str"}}}]}]},
+    "height": {
+      "description": "A height on a mast: a length above deck, or a percentage of that mast's hounds height.",
+      "oneOf": [{"$ref": "#/$defs/length"}, {"$ref": "#/$defs/percent"}]
+    },
+    "flag": {"oneOf": [{"type": "boolean"}, {"allOf": [{"$ref": "#/$defs/sourced"}, {"properties": {"value": {"type": "boolean"}}}]}]},
+    "choice": {"description": "A keyword, optionally with its basis.", "oneOf": [{"type": "string"}, {"$ref": "#/$defs/sourced"}]},
+
+    "point": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["x", "y"],
+      "description": "Boat axes: x forward of the main mast, y to port (give |y|; both sides are built), z up from the sheer.",
+      "properties": {
+        "x": {"$ref": "#/$defs/length"},
+        "y": {"$ref": "#/$defs/length"},
+        "z": {"$ref": "#/$defs/length"}
+      }
+    },
+    "wire_size": {
+      "description": "1x19 wire diameter as sold: '10 mm' or '3/8 in'.",
+      "oneOf": [{"$ref": "#/$defs/length_str"}, {"allOf": [{"$ref": "#/$defs/sourced"}, {"properties": {"value": {"$ref": "#/$defs/length_str"}}}]}]
+    },
+
+    "section": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Mast section. Give the maker's A and I if you have them; the outline is used for J and for anything missing.",
+      "properties": {
+        "profile": {"type": "string", "description": "Maker and profile name, e.g. 'Selden C304' or 'Z-Spars Z900E'."},
+        "shape": {"enum": ["oval", "elliptical", "pear"], "default": "oval"},
+        "chord": {"$ref": "#/$defs/length", "description": "Fore-and-aft depth."},
+        "width": {"$ref": "#/$defs/length", "description": "Athwartships width."},
+        "wall": {"$ref": "#/$defs/length"},
+        "luff_slot": {"$ref": "#/$defs/length", "description": "Width of the open luff slot (in-mast furlers)."},
+        "torsion": {"enum": ["closed", "open"], "default": "closed", "description": "closed: the frame uses a closed-section J (see docs)."},
+        "A": {"$ref": "#/$defs/area"},
+        "mass_per_length": {"$ref": "#/$defs/linear_mass"},
+        "I_fore_aft": {"$ref": "#/$defs/inertia"},
+        "I_athwart": {"$ref": "#/$defs/inertia"},
+        "J": {"$ref": "#/$defs/inertia"},
+        "E": {"$ref": "#/$defs/modulus"},
+        "yield": {"$ref": "#/$defs/modulus", "description": "Alloy yield strength, for utilisation."}
+      }
+    },
+    "spreader_section": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "chord": {"$ref": "#/$defs/length"},
+        "depth": {"$ref": "#/$defs/length"},
+        "A": {"$ref": "#/$defs/area"},
+        "I_vertical": {"$ref": "#/$defs/inertia", "description": "Bending in the vertical plane (weak axis)."},
+        "I_horizontal": {"$ref": "#/$defs/inertia", "description": "Bending in the horizontal plane (strong axis)."},
+        "J": {"$ref": "#/$defs/inertia"}
+      }
+    },
+    "spreader": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["height", "length"],
+      "properties": {
+        "height": {"$ref": "#/$defs/height"},
+        "length": {"$ref": "#/$defs/length", "description": "Mast centreline to the tip, along the spreader."},
+        "sweep": {"$ref": "#/$defs/angle", "description": "Sweep aft in plan. 0 = in line with the mast."}
+      }
+    },
+    "shroud": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["size"],
+      "properties": {
+        "size": {"$ref": "#/$defs/wire_size"},
+        "chainplate": {"$ref": "#/$defs/point"},
+        "pretension": {"$ref": "#/$defs/percent", "description": "Dock tune as a percentage of the wire's MBL, on the gauged segment."},
+        "segments": {
+          "type": "object",
+          "description": "Segments whose size differs from the shroud's: {V1: '12 mm'}.",
+          "additionalProperties": {"$ref": "#/$defs/wire_size"}
+        },
+        "gauge_on": {"type": "string", "description": "Segment the dock tune is measured on (V1, V2, D1 ...). Default: the bottom one."}
+      }
+    },
+    "mast": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "step", "gooseneck_z", "above_hounds", "section", "spreaders", "shrouds"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$", "description": "'main', 'mizzen'."},
+        "x": {"$ref": "#/$defs/length", "description": "Fore-and-aft position. The main is at 0; a mizzen is negative."},
+        "hounds_z": {"$ref": "#/$defs/length", "description": "Height of the hounds above the sheer. Main: defaults to I."},
+        "step": {"oneOf": [{"enum": ["keel", "deck"]}, {"allOf": [{"$ref": "#/$defs/sourced"}, {"properties": {"value": {"enum": ["keel", "deck"]}}}]}]},
+        "heel_z": {"$ref": "#/$defs/length", "description": "Keel-stepped: heel below the sheer (negative)."},
+        "gooseneck_z": {"$ref": "#/$defs/length"},
+        "above_hounds": {"$ref": "#/$defs/length", "description": "Masthead extension above the hounds."},
+        "section": {"$ref": "#/$defs/section"},
+        "spreaders": {"type": "array", "minItems": 0, "maxItems": 4, "items": {"$ref": "#/$defs/spreader"}},
+        "spreader_section": {"$ref": "#/$defs/spreader_section"},
+        "spreader_root": {"enum": ["released", "fixed"], "default": "released"},
+        "shrouds": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["arrangement", "cap"],
+          "properties": {
+            "arrangement": {"oneOf": [{"enum": ["continuous", "discontinuous"]}, {"allOf": [{"$ref": "#/$defs/sourced"}, {"properties": {"value": {"enum": ["continuous", "discontinuous"]}}}]}]},
+            "cap": {"$ref": "#/$defs/shroud"},
+            "intermediate": {"$ref": "#/$defs/shroud"},
+            "lowers": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "single": {"$ref": "#/$defs/shroud"},
+                "forward": {"$ref": "#/$defs/shroud"},
+                "aft": {"$ref": "#/$defs/shroud"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "end": {
+      "description": "A stay end: a point on deck, or a mast fitting.",
+      "oneOf": [
+        {"$ref": "#/$defs/point"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["mast", "at"],
+          "properties": {
+            "mast": {"type": "string"},
+            "at": {"oneOf": [{"enum": ["hounds", "masthead"]}, {"$ref": "#/$defs/height"}]}
+          }
+        }
+      ]
+    },
+    "stay": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind", "top", "bottom", "size"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+        "kind": {"enum": ["forestay", "inner_forestay", "backstay", "triatic", "mizzen_forestay", "mizzen_backstay"]},
+        "top": {"$ref": "#/$defs/end"},
+        "bottom": {"$ref": "#/$defs/end"},
+        "legs": {"enum": ["single", "split"], "default": "single", "description": "split: one leg each side, bottom.y is half the spread."},
+        "size": {"$ref": "#/$defs/wire_size"},
+        "pretension": {"$ref": "#/$defs/percent", "description": "Dock tune target, % of MBL. Set by this stay's own turnbuckle, or by the stay that 'adjusts' it."},
+        "adjusts": {"type": "string", "description": "id of the stay whose pretension this stay's adjuster sets (backstay -> forestay)."},
+        "carries": {"enum": ["headsail", "staysail", "mizzen_staysail"], "description": "Sail hanked or furled on this stay."}
+      }
+    },
+    "load_case": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "sails"],
+      "properties": {
+        "name": {"type": "string"},
+        "sails": {"enum": ["full", "headsail_only", "main_only", "reefed_main_only", "staysail_reefed_main", "jib_and_jigger"]},
+        "RM_factor": {"type": "number", "minimum": 0.1, "maximum": 3.0, "default": 1.0},
+        "headsail_load": {"enum": ["lumped", "along_stay"], "default": "lumped", "description": "along_stay: the sail loads its stay along its length, so the stay sags (corotational run)."}
+      }
+    }
+  }
+}
