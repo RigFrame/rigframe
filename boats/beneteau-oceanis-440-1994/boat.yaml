@@ -1,0 +1,122 @@
+# yaml-language-server: $schema=../schema/boat.schema.json
+#
+# Beneteau Oceanis 440 (1994): masthead sloop, two sets of swept spreaders, discontinuous shrouds,
+# four lowers, split backstay, in-mast furling main.
+# Owner's measurements of 2026-10-25 are marked "measured". Everything marked "estimate" still
+# needs measuring; the report lists them on its first page.
+
+schema_version: 1
+
+boat:
+  name: Beneteau Oceanis 440
+  year: 1994
+  rig: masthead sloop
+  notes: >
+    Mast is a Z-Spars Z900E (owner's figures). The torsion constant J comes from a trace of the
+    profile drawing, which is the maker's and is not published here, so this file gives J directly.
+  sources:
+    gob: Good Old Boat sail data, Beneteau Oceanis 440, https://goodoldboat.com/saildata/boat/beneteau-oceanis-440/
+    scc: sailboat-cruising.com, Beneteau Oceanis 440 specs, https://sailboat-cruising.com/Beneteau-Oceanis-440-Specs.html
+    farr: Farr Yacht Design, design 202, https://farrdesign.com/yacht/202_oc.html
+    owner: Owner's measurements and figures, 2026-10-23 and 2026-10-25
+    listings: Broker listings ("4 bas-haubans", "fore and aft lowers")
+
+hull:
+  displacement: {value: 9299 kg, basis: published, ref: farr}
+  beam: {value: 4.27 m, basis: published, ref: farr}
+  GZ30: {value: 0.70 m, basis: estimate, note: No stability curve found; CE stability documents would replace it.}
+
+sail_plan:
+  I: {value: 53.15 ft, basis: published, ref: gob}
+  J: {value: 15.09 ft, basis: published, ref: gob}
+  P: {value: 47.05 ft, basis: published, ref: gob}
+  E: {value: 17.06 ft, basis: published, ref: gob}
+  headsail_LP: {value: 135 %, basis: estimate}
+  headsail_furling: true
+  main_furling: in-mast
+  reef_fraction: {value: 60 %, basis: estimate}
+  main_load_shape: triangular
+
+masts:
+  - id: main
+    x: 0 m
+    step: {value: keel, basis: estimate}
+    heel_z: {value: -1.90 m, basis: estimate}
+    gooseneck_z: {value: 1.75 m, basis: estimate}
+    above_hounds: {value: 0.25 m, basis: estimate}
+    section:
+      profile: Z-Spars Z900E
+      shape: oval
+      chord: {value: 255 mm, basis: maker, ref: owner}
+      width: {value: 160 mm, basis: maker, ref: owner}
+      wall: {value: 3.7 mm, basis: maker, ref: owner}
+      luff_slot: {value: 26 mm, basis: estimate, note: Read off the profile drawing.}
+      torsion: closed
+      mass_per_length: {value: 9.72 kg/m, basis: maker, ref: owner}
+      A: {value: 36.0 cm^2, basis: maker, ref: owner, note: From 9.72 kg/m at 2700 kg/m^3.}
+      I_fore_aft: {value: 2430 cm^4, basis: maker, ref: owner}
+      I_athwart: {value: 1000 cm^4, basis: maker, ref: owner}
+      J: {value: 650 cm^4, basis: estimate, note: "Traced from the owner's profile drawing, forward cell closed."}
+      E: 70 GPa
+      yield: {value: 240 MPa, basis: estimate, note: Z-Spars' alloy is not stated.}
+    spreaders:
+      - {height: {value: 37 %, basis: estimate}, length: {value: 1.35 m, basis: estimate}, sweep: {value: 15 deg, basis: estimate}}
+      - {height: {value: 68 %, basis: estimate}, length: {value: 0.81 m, basis: estimate}, sweep: {value: 15 deg, basis: estimate}}
+    spreader_section:
+      chord: 120 mm
+      depth: 35 mm
+      A: {value: 5.0 cm^2, basis: estimate}
+      I_vertical: {value: 12 cm^4, basis: estimate}
+      I_horizontal: {value: 80 cm^4, basis: estimate}
+      J: {value: 30 cm^4, basis: estimate}
+    spreader_root: released
+    shrouds:
+      arrangement: {value: discontinuous, basis: measured, ref: owner}
+      cap:
+        size: {value: 10 mm, basis: estimate}
+        segments: {V1: {value: 12 mm, basis: measured, ref: owner}}
+        gauge_on: V2
+        chainplate: {x: {value: -0.40 m, basis: estimate}, y: {value: 1.70 m, basis: estimate}}
+        pretension: 20 %
+      intermediate:
+        size: {value: 8 mm, basis: estimate}
+        pretension: 15 %
+      lowers:
+        aft:
+          size: {value: 12 mm, basis: measured, ref: owner}
+          chainplate: {x: {value: -19 in, basis: measured, ref: owner}, y: {value: 1.70 m, basis: estimate}}
+          pretension: 11 %
+        forward:
+          size: {value: 10 mm, basis: measured, ref: owner}
+          chainplate: {x: {value: 27 in, basis: measured, ref: owner}, y: {value: 1.65 m, basis: estimate}}
+          pretension: 12 %
+
+stays:
+  - id: forestay
+    kind: forestay
+    top: {mast: main, at: hounds}
+    bottom: {x: {value: 15.09 ft, basis: published, ref: gob, note: At J.}, y: 0 m, z: 0 m}
+    size: {value: 10 mm, basis: estimate}
+    pretension: 20 %
+    carries: headsail
+  - id: backstay
+    kind: backstay
+    top: {mast: main, at: hounds}
+    bottom: {x: {value: -8.55 m, basis: estimate}, y: {value: 3 ft, basis: measured, ref: owner, note: Feet 6 ft apart.}, z: {value: 0.30 m, basis: estimate}}
+    legs: split
+    size: {value: 8 mm, basis: estimate}
+    adjusts: forestay
+
+load_cases:
+  - {name: "Full sails, RM ×1.0", sails: full, RM_factor: 1.0}
+  - {name: "Full sails, RM ×1.5", sails: full, RM_factor: 1.5}
+  - {name: "Headsail only, RM ×1.0", sails: headsail_only, RM_factor: 1.0}
+  - {name: "Reefed main only, RM ×1.0", sails: reefed_main_only, RM_factor: 1.0}
+  - {name: "Forestay sag, RM ×1.0", sails: full, RM_factor: 1.0, headsail_load: along_stay}
+  - {name: "Forestay sag, RM ×1.5", sails: full, RM_factor: 1.5, headsail_load: along_stay}
+
+analysis:
+  wire: {construction: 1x19, material: "316", E: 107.5 GPa}
+  max_element: 0.5 m
+  stay_segments: 12
+  crosscheck: opensees
