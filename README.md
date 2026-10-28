@@ -79,9 +79,14 @@ PASS/FAIL checks.
 | [`island-packet-40-1996`](notebooks/island-packet-40-1996.ipynb) | Masthead cutter: one spreader set, fore and aft lowers, staysail stay, twin backstay | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/RigFrame/rigframe/blob/main/notebooks/island-packet-40-1996.ipynb) |
 | [`morgan-462-ketch`](notebooks/morgan-462-ketch.ipynb) | Masthead ketch, two masts, run with a triatic and with split backstays | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/RigFrame/rigframe/blob/main/notebooks/morgan-462-ketch.ipynb) |
 
-**In Google Colab:** click a badge, then Runtime → Run all. The first cell fetches this repository for its data and
-installs what Colab lacks, which takes about a minute. The run takes a few minutes more. To keep the results, download
-the `output` folder from Colab's file pane.
+**In Google Colab:** click a badge, then Runtime → Run all.
+- The setup cell fetches this repository for its data.
+- The install cell adds what Colab lacks, in about a minute. It holds Colab's own numpy, SciPy, pandas and
+  Matplotlib where they are, because swapping a package the session has already loaded breaks its imports. If it
+  can't avoid that, it stops and asks you to restart the session (Runtime → Restart session) and run all again.
+- The run takes a few minutes more. To keep the results, download the `output` folder from Colab's file pane.
+
+Colab runs a newer Python than 3.12. If OpenSees won't load there, the cross-check reports SKIP and the rest runs.
 
 **On your computer,** with Python 3.12, from the `notebooks/` folder:
 

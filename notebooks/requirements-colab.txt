@@ -1,5 +1,0 @@
-# What Colab doesn't already have. The notebooks' setup cell installs these.
-PyNiteFEA==1.0.1
-sectionproperties==3.10.2
-openseespy==3.8.0.0
-prettytable>=3
