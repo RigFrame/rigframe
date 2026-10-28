@@ -36,7 +36,7 @@ th{{font-weight:600;color:var(--muted);font-size:12px;text-transform:uppercase;l
 </style></head><body><main>
 <h1>rigframe boats</h1>
 <p>Sailboat rigs analysed as 3D frames, one per boat file in the
-<a href="https://github.com/thomastron/rigframe">rigframe repository</a>. Each is an engineering estimate, not a
+<a href="https://github.com/rigframe/rigframe">rigframe repository</a>. Each is an engineering estimate, not a
 rig survey; the estimates column says how many inputs are still estimates.</p>
 <div class="wrap"><table><thead><tr><th>Boat</th><th>Rig</th><th>Estimates</th><th>Viewer</th><th>Report</th></tr></thead>
 <tbody>

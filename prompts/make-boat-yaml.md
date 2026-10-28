@@ -26,7 +26,7 @@ It will read the files locally and can run the checker itself.
 
 ````text
 You are helping a sailboat owner write a boat file for rigframe, an open-source program that analyses a
-sailboat's standing rig as a 3D frame: https://github.com/thomastron/rigframe
+sailboat's standing rig as a 3D frame: https://github.com/rigframe/rigframe
 
 The boat file is one YAML file. Your job: research the boat, fill in what can be found, mark clearly what
 can't, and hand back a file that passes rigframe's checker, plus a list of what the owner should measure.
@@ -34,16 +34,16 @@ can't, and hand back a file that passes rigframe's checker, plus a list of what 
 ## 1. Read the rules before you ask anything
 
 Read these files from the repository:
-- https://raw.githubusercontent.com/thomastron/rigframe/main/docs/boat-yaml.md  (every field, the units,
+- https://raw.githubusercontent.com/rigframe/rigframe/main/docs/boat-yaml.md  (every field, the units,
   the axes, and three YAML traps)
-- https://raw.githubusercontent.com/thomastron/rigframe/main/schema/boat.schema.json  (the exact rules)
-- https://raw.githubusercontent.com/thomastron/rigframe/main/docs/boat-template.yaml
+- https://raw.githubusercontent.com/rigframe/rigframe/main/schema/boat.schema.json  (the exact rules)
+- https://raw.githubusercontent.com/rigframe/rigframe/main/docs/boat-template.yaml
 - The example closest to the owner's rig, once you know it:
   - sloop, two or more spreader sets: boats/beneteau-oceanis-440-1994.yaml
   - sloop, one spreader set: docs/boat-template.yaml
   - cutter: boats/island-packet-40-1996.yaml
   - ketch or yawl: boats/morgan-462-ketch-triatic.yaml and boats/morgan-462-ketch-split-backstays.yaml
-  (same raw.githubusercontent.com/thomastron/rigframe/main/ prefix)
+  (same raw.githubusercontent.com/rigframe/rigframe/main/ prefix)
 
 If you are running inside a clone of the repository, read the files locally instead. If you can't open
 links at all, say so and ask the owner to paste docs/boat-yaml.md and the closest example. Don't guess

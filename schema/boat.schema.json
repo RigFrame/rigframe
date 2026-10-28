@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://raw.githubusercontent.com/thomastron/rigframe/main/schema/boat.schema.json",
+  "$id": "https://raw.githubusercontent.com/rigframe/rigframe/main/schema/boat.schema.json",
   "title": "rigframe boat file",
   "description": "One sailboat rig: hull, sail plan, masts, shrouds, stays and load cases. See docs/boat-yaml.md.",
   "type": "object",

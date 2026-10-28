@@ -128,7 +128,7 @@ manage it.
 
 ### 2.1 Add the file
 
-1. Go to the [`boats` folder](https://github.com/thomastron/rigframe/tree/main/boats) of this repository.
+1. Go to the [`boats` folder](https://github.com/rigframe/rigframe/tree/main/boats) of this repository.
 2. Click **Add file** (top right, above the file list), then either:
    - **Upload files**, and drag your `.yaml` file onto the page; or
    - **Create new file**, type the file name into the box above the editor (the `boats/` part is already
@@ -216,8 +216,8 @@ You can share the zip, `viewer.html` on its own, or just the PDF, with anyone.
   Your report is already downloaded.
 - **You'd like the boat to stay here as an example for others:** leave it open and say so in a comment.
   The maintainer may ask a question or two, then merge it. A merged boat gets a permanent page: its 3D
-  viewer at `https://thomastron.github.io/rigframe/boats/<file name>/viewer.html`, and its report beside it.
-  [The front page](https://thomastron.github.io/rigframe/) lists every published boat. The pages update
+  viewer at `https://rigframe.github.io/rigframe/boats/<file name>/viewer.html`, and its report beside it.
+  [The front page](https://rigframe.github.io/rigframe/) lists every published boat. The pages update
   whenever rigframe improves.
 - **You measured more later:** edit the file in your pull request (step 12) and the report runs again.
   If the pull request is already closed or merged, open a new one the same way.
