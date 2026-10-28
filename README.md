@@ -28,6 +28,7 @@ analysis for you.
 > notebooks it was developed in. Until it lands, `rigframe run` checks your file and writes a report of its
 > estimates, marked **DEMO**. For the four example boats it also replays the notebook studies' stored results
 > in the viewer; those don't change if you edit the file. `pipx install rigframe` will work once it's released.
+> **For the full analysis today, use [the notebooks](#the-notebooks-the-full-analysis-today).**
 
 > **This is an engineering estimate, not a rig survey.** It assumes the rig is in good condition, and it
 > knows nothing about corrosion, fatigue, cracked swages or worn chainplates. Have a rigger inspect the
@@ -37,7 +38,9 @@ analysis for you.
 
 ## Contents
 
-- [Three ways to get a report](#three-ways-to-get-a-report)
+- [Four ways to get a report](#four-ways-to-get-a-report)
+- [The notebooks: the full analysis today](#the-notebooks-the-full-analysis-today)
+- [What runs where](#what-runs-where)
 - [Step 1: Make your boat file](#step-1-make-your-boat-file)
 - [Step 2: Open a pull request with your file](#step-2-open-a-pull-request-with-your-file)
 - [Step 3: Read the report](#step-3-read-the-report)
@@ -49,15 +52,85 @@ analysis for you.
 
 ---
 
-## Three ways to get a report
+## Four ways to get a report
 
-| | What you need | Who sees your boat |
+| | What you need | Who sees your boat | What you get today |
+|---|---|---|---|
+| **[A notebook](#the-notebooks-the-full-analysis-today)**, in Colab or on your computer | A web browser (Colab), or Python 3.12 | Only you | The full analysis and the 11 × 17 report |
+| **A pull request to this repository** | A free GitHub account and a web browser | Everyone: this repository is public | Demo report and 3D viewer |
+| **Your own private copy** | A free GitHub account | Only you, and anyone you invite | Demo report and 3D viewer |
+| **Your own computer**, with the package | Python 3.12 or later | Only you | Demo report and 3D viewer |
+
+The last three start from a boat file. The notebooks are separate: each holds one boat's whole analysis, and you
+edit its inputs in one cell.
+
+---
+
+## The notebooks: the full analysis today
+
+[`notebooks/`](notebooks/) holds the three studies the method was built and checked on. Each runs on its own: it
+needs neither GitHub Actions nor the rigframe package. Each one tunes the rig at the dock, sails it through every
+load case, checks mast buckling, and cross-checks the main cases in a second solver. It ends in a table of 30 to 53
+PASS/FAIL checks.
+
+| Notebook | Rig | Open |
 |---|---|---|
-| **A pull request to this repository** | A free GitHub account and a web browser | Everyone: this repository is public |
-| **Your own private copy** | A free GitHub account | Only you, and anyone you invite |
-| **Your own computer** | Python 3.12 or later | Only you |
+| [`beneteau-oceanis-440-1994`](notebooks/beneteau-oceanis-440-1994.ipynb) | Masthead sloop, two sets of swept spreaders, discontinuous shrouds, four lowers, split backstay, in-mast furler | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/RigFrame/rigframe/blob/main/notebooks/beneteau-oceanis-440-1994.ipynb) |
+| [`island-packet-40-1996`](notebooks/island-packet-40-1996.ipynb) | Masthead cutter: one spreader set, fore and aft lowers, staysail stay, twin backstay | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/RigFrame/rigframe/blob/main/notebooks/island-packet-40-1996.ipynb) |
+| [`morgan-462-ketch`](notebooks/morgan-462-ketch.ipynb) | Masthead ketch, two masts, run with a triatic and with split backstays | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/RigFrame/rigframe/blob/main/notebooks/morgan-462-ketch.ipynb) |
 
-All three start with the same boat file.
+**In Google Colab:** click a badge, then Runtime → Run all. The first cell fetches this repository for its data and
+installs what Colab lacks, which takes about a minute. The run takes a few minutes more. To keep the results, download
+the `output` folder from Colab's file pane.
+
+**On your computer,** with Python 3.12, from the `notebooks/` folder:
+
+```bash
+python -m venv .venv
+```
+
+Activate it (`.venv\Scripts\activate` on Windows, `source .venv/bin/activate` elsewhere), then:
+
+```bash
+pip install -r requirements.txt
+```
+
+Open the notebook in Jupyter or VS Code and run it. Python 3.12 matters only for the OpenSees cross-check: its
+Windows build needs exactly 3.12. Without OpenSees those checks report SKIP and everything else runs.
+
+**To study your own boat,** pick the notebook nearest your rig and edit its `RigParams` cell. Every input is there,
+and the ones marked `# PLACEHOLDER` are estimates.
+
+**What a run writes,** in `notebooks/output/<notebook>/`:
+- `REPORT.md`, every load case item by item, with its figures in `assets/`;
+- `viewer-3d.html`, the standalone 3D viewer.
+
+To turn the report into an 11 × 17 in PDF:
+
+```bash
+python tools/md_to_tabloid_pdf.py notebooks/output/island-packet-40-1996/REPORT.md
+```
+
+That needs [pandoc](https://pandoc.org/installing.html), `pip install playwright`, and
+`playwright install chromium` once.
+
+**Sample reports.** The [sample-reports release](https://github.com/rigframe/rigframe/releases/tag/sample-reports) has the finished PDFs for all three boats, so you can see
+what you'll get before running anything:
+- `*-report.pdf`, written by the notebooks' last run;
+- `*-companion.pdf`, the method behind each study: every load case with free-body diagrams, how each sail load is
+  applied, the terms, and the textbook equations by number and page.
+
+The companions were written by hand for these three boats.
+
+---
+
+## What runs where
+
+| | What it does | Can it make the 11 × 17 PDFs? |
+|---|---|---|
+| **A notebook** (Colab or your computer) | The whole analysis, the report and the viewer | Yes, with `tools/md_to_tabloid_pdf.py` |
+| **GitHub Actions** | Runs the package on each boat file in a pull request | Not yet. Actions can install pandoc and Chromium, but the report-writing code is still in the notebooks. Once it moves into the package, every pull request gets the same PDF. |
+| **GitHub Pages** | Hosts what Actions made. It doesn't compute anything | It will host the PDFs once Actions makes them |
 
 ---
 

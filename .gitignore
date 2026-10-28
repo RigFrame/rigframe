@@ -6,3 +6,5 @@ dist/
 reports/
 site/
 .pytest_cache/
+# Sample PDFs are published as the 'sample-reports' GitHub Release, not committed
+sample-reports/
