@@ -5,14 +5,18 @@
 # The changed boat files are also saved as "preview-input", which boat-preview.yml picks up to publish a
 # live preview and comment the link on the pull request.
 # Push to main: every boat is re-run and published to the gh-pages branch under boats/<file name>/.
+# The site around them (front page, guide, boat-file and prompt pages) is built from the README and docs/
+# by tools/build_site.py.
 name: Boat report
 
 on:
   pull_request:
-    paths: ["boats/*.yaml", "src/**", "schema/**", "data/**", "tools/site_index.py"]
+    paths: ["boats/*.yaml", "src/**", "schema/**", "data/**"]
   push:
     branches: [main]
-    paths: ["boats/*.yaml", "src/**", "schema/**", "data/**", "tools/site_index.py"]
+    # The site's pages are built from the README and the docs, so a change to those republishes too.
+    paths: ["boats/*.yaml", "src/**", "schema/**", "data/**", "README.md", "docs/**", "prompts/**",
+            "notebooks/*.ipynb", "tools/build_site.py"]
   workflow_dispatch:
 
 permissions:
@@ -119,6 +123,11 @@ jobs:
       cancel-in-progress: false
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install the site builder
+        run: pip install markdown-it-py mdit-py-plugins
       - uses: actions/download-artifact@v4
         with:
           pattern: rig-report-*
@@ -132,7 +141,7 @@ jobs:
           rm -rf pages/boats && mkdir -p pages/boats
           for d in site/rig-report-*; do cp -r "$d" "pages/boats/${d#site/rig-report-}"; done
           touch pages/.nojekyll
-          python tools/site_index.py pages
+          python tools/build_site.py pages
           cd pages
           git add -A
           git commit -m "Publish reports for ${GITHUB_SHA::7}" || exit 0
