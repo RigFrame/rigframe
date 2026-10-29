@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI prompt · rigframe</title>
+<meta name="description" content="A prompt that has an AI assistant research a boat and draft its file.">
+<meta property="og:title" content="AI prompt · rigframe"><meta property="og:description" content="A prompt that has an AI assistant research a boat and draft its file.">
+<meta property="og:image" content="https://rigframe.github.io/rigframe/img/viewer-morgan-462.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%20aria-hidden%3D%22true%22%3E%3Cpath%20d%3D%22M12%202.5v19M4.5%2020.5%2012%202.5l7.5%2018M7.6%2012.5h8.8M3%2021.5h18%22%20fill%3D%22none%22%20stroke%3D%22%231d5ea8%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f6f5f1;--surface:#fff;--sunk:#efede7;--ink:#15191f;--muted:#5d646e;--line:#e1ded6;
+--accent:#1d5ea8;--accent-ink:#fff;--accent-soft:#e3edf8;--warn:#b7791f;--warn-soft:#fbf1df;--code:#f1efe9;
+--hero:radial-gradient(1200px 500px at 85% -10%,#dfe9f5 0,transparent 60%);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1015;--surface:#151a21;--sunk:#11151b;
+--ink:#e7e5e0;--muted:#9aa2ad;--line:#262d36;--accent:#6aa9f5;--accent-ink:#0b1320;--accent-soft:#16243a;
+--warn:#e2a54b;--warn-soft:#2a2113;--code:#11161d;--hero:radial-gradient(1200px 500px at 85% -10%,#16243a 0,transparent 60%);
+color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0d1015;--surface:#151a21;--sunk:#11151b;--ink:#e7e5e0;--muted:#9aa2ad;--line:#262d36;
+--accent:#6aa9f5;--accent-ink:#0b1320;--accent-soft:#16243a;--warn:#e2a54b;--warn-soft:#2a2113;--code:#11161d;
+--hero:radial-gradient(1200px 500px at 85% -10%,#16243a 0,transparent 60%);color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-padding-top:72px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-underline-offset:2px}
+code,pre{font-family:"JetBrains Mono",ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.88em}
+:not(pre)>code{background:var(--code);border:1px solid var(--line);border-radius:5px;padding:.08em .35em}
+.muted{color:var(--muted)}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+/* top bar */
+header.top{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 85%,transparent);
+backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line)}
+header.top .wrap{display:flex;align-items:center;gap:20px;height:58px}
+.brand{display:flex;align-items:center;gap:8px;font-weight:700;color:var(--ink);text-decoration:none;letter-spacing:-.01em}
+.brand svg{width:22px;height:22px;color:var(--accent)}
+nav.links{display:flex;gap:4px;flex:1}
+nav.links a{color:var(--muted);text-decoration:none;font-size:14.5px;padding:6px 10px;border-radius:7px}
+nav.links a:hover,nav.links a[aria-current]{color:var(--ink);background:var(--sunk)}
+.icons{display:flex;gap:6px;margin-left:auto}
+.icon{display:inline-grid;place-items:center;width:36px;height:36px;border-radius:8px;border:1px solid var(--line);
+background:var(--surface);color:var(--ink);cursor:pointer}
+.icon svg{width:17px;height:17px}
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:var(--accent-ink);text-decoration:none;
+font-weight:600;padding:11px 18px;border-radius:9px;border:1px solid var(--accent);font-size:15px}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn.ghost:hover{background:var(--sunk)}
+.btn.small{padding:5px 11px;font-size:13.5px;border-radius:7px}
+/* hero */
+.hero{background:var(--hero)}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:48px;align-items:center;padding-top:64px;padding-bottom:56px}
+.eyebrow{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:0 0 14px}
+.hero h1{font-size:clamp(34px,4.6vw,54px);line-height:1.06;letter-spacing:-.025em;margin:0 0 20px;font-weight:750}
+.lead{font-size:18.5px;color:var(--muted);margin:0 0 26px;max-width:36em}
+.cta{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px}
+.note{font-size:14.5px;color:var(--muted);margin:0}
+.frame{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:var(--surface);
+box-shadow:0 1px 2px rgba(0,0,0,.04),0 18px 50px -20px rgba(16,40,80,.35)}
+.frame .bar{display:flex;align-items:center;gap:6px;padding:9px 12px;border-bottom:1px solid var(--line);font-size:12.5px;color:var(--muted)}
+.frame .bar i{width:10px;height:10px;border-radius:50%;background:var(--line)}
+.frame .bar span{margin-left:8px}
+.frame img{display:block;width:100%;height:auto}
+.frame iframe{display:block;width:100%;height:min(78vh,720px);border:0;background:#fff}
+figure.live{grid-column:1/-1}
+.play{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);box-shadow:0 8px 24px -8px rgba(0,0,0,.4)}
+figcaption{font-size:13px;color:var(--muted);margin-top:10px}
+/* bands and sections */
+.callouts{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding-bottom:40px;margin-top:-16px}
+.callout{background:var(--warn-soft);border:1px solid color-mix(in srgb,var(--warn) 30%,transparent);border-left:3px solid var(--warn);
+border-radius:10px;padding:14px 16px;font-size:14.5px}
+.callout p{margin:0}
+section.block{padding:56px 0;border-top:1px solid var(--line)}
+section.block h2{font-size:clamp(26px,3vw,34px);letter-spacing:-.02em;margin:0 0 8px;line-height:1.15}
+section.block>.wrap>p.sub{color:var(--muted);margin:0 0 28px;max-width:46em;font-size:17px}
+.grid{display:grid;gap:14px}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px}
+.card p{margin:0}
+.card .num{font:600 12px/1 "JetBrains Mono",monospace;color:var(--accent);margin-bottom:10px;display:block}
+.way h3{font-size:16px;margin:0 0 10px}
+.way dl{margin:0;font-size:14px}
+.way dt{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.05em;margin-top:10px}
+.way dd{margin:2px 0 0}
+/* prompt box */
+.promptgrid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:36px;align-items:start}
+ol.steps{list-style:none;padding:0;margin:0;counter-reset:s}
+ol.steps li{counter-increment:s;position:relative;padding:0 0 18px 44px;font-size:15px}
+ol.steps li::before{content:counter(s,decimal-leading-zero);position:absolute;left:0;top:0;font:600 12px/1 "JetBrains Mono",monospace;
+color:var(--accent);background:var(--accent-soft);border-radius:6px;padding:6px 7px}
+.term{border:1px solid var(--line);border-radius:12px;background:var(--code);overflow:hidden}
+.term .bar{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-bottom:1px solid var(--line);
+font-size:12.5px;color:var(--muted);background:var(--surface)}
+.term pre{margin:0;padding:16px 18px;white-space:pre-wrap;font-size:13px;line-height:1.55;max-height:300px;overflow:hidden;position:relative}
+.term.open pre{max-height:none}
+.term:not(.open) pre::after{content:"";position:absolute;inset:auto 0 0 0;height:90px;background:linear-gradient(transparent,var(--code))}
+.term .more{display:block;width:100%;border:0;border-top:1px solid var(--line);background:var(--surface);color:var(--accent);
+padding:9px;font:inherit;font-size:14px;cursor:pointer}
+.copy{font:inherit;font-size:12.5px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:6px;padding:3px 10px;cursor:pointer}
+/* boats */
+.boats{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.boat{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.boat .pic{height:200px;padding:14px 14px 0;background:linear-gradient(var(--sunk),var(--surface));color:var(--ink);display:flex;justify-content:center}
+.elev{width:100%;height:100%}
+.boat .body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:8px;flex:1}
+.boat h3{margin:0;font-size:17px}
+.boat p{margin:0;font-size:14px}
+.variant{font-size:12px;font-weight:600;color:var(--accent);background:var(--accent-soft);padding:2px 8px;border-radius:999px;vertical-align:2px}
+.est small{color:var(--muted);font-size:12.5px}
+.est .bar{height:5px;border-radius:9px;background:var(--accent-soft);overflow:hidden;margin:4px 0 2px}
+.est .bar span{display:block;height:100%;background:var(--warn)}
+.actions{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;margin-top:auto;padding-top:6px;font-size:13.5px}
+.legend{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted);margin:-12px 0 22px}
+.legend .ramp{width:120px;height:6px;border-radius:9px;background:linear-gradient(90deg,#d8c8a4,#c04a1a)}
+/* docs */
+.doclayout{display:grid;grid-template-columns:230px minmax(0,1fr);gap:48px;padding-top:36px;padding-bottom:80px}
+aside.toc{position:sticky;top:78px;align-self:start;max-height:calc(100vh - 96px);overflow:auto;font-size:13.5px;padding-right:6px}
+aside.toc p{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600;margin:0 0 8px}
+aside.toc a{display:block;color:var(--muted);text-decoration:none;padding:4px 0 4px 12px;border-left:2px solid var(--line);line-height:1.35}
+aside.toc a.l3{padding-left:24px;font-size:13px}
+aside.toc a:hover{color:var(--ink)}
+aside.toc a.on{color:var(--accent);border-left-color:var(--accent)}
+details.mtoc{display:none}
+.doc{max-width:780px;min-width:0}
+.doc h1{font-size:clamp(30px,4vw,42px);letter-spacing:-.02em;line-height:1.1;margin:0 0 18px}
+.doc h2{font-size:26px;letter-spacing:-.015em;margin:52px 0 12px;padding-top:28px;border-top:1px solid var(--line);line-height:1.2}
+.doc h3{font-size:19px;margin:32px 0 8px}
+.doc hr{display:none}
+.doc img{max-width:100%;height:auto;border-radius:10px;border:1px solid var(--line);background:#fff}
+.doc p>sub{display:block;font-size:13px;color:var(--muted);margin-top:-6px}
+.doc blockquote{margin:16px 0;background:var(--warn-soft);border:1px solid color-mix(in srgb,var(--warn) 30%,transparent);
+border-left:3px solid var(--warn);border-radius:10px;padding:12px 16px;font-size:15px}
+.doc blockquote p{margin:0}
+.doc pre{background:var(--code);border:1px solid var(--line);border-radius:10px;padding:14px 16px;overflow:auto;position:relative;line-height:1.5}
+.doc pre .copy{position:absolute;top:8px;right:8px;opacity:0;transition:opacity .15s}
+.doc pre:hover .copy,.doc pre .copy:focus{opacity:1}
+.table-wrap{overflow-x:auto;margin:16px 0;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+.doc table{border-collapse:collapse;width:100%;font-size:14.5px}
+.doc th,.doc td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+.doc tr:last-child td{border-bottom:0}
+.doc th{background:var(--sunk);font-size:13px}
+.doc li{margin:4px 0}
+.doc :not(pre)>code{overflow-wrap:anywhere}
+.header-anchor{opacity:0;margin-left:6px;text-decoration:none;color:var(--muted)}
+h2:hover .header-anchor,h3:hover .header-anchor{opacity:1}
+footer{border-top:1px solid var(--line);padding:28px 0 40px;font-size:13.5px;color:var(--muted)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between}
+@media (max-width:960px){
+ .hero .wrap,.promptgrid{grid-template-columns:1fr;gap:32px}
+ .hero .wrap{padding-top:40px}
+ .g3,.g4{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .doclayout{grid-template-columns:1fr;gap:0}
+ aside.toc{display:none}
+ details.mtoc{display:block;margin-bottom:20px;border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:10px 14px;font-size:14px}
+ details.mtoc a{display:block;padding:3px 0;text-decoration:none}
+ details.mtoc a.l3{padding-left:14px}
+}
+@media (max-width:720px){
+ header.top .wrap{flex-wrap:wrap;height:auto;padding-top:9px;padding-bottom:6px;gap:6px 12px}
+ nav.links{order:3;flex-basis:100%;overflow-x:auto;white-space:nowrap;margin:0 -6px;scrollbar-width:none}
+ nav.links a{padding:4px 8px;font-size:14px}
+ html{scroll-padding-top:110px}
+ aside.toc{top:110px}
+ .g3,.g4,.g2,.callouts{grid-template-columns:1fr}
+ .frame iframe{height:70vh}
+}
+</style></head>
+<body>
+<header class="top"><div class="wrap">
+<a class="brand" href="./"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5v19M4.5 20.5 12 2.5l7.5 18M7.6 12.5h8.8M3 21.5h18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>rigframe</a>
+<nav class="links"><a href="guide.html">Guide</a><a href="index.html#boats">Boats</a><a href="boat-file.html">Boat file</a><a href="prompt.html" aria-current=page>AI prompt</a><a href="index.html#notebooks">Notebooks</a></nav>
+<div class="icons">
+<button class="icon" id="theme" type="button" aria-label="Switch light or dark"><svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z"/></svg></button>
+<a class="icon" href="https://github.com/RigFrame/rigframe" aria-label="rigframe on GitHub" rel="noopener"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
+</div></div></header>
+<div class="wrap doclayout">
+<aside class="toc"><p>On this page</p><a class="l2" href="#how-to-use-it">How to use it</a><p style="margin-top:18px"><a href="https://github.com/RigFrame/rigframe/blob/main/prompts/make-boat-yaml.md">View prompts/make-boat-yaml.md on GitHub</a></p></aside>
+<article class="doc"><details class="mtoc"><summary>On this page</summary><a class="l2" href="#how-to-use-it">How to use it</a></details>
+<h1>Prompt: have an AI assistant write your boat file</h1>
+<p>Writing the boat file is the hard part of using rigframe. You need the rig's layout, its dimensions and
+where each number came from. An AI assistant that can browse the web can do most of the looking up for
+you. It also asks you only for what it can't find, and keeps track of what's still a guess.</p>
+<h2 id="how-to-use-it">How to use it</h2>
+<ol>
+<li>Open an AI assistant <strong>with web search turned on</strong>: Claude, ChatGPT, Gemini or similar. Without web
+search it can't read this repository or look up your boat, and it will tell you so.</li>
+<li>Copy the whole prompt below (the copy button is at the top right of the box) and paste it in as your
+first message.</li>
+<li>Answer its questions. &quot;Don't know&quot; is a fine answer. It helps a lot to attach photos: the rig from the
+side and from astern, each chainplate, the label at the mast foot, and the sail plan drawing if you
+have one.</li>
+<li>It hands back a file name, the YAML, its sources and a list of things to measure. Save the YAML and
+go to <a href="guide.html#step-2-open-a-pull-request-with-your-file">Step 2 in the README</a>.</li>
+</ol>
+<p>Expect two or three rounds of questions and about 20 minutes. The file will have plenty of estimates in
+it. That's normal: the report lists them, and you can measure them later and open a second pull request.</p>
+<p><strong>If you use Claude Code or another coding agent</strong> in a clone of this repository, paste the same prompt.
+It will read the files locally and can run the checker itself.</p>
+<hr />
+<pre><code class="language-text">You are helping a sailboat owner write a boat file for rigframe, an open-source program that analyses a
+sailboat's standing rig as a 3D frame: https://github.com/rigframe/rigframe
+
+The boat file is one YAML file. Your job: research the boat, fill in what can be found, mark clearly what
+can't, and hand back a file that passes rigframe's checker, plus a list of what the owner should measure.
+
+## 1. Read the rules before you ask anything
+
+Read these files from the repository:
+- https://raw.githubusercontent.com/rigframe/rigframe/main/docs/boat-yaml.md  (every field, the units,
+  the axes, and three YAML traps)
+- https://raw.githubusercontent.com/rigframe/rigframe/main/schema/boat.schema.json  (the exact rules)
+- https://raw.githubusercontent.com/rigframe/rigframe/main/docs/boat-template.yaml
+- The example closest to the owner's rig, once you know it:
+  - sloop, two or more spreader sets: boats/beneteau-oceanis-440-1994.yaml
+  - sloop, one spreader set: docs/boat-template.yaml
+  - cutter: boats/island-packet-40-1996.yaml
+  - ketch or yawl: boats/morgan-462-ketch-triatic.yaml and boats/morgan-462-ketch-split-backstays.yaml
+  (same raw.githubusercontent.com/rigframe/rigframe/main/ prefix)
+
+If you are running inside a clone of the repository, read the files locally instead. If you can't open
+links at all, say so and ask the owner to paste docs/boat-yaml.md and the closest example. Don't guess
+the format.
+
+## 2. Ask the owner, in one short numbered message
+
+1. Builder, model and model year.
+2. The rig as they see it: sloop, cutter, ketch or yawl; masthead or fractional; how many sets of
+   spreaders; how many shrouds reach the deck on each side, and whether each one lands ahead of, behind
+   or in line with the mast; single or split backstay; an inner forestay; running backstays; a triatic
+   between the masts.
+3. Anything changed from the factory: a new or taller mast, a bowsprit, furlers, new standing rigging.
+4. The mast maker and profile, if there's a label at the mast foot or a record in the boat's papers.
+5. Anything already measured: wire sizes (stamped on the swage fittings), chainplate positions, tuning
+   gauge readings.
+6. Photos they can share: the rig from the side and from astern, each chainplate, the mast-foot label,
+   the sail plan drawing.
+7. Metric or imperial, for the list of things to measure.
+
+Tell them &quot;don't know&quot; is a fine answer to any of it. Don't ask for the owner's name, the boat's name,
+the hull identification number, the sail number or where the boat is kept, and don't put any of those in
+the file. The file goes into a public repository.
+
+## 3. Research the boat
+
+Rank sources like this, highest first, and set `basis` to match:
+1. The owner's own measurements: `measured`.
+2. The spar or rigging maker, for this boat or this mast profile: `maker`.
+3. The builder (brochure, owner's manual), the designer's office, a class or owners' association:
+   `published`.
+4. Data sites (sailboatdata.com, Good Old Boat sail data, sailmakers' sail-plan databases): `published`.
+5. Reviews, surveys, broker listings and owners' forums: `published`, and say which in `note`. Forum
+   posts are the weakest source; prefer anything else.
+
+Look in particular for: I, J, P, E (and J2 for a cutter, PY and EY for a ketch or yawl); displacement and
+beam; the mast maker and profile and its section table (area, I fore-and-aft, I athwartships); the
+standing-rigging sizes (owners' associations often publish a rigging table); keel- or deck-stepped; a
+stability curve or a righting moment at 30 degrees.
+
+Rules:
+- Every value you enter carries `basis` and, unless it's an estimate, `ref`. Add each source once to
+  `boat.sources` with its title, site, URL and the date you read it.
+- Never present a guess as a finding. If you didn't find it, it's `estimate`, and the `note` says how you
+  got it.
+- When sources disagree, pick one and give the other in `note`, as the example files do.
+- Keep the source's units (ft, in, mm, kg, lb). Don't convert; rigframe does.
+- Data for a different version of the boat (tall rig, shoal keel, a sloop version of a ketch, a later
+  model year) must say so in `note`.
+- Copy numbers and short notes only, never text or drawings from a source.
+
+## 4. Settle the layout before the numbers
+
+The layout decides the shape of the model: rig type, number of spreader sets, single or forward-and-aft
+lowers, continuous or discontinuous shrouds, single or split backstay, inner forestay, triatic. A wrong
+layout gives a wrong analysis however good the numbers are. If the owner and the sources disagree or are
+silent, state what you're assuming and ask the owner to confirm it, with a photo if they can, before you
+go on.
+
+## 5. Fill the gaps
+
+For anything still unknown, start from the closest example file:
+- Heights given as a percentage of the hounds height (spreaders, tangs) can stay as they are.
+- Scale other lengths by the ratio of the owner's I to the example's I, and chainplate |y| by the ratio
+  of the beams.
+- Keep the template's pretension targets unless the owner has gauge readings.
+- Use GZ30 = 0.70 m unless stability data turned up.
+Mark all of these `basis: estimate` with a note such as &quot;scaled from the island-packet-40 example by I&quot;.
+
+## 6. Check the file
+
+- If you can run code, run the checker: `rigframe validate &lt;file&gt;` (or
+  `python -m rigframe.boatfile &lt;file&gt;` from the repository's src folder), and fix everything it reports.
+- If you can't, go through &quot;What the checker checks&quot; in docs/boat-yaml.md by hand. In particular:
+  every number has a unit; indentation is two spaces, no tabs; any note containing a comma is in quotes;
+  the main's head (gooseneck_z + P) sits below the masthead (I + above_hounds); spreaders are listed bottom
+  to top; forward is positive x, so aft lowers have negative chainplate x; |y| is given, never a negative
+  y; every chainplate |y| is less than half the beam; every `mast:` and `adjusts:` names something that
+  exists.
+- Read the file once more against the owner's answers. Did any layout fact they gave get lost?
+
+## 7. Hand back, in this order
+
+1. The file name: boats/&lt;builder&gt;-&lt;model&gt;-&lt;year&gt;.yaml, lowercase with hyphens, plus -&lt;variant&gt; if the
+   owner wants to compare arrangements (for example -split-backstays).
+2. The whole YAML in one code block, starting with the line
+   `# yaml-language-server: $schema=../schema/boat.schema.json`.
+3. A short table of the sources you used and what each gave.
+4. &quot;What to measure&quot;, ranked by how much it moves the answer, each with one sentence on how to measure it:
+   1. any layout fact still unconfirmed;
+   2. chainplate positions, x and |y|, for every shroud;
+   3. wire sizes;
+   4. spreader heights, lengths and sweep;
+   5. the mast profile, or its chord, width and wall;
+   6. for a cutter, the inner forestay's tang height and tack position;
+   7. backstay feet, gooseneck height, and mast-step depth below deck;
+   8. stability data for GZ30.
+5. One line: &quot;Next: follow Step 2 of the rigframe README to open a pull request with this file.&quot;
+
+Keep your messages short, and ask one round of questions at a time.
+</code></pre>
+</article></div>
+<footer><div class="wrap">
+<span>rigframe is MIT-licensed. An engineering estimate, not a rig survey.</span>
+<span>Built 2026-10-29 from <a href="https://github.com/RigFrame/rigframe/commit/71490e1">71490e1</a> &middot; <a href="https://github.com/RigFrame/rigframe">GitHub</a> &middot; <a href="https://github.com/RigFrame/rigframe/issues">Issues</a></span>
+</div></footer>
+<script>
+(function(){
+ var root=document.documentElement,key='rigframe-theme';
+ try{var t=localStorage.getItem(key);if(t)root.dataset.theme=t;}catch(e){}
+ var b=document.getElementById('theme');
+ if(b)b.addEventListener('click',function(){
+  var dark=root.dataset.theme?root.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;
+  root.dataset.theme=dark?'light':'dark';try{localStorage.setItem(key,root.dataset.theme);}catch(e){}
+ });
+ function copy(btn,text){
+  var done=function(){var o=btn.textContent;btn.textContent='Copied';setTimeout(function(){btn.textContent=o;},1400);};
+  if(navigator.clipboard)navigator.clipboard.writeText(text).then(done,function(){});
+ }
+ document.querySelectorAll('.doc pre').forEach(function(pre){
+  var btn=document.createElement('button');btn.className='copy';btn.type='button';btn.textContent='Copy';
+  btn.addEventListener('click',function(){copy(btn,pre.querySelector('code').innerText);});pre.appendChild(btn);
+ });
+ document.querySelectorAll('[data-copy]').forEach(function(btn){
+  btn.addEventListener('click',function(){copy(btn,document.getElementById(btn.dataset.copy).value);});
+ });
+ document.querySelectorAll('.term .more').forEach(function(m){
+  m.addEventListener('click',function(){var t=m.closest('.term');t.classList.toggle('open');
+   m.textContent=t.classList.contains('open')?'Show less':'Show the whole prompt';});
+ });
+ var play=document.getElementById('play');
+ if(play)play.addEventListener('click',function(e){
+  e.preventDefault();var f=document.createElement('iframe');f.src=play.getAttribute('href');f.title='3D rig viewer';
+  var host=document.getElementById('shot');host.closest('figure').classList.add('live');host.replaceWith(f);play.remove();
+ });
+ var links=[].slice.call(document.querySelectorAll('aside.toc a'));
+ if(links.length&&'IntersectionObserver'in window){
+  var map={};links.forEach(function(a){map[a.hash.slice(1)]=a;});
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){
+   if(e.isIntersecting){links.forEach(function(a){a.classList.remove('on');});var a=map[e.target.id];if(a)a.classList.add('on');}
+  });},{rootMargin:'-70px 0px -70% 0px'});
+  Object.keys(map).forEach(function(id){var h=document.getElementById(id);if(h)io.observe(h);});
+ }
+})();
+</script>
+</body></html>

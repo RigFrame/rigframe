@@ -1,30 +1,531 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>rigframe boats</title>
+<title>rigframe: A sailboat&#x27;s standing rig, analysed as a 3D frame, from one YAML file.</title>
+<meta name="description" content="A sailboat&#x27;s standing rig, analysed as a 3D frame, from one YAML file.">
+<meta property="og:title" content="rigframe: A sailboat&#x27;s standing rig, analysed as a 3D frame, from one YAML file."><meta property="og:description" content="A sailboat&#x27;s standing rig, analysed as a 3D frame, from one YAML file.">
+<meta property="og:image" content="https://rigframe.github.io/rigframe/img/viewer-morgan-462.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%20aria-hidden%3D%22true%22%3E%3Cpath%20d%3D%22M12%202.5v19M4.5%2020.5%2012%202.5l7.5%2018M7.6%2012.5h8.8M3%2021.5h18%22%20fill%3D%22none%22%20stroke%3D%22%231d5ea8%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#fbfaf7;--ink:#0b0b0b;--muted:#6b6a65;--line:#d8d7d2;--accent:#2a78d6}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#171716;--ink:#eeede8;--muted:#a3a29b;--line:#3a3a37;--accent:#5b9cf0;color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#171716;--ink:#eeede8;--muted:#a3a29b;--line:#3a3a37;--accent:#5b9cf0;color-scheme:dark}
-body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 ui-sans-serif,-apple-system,"Segoe UI",sans-serif}
-main{max-width:960px;margin:0 auto;padding:24px 16px}
-h1{font-size:22px;margin:0 0 4px} p{color:var(--muted);max-width:70ch} a{color:var(--accent)}
-.wrap{overflow-x:auto} table{border-collapse:collapse;width:100%;font-size:14px}
-th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
-th{font-weight:600;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.05em}
-</style></head><body><main>
-<h1>rigframe boats</h1>
-<p>Sailboat rigs analysed as 3D frames, one per boat file in the
-<a href="https://github.com/rigframe/rigframe">rigframe repository</a>. Each is an engineering estimate, not a
-rig survey; the estimates column says how many inputs are still estimates.</p>
-<p>The viewer and report pages come from boat files, and the full analysis engine isn't in the package yet. The
-PDF column links the complete 11 &times; 17 in report and companion from the boat's notebook study, on the
-<a href="https://github.com/rigframe/rigframe/releases/tag/sample-reports">sample-reports release</a>. Both Morgan
-rows share one study, which runs the triatic and the split backstays side by side.</p>
-<div class="wrap"><table><thead><tr><th>Boat</th><th>Rig</th><th>Estimates</th><th>Viewer</th><th>Report</th><th>PDF</th></tr></thead>
-<tbody>
-<tr><td>Beneteau Oceanis 440</td><td>masthead sloop</td><td>32 of 62</td><td><a href="boats/beneteau-oceanis-440-1994/viewer.html">3D viewer</a></td><td><a href="boats/beneteau-oceanis-440-1994/REPORT.html">Report</a></td><td><a href="https://github.com/rigframe/rigframe/releases/download/sample-reports/beneteau-oceanis-440-1994-report.pdf">Study report</a> · <a href="https://github.com/rigframe/rigframe/releases/download/sample-reports/beneteau-oceanis-440-1994-companion.pdf">Companion</a></td></tr>
-<tr><td>Island Packet 40</td><td>masthead cutter</td><td>33 of 58</td><td><a href="boats/island-packet-40-1996/viewer.html">3D viewer</a></td><td><a href="boats/island-packet-40-1996/REPORT.html">Report</a></td><td><a href="https://github.com/rigframe/rigframe/releases/download/sample-reports/island-packet-40-1996-report.pdf">Study report</a> · <a href="https://github.com/rigframe/rigframe/releases/download/sample-reports/island-packet-40-1996-companion.pdf">Companion</a></td></tr>
-<tr><td>Morgan 462 (split backstays)</td><td>masthead ketch</td><td>68 of 93</td><td><a href="boats/morgan-462-ketch-split-backstays/viewer.html">3D viewer</a></td><td><a href="boats/morgan-462-ketch-split-backstays/REPORT.html">Report</a></td><td><a href="https://github.com/rigframe/rigframe/releases/download/sample-reports/morgan-462-ketch-report.pdf">Study report</a> · <a href="https://github.com/rigframe/rigframe/releases/download/sample-reports/morgan-462-ketch-companion.pdf">Companion</a></td></tr>
-<tr><td>Morgan 462 (triatic)</td><td>masthead ketch</td><td>62 of 85</td><td><a href="boats/morgan-462-ketch-triatic/viewer.html">3D viewer</a></td><td><a href="boats/morgan-462-ketch-triatic/REPORT.html">Report</a></td><td><a href="https://github.com/rigframe/rigframe/releases/download/sample-reports/morgan-462-ketch-report.pdf">Study report</a> · <a href="https://github.com/rigframe/rigframe/releases/download/sample-reports/morgan-462-ketch-companion.pdf">Companion</a></td></tr>
-</tbody></table></div>
-</main></body></html>
+:root{--bg:#f6f5f1;--surface:#fff;--sunk:#efede7;--ink:#15191f;--muted:#5d646e;--line:#e1ded6;
+--accent:#1d5ea8;--accent-ink:#fff;--accent-soft:#e3edf8;--warn:#b7791f;--warn-soft:#fbf1df;--code:#f1efe9;
+--hero:radial-gradient(1200px 500px at 85% -10%,#dfe9f5 0,transparent 60%);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1015;--surface:#151a21;--sunk:#11151b;
+--ink:#e7e5e0;--muted:#9aa2ad;--line:#262d36;--accent:#6aa9f5;--accent-ink:#0b1320;--accent-soft:#16243a;
+--warn:#e2a54b;--warn-soft:#2a2113;--code:#11161d;--hero:radial-gradient(1200px 500px at 85% -10%,#16243a 0,transparent 60%);
+color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0d1015;--surface:#151a21;--sunk:#11151b;--ink:#e7e5e0;--muted:#9aa2ad;--line:#262d36;
+--accent:#6aa9f5;--accent-ink:#0b1320;--accent-soft:#16243a;--warn:#e2a54b;--warn-soft:#2a2113;--code:#11161d;
+--hero:radial-gradient(1200px 500px at 85% -10%,#16243a 0,transparent 60%);color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-padding-top:72px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-underline-offset:2px}
+code,pre{font-family:"JetBrains Mono",ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.88em}
+:not(pre)>code{background:var(--code);border:1px solid var(--line);border-radius:5px;padding:.08em .35em}
+.muted{color:var(--muted)}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+/* top bar */
+header.top{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 85%,transparent);
+backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line)}
+header.top .wrap{display:flex;align-items:center;gap:20px;height:58px}
+.brand{display:flex;align-items:center;gap:8px;font-weight:700;color:var(--ink);text-decoration:none;letter-spacing:-.01em}
+.brand svg{width:22px;height:22px;color:var(--accent)}
+nav.links{display:flex;gap:4px;flex:1}
+nav.links a{color:var(--muted);text-decoration:none;font-size:14.5px;padding:6px 10px;border-radius:7px}
+nav.links a:hover,nav.links a[aria-current]{color:var(--ink);background:var(--sunk)}
+.icons{display:flex;gap:6px;margin-left:auto}
+.icon{display:inline-grid;place-items:center;width:36px;height:36px;border-radius:8px;border:1px solid var(--line);
+background:var(--surface);color:var(--ink);cursor:pointer}
+.icon svg{width:17px;height:17px}
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:var(--accent-ink);text-decoration:none;
+font-weight:600;padding:11px 18px;border-radius:9px;border:1px solid var(--accent);font-size:15px}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn.ghost:hover{background:var(--sunk)}
+.btn.small{padding:5px 11px;font-size:13.5px;border-radius:7px}
+/* hero */
+.hero{background:var(--hero)}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:48px;align-items:center;padding-top:64px;padding-bottom:56px}
+.eyebrow{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:0 0 14px}
+.hero h1{font-size:clamp(34px,4.6vw,54px);line-height:1.06;letter-spacing:-.025em;margin:0 0 20px;font-weight:750}
+.lead{font-size:18.5px;color:var(--muted);margin:0 0 26px;max-width:36em}
+.cta{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px}
+.note{font-size:14.5px;color:var(--muted);margin:0}
+.frame{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:var(--surface);
+box-shadow:0 1px 2px rgba(0,0,0,.04),0 18px 50px -20px rgba(16,40,80,.35)}
+.frame .bar{display:flex;align-items:center;gap:6px;padding:9px 12px;border-bottom:1px solid var(--line);font-size:12.5px;color:var(--muted)}
+.frame .bar i{width:10px;height:10px;border-radius:50%;background:var(--line)}
+.frame .bar span{margin-left:8px}
+.frame img{display:block;width:100%;height:auto}
+.frame iframe{display:block;width:100%;height:min(78vh,720px);border:0;background:#fff}
+figure.live{grid-column:1/-1}
+.play{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);box-shadow:0 8px 24px -8px rgba(0,0,0,.4)}
+figcaption{font-size:13px;color:var(--muted);margin-top:10px}
+/* bands and sections */
+.callouts{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding-bottom:40px;margin-top:-16px}
+.callout{background:var(--warn-soft);border:1px solid color-mix(in srgb,var(--warn) 30%,transparent);border-left:3px solid var(--warn);
+border-radius:10px;padding:14px 16px;font-size:14.5px}
+.callout p{margin:0}
+section.block{padding:56px 0;border-top:1px solid var(--line)}
+section.block h2{font-size:clamp(26px,3vw,34px);letter-spacing:-.02em;margin:0 0 8px;line-height:1.15}
+section.block>.wrap>p.sub{color:var(--muted);margin:0 0 28px;max-width:46em;font-size:17px}
+.grid{display:grid;gap:14px}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px}
+.card p{margin:0}
+.card .num{font:600 12px/1 "JetBrains Mono",monospace;color:var(--accent);margin-bottom:10px;display:block}
+.way h3{font-size:16px;margin:0 0 10px}
+.way dl{margin:0;font-size:14px}
+.way dt{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.05em;margin-top:10px}
+.way dd{margin:2px 0 0}
+/* prompt box */
+.promptgrid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:36px;align-items:start}
+ol.steps{list-style:none;padding:0;margin:0;counter-reset:s}
+ol.steps li{counter-increment:s;position:relative;padding:0 0 18px 44px;font-size:15px}
+ol.steps li::before{content:counter(s,decimal-leading-zero);position:absolute;left:0;top:0;font:600 12px/1 "JetBrains Mono",monospace;
+color:var(--accent);background:var(--accent-soft);border-radius:6px;padding:6px 7px}
+.term{border:1px solid var(--line);border-radius:12px;background:var(--code);overflow:hidden}
+.term .bar{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-bottom:1px solid var(--line);
+font-size:12.5px;color:var(--muted);background:var(--surface)}
+.term pre{margin:0;padding:16px 18px;white-space:pre-wrap;font-size:13px;line-height:1.55;max-height:300px;overflow:hidden;position:relative}
+.term.open pre{max-height:none}
+.term:not(.open) pre::after{content:"";position:absolute;inset:auto 0 0 0;height:90px;background:linear-gradient(transparent,var(--code))}
+.term .more{display:block;width:100%;border:0;border-top:1px solid var(--line);background:var(--surface);color:var(--accent);
+padding:9px;font:inherit;font-size:14px;cursor:pointer}
+.copy{font:inherit;font-size:12.5px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:6px;padding:3px 10px;cursor:pointer}
+/* boats */
+.boats{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.boat{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.boat .pic{height:200px;padding:14px 14px 0;background:linear-gradient(var(--sunk),var(--surface));color:var(--ink);display:flex;justify-content:center}
+.elev{width:100%;height:100%}
+.boat .body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:8px;flex:1}
+.boat h3{margin:0;font-size:17px}
+.boat p{margin:0;font-size:14px}
+.variant{font-size:12px;font-weight:600;color:var(--accent);background:var(--accent-soft);padding:2px 8px;border-radius:999px;vertical-align:2px}
+.est small{color:var(--muted);font-size:12.5px}
+.est .bar{height:5px;border-radius:9px;background:var(--accent-soft);overflow:hidden;margin:4px 0 2px}
+.est .bar span{display:block;height:100%;background:var(--warn)}
+.actions{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;margin-top:auto;padding-top:6px;font-size:13.5px}
+.legend{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted);margin:-12px 0 22px}
+.legend .ramp{width:120px;height:6px;border-radius:9px;background:linear-gradient(90deg,#d8c8a4,#c04a1a)}
+/* docs */
+.doclayout{display:grid;grid-template-columns:230px minmax(0,1fr);gap:48px;padding-top:36px;padding-bottom:80px}
+aside.toc{position:sticky;top:78px;align-self:start;max-height:calc(100vh - 96px);overflow:auto;font-size:13.5px;padding-right:6px}
+aside.toc p{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600;margin:0 0 8px}
+aside.toc a{display:block;color:var(--muted);text-decoration:none;padding:4px 0 4px 12px;border-left:2px solid var(--line);line-height:1.35}
+aside.toc a.l3{padding-left:24px;font-size:13px}
+aside.toc a:hover{color:var(--ink)}
+aside.toc a.on{color:var(--accent);border-left-color:var(--accent)}
+details.mtoc{display:none}
+.doc{max-width:780px;min-width:0}
+.doc h1{font-size:clamp(30px,4vw,42px);letter-spacing:-.02em;line-height:1.1;margin:0 0 18px}
+.doc h2{font-size:26px;letter-spacing:-.015em;margin:52px 0 12px;padding-top:28px;border-top:1px solid var(--line);line-height:1.2}
+.doc h3{font-size:19px;margin:32px 0 8px}
+.doc hr{display:none}
+.doc img{max-width:100%;height:auto;border-radius:10px;border:1px solid var(--line);background:#fff}
+.doc p>sub{display:block;font-size:13px;color:var(--muted);margin-top:-6px}
+.doc blockquote{margin:16px 0;background:var(--warn-soft);border:1px solid color-mix(in srgb,var(--warn) 30%,transparent);
+border-left:3px solid var(--warn);border-radius:10px;padding:12px 16px;font-size:15px}
+.doc blockquote p{margin:0}
+.doc pre{background:var(--code);border:1px solid var(--line);border-radius:10px;padding:14px 16px;overflow:auto;position:relative;line-height:1.5}
+.doc pre .copy{position:absolute;top:8px;right:8px;opacity:0;transition:opacity .15s}
+.doc pre:hover .copy,.doc pre .copy:focus{opacity:1}
+.table-wrap{overflow-x:auto;margin:16px 0;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+.doc table{border-collapse:collapse;width:100%;font-size:14.5px}
+.doc th,.doc td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+.doc tr:last-child td{border-bottom:0}
+.doc th{background:var(--sunk);font-size:13px}
+.doc li{margin:4px 0}
+.doc :not(pre)>code{overflow-wrap:anywhere}
+.header-anchor{opacity:0;margin-left:6px;text-decoration:none;color:var(--muted)}
+h2:hover .header-anchor,h3:hover .header-anchor{opacity:1}
+footer{border-top:1px solid var(--line);padding:28px 0 40px;font-size:13.5px;color:var(--muted)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between}
+@media (max-width:960px){
+ .hero .wrap,.promptgrid{grid-template-columns:1fr;gap:32px}
+ .hero .wrap{padding-top:40px}
+ .g3,.g4{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .doclayout{grid-template-columns:1fr;gap:0}
+ aside.toc{display:none}
+ details.mtoc{display:block;margin-bottom:20px;border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:10px 14px;font-size:14px}
+ details.mtoc a{display:block;padding:3px 0;text-decoration:none}
+ details.mtoc a.l3{padding-left:14px}
+}
+@media (max-width:720px){
+ header.top .wrap{flex-wrap:wrap;height:auto;padding-top:9px;padding-bottom:6px;gap:6px 12px}
+ nav.links{order:3;flex-basis:100%;overflow-x:auto;white-space:nowrap;margin:0 -6px;scrollbar-width:none}
+ nav.links a{padding:4px 8px;font-size:14px}
+ html{scroll-padding-top:110px}
+ aside.toc{top:110px}
+ .g3,.g4,.g2,.callouts{grid-template-columns:1fr}
+ .frame iframe{height:70vh}
+}
+</style></head>
+<body>
+<header class="top"><div class="wrap">
+<a class="brand" href="./"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5v19M4.5 20.5 12 2.5l7.5 18M7.6 12.5h8.8M3 21.5h18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>rigframe</a>
+<nav class="links"><a href="guide.html">Guide</a><a href="index.html#boats">Boats</a><a href="boat-file.html">Boat file</a><a href="prompt.html">AI prompt</a><a href="index.html#notebooks">Notebooks</a></nav>
+<div class="icons">
+<button class="icon" id="theme" type="button" aria-label="Switch light or dark"><svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z"/></svg></button>
+<a class="icon" href="https://github.com/RigFrame/rigframe" aria-label="rigframe on GitHub" rel="noopener"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
+</div></div></header>
+
+<section class="hero"><div class="wrap">
+ <div>
+  <p class="eyebrow">Sailboat standing rigs &middot; 3D frame analysis</p>
+  <h1>A sailboat's standing rig, analysed as a 3D frame, from one YAML file.</h1>
+  <p class="lead">You describe your boat's rig in a short text file: the sail plan, the mast, the spreaders, and where each
+wire goes. rigframe tunes the rig at the dock, sails it through a set of load cases, and writes a report
+you can share with the owner, the rigger or the surveyor.</p>
+  <div class="cta">
+   <a class="btn" href="#boats">See the example boats</a>
+   <a class="btn ghost" href="guide.html#step-1-make-your-boat-file">Add your boat</a>
+   <a class="btn ghost" href="#notebooks">Run a notebook</a>
+  </div>
+  <p class="note">You don't need to install anything or run Python. Put your file in a pull request and GitHub runs the
+analysis for you.</p>
+ </div>
+ <figure style="margin:0">
+  <div class="frame"><div class="bar"><i></i><i></i><i></i><span>viewer.html &middot; works offline</span></div>
+   <img id="shot" src="img/viewer-morgan-462.png" alt="The 3D viewer showing the Morgan 462 ketch in the full-sail case, coloured by utilisation" width="1600" height="1000"><a class="btn play" id="play" href="boats/morgan-462-ketch-triatic/viewer.html">Open the live 3D viewer</a></div>
+  <figcaption>The 3D viewer on the Morgan 462 example (placeholder rig): full sail at RM ×1.0, every member coloured by
+how close it is to its limit. Drawn with plotly.js (MIT).</figcaption>
+ </figure>
+</div>
+<div class="wrap callouts"><div class="callout"><p><strong>Status: draft, in demo mode.</strong> The boat-file format, its checker (<code>rigframe validate</code>), the example boats,
+the 3D viewer and the GitHub workflow are here. The analysis engine is still being moved out of the
+notebooks it was developed in. Until it lands, <code>rigframe run</code> checks your file and writes a report of its
+estimates, marked <strong>DEMO</strong>. For the four example boats it also replays the notebook studies' stored results
+in the viewer; those don't change if you edit the file. <code>pipx install rigframe</code> will work once it's released.
+<strong>For the full analysis today, use <a href="guide.html#the-notebooks-the-full-analysis-today">the notebooks</a>.</strong></p>
+</div><div class="callout"><p><strong>This is an engineering estimate, not a rig survey.</strong> It assumes the rig is in good condition, and it
+knows nothing about corrosion, fatigue, cracked swages or worn chainplates. Have a rigger inspect the
+rig. The report says which numbers are estimates; treat them that way.</p>
+</div></div>
+</section>
+
+<section class="block"><div class="wrap">
+ <h2>What the report holds</h2>
+ <p class="sub">One report per boat, written to share with the owner, the rigger or the surveyor.</p>
+ <div class="grid g3"><div class="card"><span class="num">01</span><p>A <strong>rigging list</strong>: every wire, its size, length, breaking load, dock tension and highest load</p></div><div class="card"><span class="num">02</span><p>Each <strong>load case</strong> item by item: every wire segment's tension and safety factor, the mast and spreader stresses, the chainplate loads, how far the mast bends</p></div><div class="card"><span class="num">03</span><p><strong>Buckling</strong> of the mast</p></div><div class="card"><span class="num">04</span><p>Figures for every case</p></div><div class="card"><span class="num">05</span><p>An <strong>interactive 3D viewer</strong>: pick a load case, turn the rig around, and hover over any wire or spar to see its load, its safety factor and how hard it's working</p></div><div class="card"><span class="num">06</span><p>On the first page, <strong>every input that is still an estimate</strong>, so you know what to measure</p></div></div>
+</div></section>
+
+<section class="block" id="prompt"><div class="wrap promptgrid">
+ <div>
+  <h2>Have an AI assistant draft your boat file</h2>
+  <p class="sub" style="margin-bottom:24px">Getting the numbers together is the hard part. Paste this prompt into an AI
+  assistant with web search turned on. It reads this repository's rules, looks up your boat, and asks you only what it
+  can't find.</p>
+  <ol class="steps"><li>Open an AI assistant <strong>with web search turned on</strong>: Claude, ChatGPT, Gemini or similar. Without web search it can't read this repository or look up your boat, and it will tell you so.</li><li>Copy the whole prompt below (the copy button is at the top right of the box) and paste it in as your first message.</li><li>Answer its questions. &quot;Don't know&quot; is a fine answer. It helps a lot to attach photos: the rig from the side and from astern, each chainplate, the label at the mast foot, and the sail plan drawing if you have one.</li><li>It hands back a file name, the YAML, its sources and a list of things to measure. Save the YAML and go to <a href="guide.html#step-2-open-a-pull-request-with-your-file">Step 2 in the README</a>.</li></ol>
+  <p><a href="prompt.html">Read the prompt page</a> &middot; <a href="boat-file.html">Every field in the boat file</a></p>
+ </div>
+ <div class="term"><div class="bar"><span>Paste into Claude, ChatGPT or Gemini</span><button class="copy" type="button" data-copy="prompt-text">Copy prompt</button></div>
+  <pre>You are helping a sailboat owner write a boat file for rigframe, an open-source program that analyses a sailboat&#x27;s standing rig as a 3D frame: https://github.com/rigframe/rigframe
+
+The boat file is one YAML file. Your job: research the boat, fill in what can be found, mark clearly what can&#x27;t, and hand back a file that passes rigframe&#x27;s checker, plus a list of what the owner should measure.
+
+## 1. Read the rules before you ask anything
+
+Read these files from the repository:
+- https://raw.githubusercontent.com/rigframe/rigframe/main/docs/boat-yaml.md  (every field, the units, the axes, and three YAML traps)
+- https://raw.githubusercontent.com/rigframe/rigframe/main/schema/boat.schema.json  (the exact rules)
+- https://raw.githubusercontent.com/rigframe/rigframe/main/docs/boat-template.yaml
+- The example closest to the owner&#x27;s rig, once you know it:
+  - sloop, two or more spreader sets: boats/beneteau-oceanis-440-1994.yaml
+  - sloop, one spreader set: docs/boat-template.yaml
+  - cutter: boats/island-packet-40-1996.yaml
+  - ketch or yawl: boats/morgan-462-ketch-triatic.yaml and boats/morgan-462-ketch-split-backstays.yaml (same raw.githubusercontent.com/rigframe/rigframe/main/ prefix)
+
+If you are running inside a clone of the repository, read the files locally instead. If you can&#x27;t open links at all, say so and ask the owner to paste docs/boat-yaml.md and the closest example. Don&#x27;t guess the format.
+
+## 2. Ask the owner, in one short numbered message
+
+1. Builder, model and model year.
+2. The rig as they see it: sloop, cutter, ketch or yawl; masthead or fractional; how many sets of spreaders; how many shrouds reach the deck on each side, and whether each one lands ahead of, behind or in line with the mast; single or split backstay; an inner forestay; running backstays; a triatic between the masts.
+3. Anything changed from the factory: a new or taller mast, a bowsprit, furlers, new standing rigging.
+4. The mast maker and profile, if there&#x27;s a label at the mast foot or a record in the boat&#x27;s papers.
+5. Anything already measured: wire sizes (stamped on the swage fittings), chainplate positions, tuning gauge readings.
+6. Photos they can share: the rig from the side and from astern, each chainplate, the mast-foot label, the sail plan drawing.
+7. Metric or imperial, for the list of things to measure.
+
+Tell them &quot;don&#x27;t know&quot; is a fine answer to any of it. Don&#x27;t ask for the owner&#x27;s name, the boat&#x27;s name, the hull identification number, the sail number or where the boat is kept, and don&#x27;t put any of those in the file. The file goes into a public repository.
+
+## 3. Research the boat
+
+Rank sources like this, highest first, and set `basis` to match:
+1. The owner&#x27;s own measurements: `measured`.
+2. The spar or rigging maker, for this boat or this mast profile: `maker`.
+3. The builder (brochure, owner&#x27;s manual), the designer&#x27;s office, a class or owners&#x27; association: `published`.
+4. Data sites (sailboatdata.com, Good Old Boat sail data, sailmakers&#x27; sail-plan databases): `published`.
+5. Reviews, surveys, broker listings and owners&#x27; forums: `published`, and say which in `note`. Forum posts are the weakest source; prefer anything else.
+
+Look in particular for: I, J, P, E (and J2 for a cutter, PY and EY for a ketch or yawl); displacement and beam; the mast maker and profile and its section table (area, I fore-and-aft, I athwartships); the standing-rigging sizes (owners&#x27; associations often publish a rigging table); keel- or deck-stepped; a stability curve or a righting moment at 30 degrees.
+
+Rules:
+- Every value you enter carries `basis` and, unless it&#x27;s an estimate, `ref`. Add each source once to `boat.sources` with its title, site, URL and the date you read it.
+- Never present a guess as a finding. If you didn&#x27;t find it, it&#x27;s `estimate`, and the `note` says how you got it.
+- When sources disagree, pick one and give the other in `note`, as the example files do.
+- Keep the source&#x27;s units (ft, in, mm, kg, lb). Don&#x27;t convert; rigframe does.
+- Data for a different version of the boat (tall rig, shoal keel, a sloop version of a ketch, a later model year) must say so in `note`.
+- Copy numbers and short notes only, never text or drawings from a source.
+
+## 4. Settle the layout before the numbers
+
+The layout decides the shape of the model: rig type, number of spreader sets, single or forward-and-aft lowers, continuous or discontinuous shrouds, single or split backstay, inner forestay, triatic. A wrong layout gives a wrong analysis however good the numbers are. If the owner and the sources disagree or are silent, state what you&#x27;re assuming and ask the owner to confirm it, with a photo if they can, before you go on.
+
+## 5. Fill the gaps
+
+For anything still unknown, start from the closest example file:
+- Heights given as a percentage of the hounds height (spreaders, tangs) can stay as they are.
+- Scale other lengths by the ratio of the owner&#x27;s I to the example&#x27;s I, and chainplate |y| by the ratio of the beams.
+- Keep the template&#x27;s pretension targets unless the owner has gauge readings.
+- Use GZ30 = 0.70 m unless stability data turned up. Mark all of these `basis: estimate` with a note such as &quot;scaled from the island-packet-40 example by I&quot;.
+
+## 6. Check the file
+
+- If you can run code, run the checker: `rigframe validate &lt;file&gt;` (or `python -m rigframe.boatfile &lt;file&gt;` from the repository&#x27;s src folder), and fix everything it reports.
+- If you can&#x27;t, go through &quot;What the checker checks&quot; in docs/boat-yaml.md by hand. In particular: every number has a unit; indentation is two spaces, no tabs; any note containing a comma is in quotes; the main&#x27;s head (gooseneck_z + P) sits below the masthead (I + above_hounds); spreaders are listed bottom to top; forward is positive x, so aft lowers have negative chainplate x; |y| is given, never a negative y; every chainplate |y| is less than half the beam; every `mast:` and `adjusts:` names something that exists.
+- Read the file once more against the owner&#x27;s answers. Did any layout fact they gave get lost?
+
+## 7. Hand back, in this order
+
+1. The file name: boats/&lt;builder&gt;-&lt;model&gt;-&lt;year&gt;.yaml, lowercase with hyphens, plus -&lt;variant&gt; if the owner wants to compare arrangements (for example -split-backstays).
+2. The whole YAML in one code block, starting with the line `# yaml-language-server: $schema=../schema/boat.schema.json`.
+3. A short table of the sources you used and what each gave.
+4. &quot;What to measure&quot;, ranked by how much it moves the answer, each with one sentence on how to measure it:
+   1. any layout fact still unconfirmed;
+   2. chainplate positions, x and |y|, for every shroud;
+   3. wire sizes;
+   4. spreader heights, lengths and sweep;
+   5. the mast profile, or its chord, width and wall;
+   6. for a cutter, the inner forestay&#x27;s tang height and tack position;
+   7. backstay feet, gooseneck height, and mast-step depth below deck;
+   8. stability data for GZ30.
+5. One line: &quot;Next: follow Step 2 of the rigframe README to open a pull request with this file.&quot;
+
+Keep your messages short, and ask one round of questions at a time.</pre><textarea id="prompt-text" hidden>You are helping a sailboat owner write a boat file for rigframe, an open-source program that analyses a
+sailboat&#x27;s standing rig as a 3D frame: https://github.com/rigframe/rigframe
+
+The boat file is one YAML file. Your job: research the boat, fill in what can be found, mark clearly what
+can&#x27;t, and hand back a file that passes rigframe&#x27;s checker, plus a list of what the owner should measure.
+
+## 1. Read the rules before you ask anything
+
+Read these files from the repository:
+- https://raw.githubusercontent.com/rigframe/rigframe/main/docs/boat-yaml.md  (every field, the units,
+  the axes, and three YAML traps)
+- https://raw.githubusercontent.com/rigframe/rigframe/main/schema/boat.schema.json  (the exact rules)
+- https://raw.githubusercontent.com/rigframe/rigframe/main/docs/boat-template.yaml
+- The example closest to the owner&#x27;s rig, once you know it:
+  - sloop, two or more spreader sets: boats/beneteau-oceanis-440-1994.yaml
+  - sloop, one spreader set: docs/boat-template.yaml
+  - cutter: boats/island-packet-40-1996.yaml
+  - ketch or yawl: boats/morgan-462-ketch-triatic.yaml and boats/morgan-462-ketch-split-backstays.yaml
+  (same raw.githubusercontent.com/rigframe/rigframe/main/ prefix)
+
+If you are running inside a clone of the repository, read the files locally instead. If you can&#x27;t open
+links at all, say so and ask the owner to paste docs/boat-yaml.md and the closest example. Don&#x27;t guess
+the format.
+
+## 2. Ask the owner, in one short numbered message
+
+1. Builder, model and model year.
+2. The rig as they see it: sloop, cutter, ketch or yawl; masthead or fractional; how many sets of
+   spreaders; how many shrouds reach the deck on each side, and whether each one lands ahead of, behind
+   or in line with the mast; single or split backstay; an inner forestay; running backstays; a triatic
+   between the masts.
+3. Anything changed from the factory: a new or taller mast, a bowsprit, furlers, new standing rigging.
+4. The mast maker and profile, if there&#x27;s a label at the mast foot or a record in the boat&#x27;s papers.
+5. Anything already measured: wire sizes (stamped on the swage fittings), chainplate positions, tuning
+   gauge readings.
+6. Photos they can share: the rig from the side and from astern, each chainplate, the mast-foot label,
+   the sail plan drawing.
+7. Metric or imperial, for the list of things to measure.
+
+Tell them &quot;don&#x27;t know&quot; is a fine answer to any of it. Don&#x27;t ask for the owner&#x27;s name, the boat&#x27;s name,
+the hull identification number, the sail number or where the boat is kept, and don&#x27;t put any of those in
+the file. The file goes into a public repository.
+
+## 3. Research the boat
+
+Rank sources like this, highest first, and set `basis` to match:
+1. The owner&#x27;s own measurements: `measured`.
+2. The spar or rigging maker, for this boat or this mast profile: `maker`.
+3. The builder (brochure, owner&#x27;s manual), the designer&#x27;s office, a class or owners&#x27; association:
+   `published`.
+4. Data sites (sailboatdata.com, Good Old Boat sail data, sailmakers&#x27; sail-plan databases): `published`.
+5. Reviews, surveys, broker listings and owners&#x27; forums: `published`, and say which in `note`. Forum
+   posts are the weakest source; prefer anything else.
+
+Look in particular for: I, J, P, E (and J2 for a cutter, PY and EY for a ketch or yawl); displacement and
+beam; the mast maker and profile and its section table (area, I fore-and-aft, I athwartships); the
+standing-rigging sizes (owners&#x27; associations often publish a rigging table); keel- or deck-stepped; a
+stability curve or a righting moment at 30 degrees.
+
+Rules:
+- Every value you enter carries `basis` and, unless it&#x27;s an estimate, `ref`. Add each source once to
+  `boat.sources` with its title, site, URL and the date you read it.
+- Never present a guess as a finding. If you didn&#x27;t find it, it&#x27;s `estimate`, and the `note` says how you
+  got it.
+- When sources disagree, pick one and give the other in `note`, as the example files do.
+- Keep the source&#x27;s units (ft, in, mm, kg, lb). Don&#x27;t convert; rigframe does.
+- Data for a different version of the boat (tall rig, shoal keel, a sloop version of a ketch, a later
+  model year) must say so in `note`.
+- Copy numbers and short notes only, never text or drawings from a source.
+
+## 4. Settle the layout before the numbers
+
+The layout decides the shape of the model: rig type, number of spreader sets, single or forward-and-aft
+lowers, continuous or discontinuous shrouds, single or split backstay, inner forestay, triatic. A wrong
+layout gives a wrong analysis however good the numbers are. If the owner and the sources disagree or are
+silent, state what you&#x27;re assuming and ask the owner to confirm it, with a photo if they can, before you
+go on.
+
+## 5. Fill the gaps
+
+For anything still unknown, start from the closest example file:
+- Heights given as a percentage of the hounds height (spreaders, tangs) can stay as they are.
+- Scale other lengths by the ratio of the owner&#x27;s I to the example&#x27;s I, and chainplate |y| by the ratio
+  of the beams.
+- Keep the template&#x27;s pretension targets unless the owner has gauge readings.
+- Use GZ30 = 0.70 m unless stability data turned up.
+Mark all of these `basis: estimate` with a note such as &quot;scaled from the island-packet-40 example by I&quot;.
+
+## 6. Check the file
+
+- If you can run code, run the checker: `rigframe validate &lt;file&gt;` (or
+  `python -m rigframe.boatfile &lt;file&gt;` from the repository&#x27;s src folder), and fix everything it reports.
+- If you can&#x27;t, go through &quot;What the checker checks&quot; in docs/boat-yaml.md by hand. In particular:
+  every number has a unit; indentation is two spaces, no tabs; any note containing a comma is in quotes;
+  the main&#x27;s head (gooseneck_z + P) sits below the masthead (I + above_hounds); spreaders are listed bottom
+  to top; forward is positive x, so aft lowers have negative chainplate x; |y| is given, never a negative
+  y; every chainplate |y| is less than half the beam; every `mast:` and `adjusts:` names something that
+  exists.
+- Read the file once more against the owner&#x27;s answers. Did any layout fact they gave get lost?
+
+## 7. Hand back, in this order
+
+1. The file name: boats/&lt;builder&gt;-&lt;model&gt;-&lt;year&gt;.yaml, lowercase with hyphens, plus -&lt;variant&gt; if the
+   owner wants to compare arrangements (for example -split-backstays).
+2. The whole YAML in one code block, starting with the line
+   `# yaml-language-server: $schema=../schema/boat.schema.json`.
+3. A short table of the sources you used and what each gave.
+4. &quot;What to measure&quot;, ranked by how much it moves the answer, each with one sentence on how to measure it:
+   1. any layout fact still unconfirmed;
+   2. chainplate positions, x and |y|, for every shroud;
+   3. wire sizes;
+   4. spreader heights, lengths and sweep;
+   5. the mast profile, or its chord, width and wall;
+   6. for a cutter, the inner forestay&#x27;s tang height and tack position;
+   7. backstay feet, gooseneck height, and mast-step depth below deck;
+   8. stability data for GZ30.
+5. One line: &quot;Next: follow Step 2 of the rigframe README to open a pull request with this file.&quot;
+
+Keep your messages short, and ask one round of questions at a time.</textarea><button class="more" type="button">Show the whole prompt</button></div>
+</div></section>
+
+<section class="block" id="boats"><div class="wrap">
+ <h2>Example boats</h2>
+ <p class="sub">Each rig is drawn from its side, with every wire coloured by the highest share of its breaking load it
+ reaches in any load case. Open the 3D viewer to turn it round and hover over any member. The study PDFs are the full
+ 11 &times; 17 in reports from each boat's notebook.</p>
+ <div class="legend"><span>Lightly loaded</span><span class="ramp"></span><span>50% of breaking load or more</span></div>
+ <div class="boats"><article class="boat">
+  <div class="pic"><svg class="elev" viewBox="-5.33 -17.18 14.62 19.82" preserveAspectRatio="xMidYMax meet" role="img" aria-label="Side view of the rig"><line x1="8.55" y1="-0.30" x2="-0.00" y2="-16.20" stroke="#d5b792" stroke-width="0.102"/><line x1="0.48" y1="-0.00" x2="-0.00" y2="-5.99" stroke="#d3ac86" stroke-width="0.102"/><line x1="8.55" y1="-0.30" x2="-0.00" y2="-16.20" stroke="#d2aa83" stroke-width="0.102"/><line x1="-0.69" y1="-0.00" x2="-0.00" y2="-5.99" stroke="#d2aa83" stroke-width="0.102"/><line x1="0.35" y1="-5.99" x2="-0.00" y2="-11.02" stroke="#d1a27b" stroke-width="0.102"/><line x1="0.35" y1="-5.99" x2="0.21" y2="-11.02" stroke="#ce966d" stroke-width="0.102"/><line x1="-4.60" y1="-0.00" x2="-0.00" y2="-16.20" stroke="#ce966d" stroke-width="0.102"/><line x1="0.21" y1="-11.02" x2="-0.00" y2="-16.20" stroke="#ce956c" stroke-width="0.102"/><line x1="0.40" y1="-0.00" x2="0.35" y2="-5.99" stroke="#ce956c" stroke-width="0.102"/><line x1="0.48" y1="-0.00" x2="-0.00" y2="-5.99" stroke="#ce9269" stroke-width="0.102"/><line x1="-0.69" y1="-0.00" x2="-0.00" y2="-5.99" stroke="#cd9168" stroke-width="0.102"/><line x1="0.35" y1="-5.99" x2="-0.00" y2="-11.02" stroke="#cb865c" stroke-width="0.102"/><line x1="0.40" y1="-0.00" x2="0.35" y2="-5.99" stroke="#c77044" stroke-width="0.102"/><line x1="0.35" y1="-5.99" x2="0.21" y2="-11.02" stroke="#c76d40" stroke-width="0.102"/><line x1="0.21" y1="-11.02" x2="-0.00" y2="-16.20" stroke="#c66c3f" stroke-width="0.102"/><line x1="-0.00" y1="1.90" x2="-0.00" y2="1.43" stroke="currentColor" stroke-width="0.306" stroke-linecap="round"/><line x1="-0.00" y1="1.43" x2="-0.00" y2="0.95" stroke="currentColor" stroke-width="0.306" stroke-linecap="round"/><line x1="-0.00" y1="0.95" x2="-0.00" y2="0.47" stroke="currentColor" stroke-width="0.306" stroke-linecap="round"/><line x1="-0.00" y1="0.47" x2="-0.00" y2="-0.00" stroke="currentColor" stroke-width="0.306" stroke-linecap="round"/><line x1="-0.00" y1="-0.00" x2="-0.00" y2="-0.44" stroke="currentColor" stroke-width="0.306" stroke-linecap="round"/><line x1="-0.00" y1="-0.44" x2="-0.00" y2="-0.88" stroke="currentColor" stroke-width="0.306" stroke-linecap="round"/><line x1="-0.00" y1="-0.88" x2="-0.00" y2="-1.31" stroke="currentColor" stroke-width="0.306" stroke-linecap="round"/><line x1="-0.00" y1="-1.31" x2="-0.00" y2="-1.75" stroke="currentColor" stroke-width="0.306" stroke-linecap="round"/><line x1="-0.00" y1="-1.75" x2="-0.00" y2="-2.22" stroke="currentColor" stroke-width="0.306" stroke-linecap="round"/><line x1="-0.00" y1="-2.22" x2="-0.00" y2="-2.69" stroke="currentColor" stroke-width="0.306" stroke-linecap="round"/><line x1="-0.00" y1="-2.69" x2="-0.00" y2="-3.16" stroke="currentColor" stroke-width="0.306" stroke-linecap="round"/><line x1="-0.00" y1="-3.16" x2="-0.00" y2="-3.64" stroke="currentColor" stroke-width="0.306" stroke-linecap="round"/><line x1="-0.00" y1="-3.64" x2="-0.00" y2="-4.11" stroke="currentColor" stroke-width="0.306" stroke-linecap="round"/><line x1="-0.00" y1="-4.11" x2="-0.00" y2="-4.58" stroke="currentColor" stroke-width="0.306" stroke-linecap="round"/><line x1="-0.00" y1="-4.58" x2="-0.00" y2="-5.05" stroke="currentColor" stroke-width="0.306" stroke-linecap="round"/><line x1="-0.00" y1="-5.05" x2="-0.00" y2="-5.52" stroke="currentColor" stroke-width="0.306" stroke-linecap="round"/><line x1="-0.00" y1="-5.52" x2="-0.00" y2="-5.99" stroke="currentColor" stroke-width="0.306" stroke-linecap="round"/><line x1="-0.00" y1="-5.99" x2="-0.00" y2="-6.48" stroke="currentColor" stroke-width="0.306" stroke-linecap="round"/><line x1="-0.00" y1="-6.48" x2="-0.00" y2="-6.96" stroke="currentColor" stroke-width="0.306" stroke-linecap="round"/><line x1="-0.00" y1="-6.96" x2="-0.00" y2="-7.45" stroke="currentColor" stroke-width="0.306" stroke-linecap="round"/><line x1="-0.00" y1="-7.45" x2="-0.00" y2="-7.93" stroke="currentColor" stroke-width="0.306" stroke-linecap="round"/><line x1="-0.00" y1="-7.93" x2="-0.00" y2="-8.42" stroke="currentColor" stroke-width="0.306" stroke-linecap="round"/><line x1="-0.00" y1="-8.42" x2="-0.00" y2="-8.90" stroke="currentColor" stroke-width="0.306" stroke-linecap="round"/><line x1="-0.00" y1="-8.90" x2="-0.00" y2="-9.39" stroke="currentColor" stroke-width="0.306" stroke-linecap="round"/><line x1="-0.00" y1="-9.39" x2="-0.00" y2="-9.87" stroke="currentColor" stroke-width="0.306" stroke-linecap="round"/><line x1="-0.00" y1="-9.87" x2="-0.00" y2="-10.35" stroke="currentColor" stroke-width="0.306" stroke-linecap="round"/><line x1="-0.00" y1="-10.35" x2="-0.00" y2="-10.69" stroke="currentColor" stroke-width="0.306" stroke-linecap="round"/><line x1="-0.00" y1="-10.69" x2="-0.00" y2="-11.02" stroke="currentColor" stroke-width="0.306" stroke-linecap="round"/><line x1="-0.00" y1="-11.02" x2="-0.00" y2="-11.48" stroke="currentColor" stroke-width="0.306" stroke-linecap="round"/><line x1="-0.00" y1="-11.48" x2="-0.00" y2="-11.94" stroke="currentColor" stroke-width="0.306" stroke-linecap="round"/><line x1="-0.00" y1="-11.94" x2="-0.00" y2="-12.40" stroke="currentColor" stroke-width="0.306" stroke-linecap="round"/><line x1="-0.00" y1="-12.40" x2="-0.00" y2="-12.86" stroke="currentColor" stroke-width="0.306" stroke-linecap="round"/><line x1="-0.00" y1="-12.86" x2="-0.00" y2="-13.32" stroke="currentColor" stroke-width="0.306" stroke-linecap="round"/><line x1="-0.00" y1="-13.32" x2="-0.00" y2="-13.78" stroke="currentColor" stroke-width="0.306" stroke-linecap="round"/><line x1="-0.00" y1="-13.78" x2="-0.00" y2="-14.25" stroke="currentColor" stroke-width="0.306" stroke-linecap="round"/><line x1="-0.00" y1="-14.25" x2="-0.00" y2="-14.71" stroke="currentColor" stroke-width="0.306" stroke-linecap="round"/><line x1="-0.00" y1="-14.71" x2="-0.00" y2="-15.17" stroke="currentColor" stroke-width="0.306" stroke-linecap="round"/><line x1="-0.00" y1="-15.17" x2="-0.00" y2="-15.63" stroke="currentColor" stroke-width="0.306" stroke-linecap="round"/><line x1="-0.00" y1="-15.63" x2="-0.00" y2="-16.09" stroke="currentColor" stroke-width="0.306" stroke-linecap="round"/><line x1="-0.00" y1="-16.09" x2="-0.00" y2="-16.20" stroke="currentColor" stroke-width="0.306" stroke-linecap="round"/><line x1="-0.00" y1="-16.20" x2="-0.00" y2="-16.45" stroke="currentColor" stroke-width="0.306" stroke-linecap="round"/><line x1="-0.00" y1="-5.99" x2="0.35" y2="-5.99" stroke="currentColor" stroke-width="0.204" stroke-linecap="round"/><line x1="-0.00" y1="-11.02" x2="0.21" y2="-11.02" stroke="currentColor" stroke-width="0.204" stroke-linecap="round"/><line x1="-0.00" y1="-5.99" x2="0.35" y2="-5.99" stroke="currentColor" stroke-width="0.204" stroke-linecap="round"/><line x1="-0.00" y1="-11.02" x2="0.21" y2="-11.02" stroke="currentColor" stroke-width="0.204" stroke-linecap="round"/><line x1="-5.33" y1="1.90" x2="9.28" y2="1.90" stroke="currentColor" stroke-opacity=".25" stroke-width="0.102"/></svg></div>
+  <div class="body">
+    <h3>Beneteau Oceanis 440 </h3>
+    <p class="muted">Masthead sloop &middot; 7 load cases</p>
+    <div class="est"><div class="bar"><span style="width:52%"></span></div><small>32 of 62 inputs are estimates</small></div>
+    <div class="actions"><a class="btn small" href="boats/beneteau-oceanis-440-1994/viewer.html">3D viewer</a> <a href="boats/beneteau-oceanis-440-1994/REPORT.html">Report</a> <a href="https://github.com/RigFrame/rigframe/releases/download/sample-reports/beneteau-oceanis-440-1994-report.pdf">Study PDF</a> <a href="https://github.com/RigFrame/rigframe/releases/download/sample-reports/beneteau-oceanis-440-1994-companion.pdf">Companion</a> <a href="https://colab.research.google.com/github/RigFrame/rigframe/blob/main/notebooks/beneteau-oceanis-440-1994.ipynb" rel="noopener">Colab</a> <a href="https://github.com/RigFrame/rigframe/blob/main/boats/beneteau-oceanis-440-1994.yaml" rel="noopener">YAML</a></div>
+  </div>
+</article><article class="boat">
+  <div class="pic"><svg class="elev" viewBox="-6.09 -16.07 14.17 18.35" preserveAspectRatio="xMidYMax meet" role="img" aria-label="Side view of the rig"><line x1="-0.55" y1="-0.00" x2="-0.00" y2="-7.59" stroke="#d3af88" stroke-width="0.094"/><line x1="-3.90" y1="-0.00" x2="-0.00" y2="-7.59" stroke="#d3af88" stroke-width="0.094"/><line x1="7.40" y1="-0.45" x2="-0.00" y2="-15.19" stroke="#d3ac85" stroke-width="0.094"/><line x1="0.80" y1="-0.00" x2="-0.00" y2="-7.59" stroke="#d1a27b" stroke-width="0.094"/><line x1="7.40" y1="-0.45" x2="-0.00" y2="-15.19" stroke="#cf9a71" stroke-width="0.094"/><line x1="-5.41" y1="-0.00" x2="-0.00" y2="-15.19" stroke="#ce956d" stroke-width="0.094"/><line x1="0.10" y1="-0.00" x2="0.00" y2="-7.59" stroke="#cd8f66" stroke-width="0.094"/><line x1="0.00" y1="-7.59" x2="-0.00" y2="-15.19" stroke="#cd8e65" stroke-width="0.094"/><line x1="-0.55" y1="-0.00" x2="-0.00" y2="-7.59" stroke="#c76f42" stroke-width="0.094"/><line x1="0.10" y1="-0.00" x2="0.00" y2="-7.59" stroke="#c66a3d" stroke-width="0.094"/><line x1="0.00" y1="-7.59" x2="-0.00" y2="-15.19" stroke="#c6683b" stroke-width="0.094"/><line x1="0.80" y1="-0.00" x2="-0.00" y2="-7.59" stroke="#c56335" stroke-width="0.094"/><line x1="-0.00" y1="1.60" x2="-0.00" y2="1.20" stroke="currentColor" stroke-width="0.283" stroke-linecap="round"/><line x1="-0.00" y1="1.20" x2="-0.00" y2="0.80" stroke="currentColor" stroke-width="0.283" stroke-linecap="round"/><line x1="-0.00" y1="0.80" x2="-0.00" y2="0.40" stroke="currentColor" stroke-width="0.283" stroke-linecap="round"/><line x1="-0.00" y1="0.40" x2="-0.00" y2="-0.00" stroke="currentColor" stroke-width="0.283" stroke-linecap="round"/><line x1="-0.00" y1="-0.00" x2="-0.00" y2="-0.49" stroke="currentColor" stroke-width="0.283" stroke-linecap="round"/><line x1="-0.00" y1="-0.49" x2="-0.00" y2="-0.97" stroke="currentColor" stroke-width="0.283" stroke-linecap="round"/><line x1="-0.00" y1="-0.97" x2="-0.00" y2="-1.46" stroke="currentColor" stroke-width="0.283" stroke-linecap="round"/><line x1="-0.00" y1="-1.46" x2="-0.00" y2="-1.95" stroke="currentColor" stroke-width="0.283" stroke-linecap="round"/><line x1="-0.00" y1="-1.95" x2="-0.00" y2="-2.42" stroke="currentColor" stroke-width="0.283" stroke-linecap="round"/><line x1="-0.00" y1="-2.42" x2="-0.00" y2="-2.89" stroke="currentColor" stroke-width="0.283" stroke-linecap="round"/><line x1="-0.00" y1="-2.89" x2="-0.00" y2="-3.36" stroke="currentColor" stroke-width="0.283" stroke-linecap="round"/><line x1="-0.00" y1="-3.36" x2="-0.00" y2="-3.83" stroke="currentColor" stroke-width="0.283" stroke-linecap="round"/><line x1="-0.00" y1="-3.83" x2="-0.00" y2="-4.30" stroke="currentColor" stroke-width="0.283" stroke-linecap="round"/><line x1="-0.00" y1="-4.30" x2="-0.00" y2="-4.77" stroke="currentColor" stroke-width="0.283" stroke-linecap="round"/><line x1="-0.00" y1="-4.77" x2="-0.00" y2="-5.24" stroke="currentColor" stroke-width="0.283" stroke-linecap="round"/><line x1="-0.00" y1="-5.24" x2="-0.00" y2="-5.71" stroke="currentColor" stroke-width="0.283" stroke-linecap="round"/><line x1="-0.00" y1="-5.71" x2="-0.00" y2="-6.18" stroke="currentColor" stroke-width="0.283" stroke-linecap="round"/><line x1="-0.00" y1="-6.18" x2="-0.00" y2="-6.65" stroke="currentColor" stroke-width="0.283" stroke-linecap="round"/><line x1="-0.00" y1="-6.65" x2="-0.00" y2="-7.12" stroke="currentColor" stroke-width="0.283" stroke-linecap="round"/><line x1="-0.00" y1="-7.12" x2="-0.00" y2="-7.59" stroke="currentColor" stroke-width="0.283" stroke-linecap="round"/><line x1="-0.00" y1="-7.59" x2="-0.00" y2="-8.03" stroke="currentColor" stroke-width="0.283" stroke-linecap="round"/><line x1="-0.00" y1="-8.03" x2="-0.00" y2="-8.47" stroke="currentColor" stroke-width="0.283" stroke-linecap="round"/><line x1="-0.00" y1="-8.47" x2="-0.00" y2="-8.91" stroke="currentColor" stroke-width="0.283" stroke-linecap="round"/><line x1="-0.00" y1="-8.91" x2="-0.00" y2="-9.35" stroke="currentColor" stroke-width="0.283" stroke-linecap="round"/><line x1="-0.00" y1="-9.35" x2="-0.00" y2="-9.78" stroke="currentColor" stroke-width="0.283" stroke-linecap="round"/><line x1="-0.00" y1="-9.78" x2="-0.00" y2="-10.26" stroke="currentColor" stroke-width="0.283" stroke-linecap="round"/><line x1="-0.00" y1="-10.26" x2="-0.00" y2="-10.73" stroke="currentColor" stroke-width="0.283" stroke-linecap="round"/><line x1="-0.00" y1="-10.73" x2="-0.00" y2="-11.21" stroke="currentColor" stroke-width="0.283" stroke-linecap="round"/><line x1="-0.00" y1="-11.21" x2="-0.00" y2="-11.68" stroke="currentColor" stroke-width="0.283" stroke-linecap="round"/><line x1="-0.00" y1="-11.68" x2="-0.00" y2="-12.16" stroke="currentColor" stroke-width="0.283" stroke-linecap="round"/><line x1="-0.00" y1="-12.16" x2="-0.00" y2="-12.63" stroke="currentColor" stroke-width="0.283" stroke-linecap="round"/><line x1="-0.00" y1="-12.63" x2="-0.00" y2="-13.11" stroke="currentColor" stroke-width="0.283" stroke-linecap="round"/><line x1="-0.00" y1="-13.11" x2="-0.00" y2="-13.58" stroke="currentColor" stroke-width="0.283" stroke-linecap="round"/><line x1="-0.00" y1="-13.58" x2="-0.00" y2="-14.06" stroke="currentColor" stroke-width="0.283" stroke-linecap="round"/><line x1="-0.00" y1="-14.06" x2="-0.00" y2="-14.53" stroke="currentColor" stroke-width="0.283" stroke-linecap="round"/><line x1="-0.00" y1="-14.53" x2="-0.00" y2="-15.00" stroke="currentColor" stroke-width="0.283" stroke-linecap="round"/><line x1="-0.00" y1="-15.00" x2="-0.00" y2="-15.19" stroke="currentColor" stroke-width="0.283" stroke-linecap="round"/><line x1="-0.00" y1="-15.19" x2="-0.00" y2="-15.39" stroke="currentColor" stroke-width="0.283" stroke-linecap="round"/><line x1="-0.00" y1="-7.59" x2="0.00" y2="-7.59" stroke="currentColor" stroke-width="0.189" stroke-linecap="round"/><line x1="-0.00" y1="-7.59" x2="0.00" y2="-7.59" stroke="currentColor" stroke-width="0.189" stroke-linecap="round"/><line x1="-6.09" y1="1.60" x2="8.08" y2="1.60" stroke="currentColor" stroke-opacity=".25" stroke-width="0.094"/></svg></div>
+  <div class="body">
+    <h3>Island Packet 40 </h3>
+    <p class="muted">Masthead cutter &middot; 9 load cases</p>
+    <div class="est"><div class="bar"><span style="width:57%"></span></div><small>33 of 58 inputs are estimates</small></div>
+    <div class="actions"><a class="btn small" href="boats/island-packet-40-1996/viewer.html">3D viewer</a> <a href="boats/island-packet-40-1996/REPORT.html">Report</a> <a href="https://github.com/RigFrame/rigframe/releases/download/sample-reports/island-packet-40-1996-report.pdf">Study PDF</a> <a href="https://github.com/RigFrame/rigframe/releases/download/sample-reports/island-packet-40-1996-companion.pdf">Companion</a> <a href="https://colab.research.google.com/github/RigFrame/rigframe/blob/main/notebooks/island-packet-40-1996.ipynb" rel="noopener">Colab</a> <a href="https://github.com/RigFrame/rigframe/blob/main/boats/island-packet-40-1996.yaml" rel="noopener">YAML</a></div>
+  </div>
+</article><article class="boat">
+  <div class="pic"><svg class="elev" viewBox="-6.41 -16.37 16.71 18.87" preserveAspectRatio="xMidYMax meet" role="img" aria-label="Side view of the rig"><line x1="9.30" y1="-0.40" x2="7.00" y2="-10.00" stroke="#d6bf9a" stroke-width="0.097"/><line x1="9.30" y1="-0.40" x2="7.00" y2="-10.00" stroke="#d6be99" stroke-width="0.097"/><line x1="9.60" y1="-0.40" x2="-0.00" y2="-15.47" stroke="#d4b28c" stroke-width="0.097"/><line x1="6.60" y1="-0.00" x2="7.00" y2="-5.00" stroke="#d3af88" stroke-width="0.097"/><line x1="7.55" y1="-0.00" x2="7.00" y2="-5.00" stroke="#d3af88" stroke-width="0.097"/><line x1="-0.50" y1="-0.00" x2="-0.00" y2="-7.73" stroke="#d3af88" stroke-width="0.097"/><line x1="0.75" y1="-0.00" x2="-0.00" y2="-7.73" stroke="#d2aa83" stroke-width="0.097"/><line x1="4.40" y1="-0.60" x2="7.00" y2="-10.00" stroke="#d2aa83" stroke-width="0.097"/><line x1="9.60" y1="-0.40" x2="-0.00" y2="-15.47" stroke="#d1a67e" stroke-width="0.097"/><line x1="7.55" y1="-0.00" x2="7.00" y2="-5.00" stroke="#d1a47d" stroke-width="0.097"/><line x1="6.60" y1="-0.00" x2="7.00" y2="-5.00" stroke="#d1a47d" stroke-width="0.097"/><line x1="7.10" y1="-0.00" x2="7.00" y2="-5.00" stroke="#d1a27b" stroke-width="0.097"/><line x1="7.00" y1="-5.00" x2="7.00" y2="-10.00" stroke="#d1a27a" stroke-width="0.097"/><line x1="7.10" y1="-0.00" x2="7.00" y2="-5.00" stroke="#d1a17a" stroke-width="0.097"/><line x1="7.00" y1="-5.00" x2="7.00" y2="-10.00" stroke="#d1a179" stroke-width="0.097"/><line x1="-0.50" y1="-0.00" x2="-0.00" y2="-7.73" stroke="#cf976e" stroke-width="0.097"/><line x1="0.10" y1="-0.00" x2="-0.00" y2="-7.73" stroke="#ce966d" stroke-width="0.097"/><line x1="-5.71" y1="-0.00" x2="-0.00" y2="-15.47" stroke="#ce966d" stroke-width="0.097"/><line x1="-0.00" y1="-7.73" x2="-0.00" y2="-15.47" stroke="#ce956c" stroke-width="0.097"/><line x1="0.75" y1="-0.00" x2="-0.00" y2="-7.73" stroke="#ce9269" stroke-width="0.097"/><line x1="0.10" y1="-0.00" x2="-0.00" y2="-7.73" stroke="#ca8055" stroke-width="0.097"/><line x1="-0.00" y1="-7.73" x2="-0.00" y2="-15.47" stroke="#ca7e53" stroke-width="0.097"/><line x1="-0.00" y1="1.80" x2="-0.00" y2="1.35" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="1.35" x2="-0.00" y2="0.90" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="0.90" x2="-0.00" y2="0.45" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="0.45" x2="-0.00" y2="-0.00" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-0.00" x2="-0.00" y2="-0.45" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-0.45" x2="-0.00" y2="-0.90" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-0.90" x2="-0.00" y2="-1.35" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-1.35" x2="-0.00" y2="-1.80" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-1.80" x2="-0.00" y2="-2.29" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-2.29" x2="-0.00" y2="-2.79" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-2.79" x2="-0.00" y2="-3.28" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-3.28" x2="-0.00" y2="-3.78" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-3.78" x2="-0.00" y2="-4.27" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-4.27" x2="-0.00" y2="-4.77" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-4.77" x2="-0.00" y2="-5.26" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-5.26" x2="-0.00" y2="-5.76" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-5.76" x2="-0.00" y2="-6.25" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-6.25" x2="-0.00" y2="-6.75" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-6.75" x2="-0.00" y2="-7.24" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-7.24" x2="-0.00" y2="-7.73" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-7.73" x2="-0.00" y2="-8.23" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-8.23" x2="-0.00" y2="-8.72" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-8.72" x2="-0.00" y2="-9.22" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-9.22" x2="-0.00" y2="-9.71" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-9.71" x2="-0.00" y2="-10.19" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-10.19" x2="-0.00" y2="-10.67" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-10.67" x2="-0.00" y2="-11.15" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-11.15" x2="-0.00" y2="-11.63" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-11.63" x2="-0.00" y2="-12.11" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-12.11" x2="-0.00" y2="-12.59" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-12.59" x2="-0.00" y2="-13.07" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-13.07" x2="-0.00" y2="-13.54" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-13.54" x2="-0.00" y2="-14.02" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-14.02" x2="-0.00" y2="-14.50" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-14.50" x2="-0.00" y2="-14.98" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-14.98" x2="-0.00" y2="-15.47" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-15.47" x2="-0.00" y2="-15.67" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="7.00" y1="-0.00" x2="7.00" y2="-0.42" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="7.00" y1="-0.42" x2="7.00" y2="-0.85" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="7.00" y1="-0.85" x2="7.00" y2="-1.27" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="7.00" y1="-1.27" x2="7.00" y2="-1.70" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="7.00" y1="-1.70" x2="7.00" y2="-2.17" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="7.00" y1="-2.17" x2="7.00" y2="-2.64" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="7.00" y1="-2.64" x2="7.00" y2="-3.11" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="7.00" y1="-3.11" x2="7.00" y2="-3.59" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="7.00" y1="-3.59" x2="7.00" y2="-4.06" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="7.00" y1="-4.06" x2="7.00" y2="-4.53" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="7.00" y1="-4.53" x2="7.00" y2="-5.00" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="7.00" y1="-5.00" x2="7.00" y2="-5.48" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="7.00" y1="-5.48" x2="7.00" y2="-5.96" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="7.00" y1="-5.96" x2="7.00" y2="-6.43" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="7.00" y1="-6.43" x2="7.00" y2="-6.91" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="7.00" y1="-6.91" x2="7.00" y2="-7.39" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="7.00" y1="-7.39" x2="7.00" y2="-7.87" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="7.00" y1="-7.87" x2="7.00" y2="-8.34" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="7.00" y1="-8.34" x2="7.00" y2="-8.82" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="7.00" y1="-8.82" x2="7.00" y2="-9.30" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="7.00" y1="-9.30" x2="7.00" y2="-9.78" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="7.00" y1="-9.78" x2="7.00" y2="-10.00" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="7.00" y1="-10.00" x2="7.00" y2="-10.15" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-7.73" x2="-0.00" y2="-7.73" stroke="currentColor" stroke-width="0.194" stroke-linecap="round"/><line x1="7.00" y1="-5.00" x2="7.00" y2="-5.00" stroke="currentColor" stroke-width="0.194" stroke-linecap="round"/><line x1="-0.00" y1="-7.73" x2="-0.00" y2="-7.73" stroke="currentColor" stroke-width="0.194" stroke-linecap="round"/><line x1="7.00" y1="-5.00" x2="7.00" y2="-5.00" stroke="currentColor" stroke-width="0.194" stroke-linecap="round"/><line x1="-6.41" y1="1.80" x2="10.30" y2="1.80" stroke="currentColor" stroke-opacity=".25" stroke-width="0.097"/></svg></div>
+  <div class="body">
+    <h3>Morgan 462 <span class="variant">split backstays</span></h3>
+    <p class="muted">Masthead ketch &middot; 3 load cases</p>
+    <div class="est"><div class="bar"><span style="width:73%"></span></div><small>68 of 93 inputs are estimates</small></div>
+    <div class="actions"><a class="btn small" href="boats/morgan-462-ketch-split-backstays/viewer.html">3D viewer</a> <a href="boats/morgan-462-ketch-split-backstays/REPORT.html">Report</a> <a href="https://github.com/RigFrame/rigframe/releases/download/sample-reports/morgan-462-ketch-report.pdf">Study PDF</a> <a href="https://github.com/RigFrame/rigframe/releases/download/sample-reports/morgan-462-ketch-companion.pdf">Companion</a> <a href="https://colab.research.google.com/github/RigFrame/rigframe/blob/main/notebooks/morgan-462-ketch.ipynb" rel="noopener">Colab</a> <a href="https://github.com/RigFrame/rigframe/blob/main/boats/morgan-462-ketch-split-backstays.yaml" rel="noopener">YAML</a></div>
+  </div>
+</article><article class="boat">
+  <div class="pic"><svg class="elev" viewBox="-6.41 -16.37 16.41 18.87" preserveAspectRatio="xMidYMax meet" role="img" aria-label="Side view of the rig"><line x1="-0.50" y1="-0.00" x2="-0.00" y2="-7.73" stroke="#d3af88" stroke-width="0.097"/><line x1="7.55" y1="-0.00" x2="7.00" y2="-5.00" stroke="#d3af88" stroke-width="0.097"/><line x1="6.60" y1="-0.00" x2="7.00" y2="-5.00" stroke="#d3af88" stroke-width="0.097"/><line x1="0.75" y1="-0.00" x2="-0.00" y2="-7.73" stroke="#d2aa83" stroke-width="0.097"/><line x1="7.10" y1="-0.00" x2="7.00" y2="-5.00" stroke="#d1a27b" stroke-width="0.097"/><line x1="7.00" y1="-5.00" x2="7.00" y2="-10.00" stroke="#d1a27a" stroke-width="0.097"/><line x1="7.00" y1="-10.00" x2="-0.00" y2="-15.47" stroke="#d0a078" stroke-width="0.097"/><line x1="7.10" y1="-0.00" x2="7.00" y2="-5.00" stroke="#d0a078" stroke-width="0.097"/><line x1="7.00" y1="-5.00" x2="7.00" y2="-10.00" stroke="#d0a078" stroke-width="0.097"/><line x1="7.55" y1="-0.00" x2="7.00" y2="-5.00" stroke="#d09e76" stroke-width="0.097"/><line x1="6.60" y1="-0.00" x2="7.00" y2="-5.00" stroke="#d09e76" stroke-width="0.097"/><line x1="-5.71" y1="-0.00" x2="-0.00" y2="-15.47" stroke="#ce966d" stroke-width="0.097"/><line x1="0.10" y1="-0.00" x2="-0.00" y2="-7.73" stroke="#ce9168" stroke-width="0.097"/><line x1="-0.00" y1="-7.73" x2="-0.00" y2="-15.47" stroke="#cd9066" stroke-width="0.097"/><line x1="9.30" y1="-0.40" x2="7.00" y2="-10.00" stroke="#cb855b" stroke-width="0.097"/><line x1="9.30" y1="-0.40" x2="7.00" y2="-10.00" stroke="#cb8359" stroke-width="0.097"/><line x1="-0.50" y1="-0.00" x2="-0.00" y2="-7.73" stroke="#c87449" stroke-width="0.097"/><line x1="0.75" y1="-0.00" x2="-0.00" y2="-7.73" stroke="#c77145" stroke-width="0.097"/><line x1="0.10" y1="-0.00" x2="-0.00" y2="-7.73" stroke="#c76f43" stroke-width="0.097"/><line x1="-0.00" y1="-7.73" x2="-0.00" y2="-15.47" stroke="#c76d41" stroke-width="0.097"/><line x1="-0.00" y1="1.80" x2="-0.00" y2="1.35" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="1.35" x2="-0.00" y2="0.90" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="0.90" x2="-0.00" y2="0.45" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="0.45" x2="-0.00" y2="-0.00" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-0.00" x2="-0.00" y2="-0.45" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-0.45" x2="-0.00" y2="-0.90" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-0.90" x2="-0.00" y2="-1.35" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-1.35" x2="-0.00" y2="-1.80" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-1.80" x2="-0.00" y2="-2.29" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-2.29" x2="-0.00" y2="-2.79" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-2.79" x2="-0.00" y2="-3.28" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-3.28" x2="-0.00" y2="-3.78" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-3.78" x2="-0.00" y2="-4.27" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-4.27" x2="-0.00" y2="-4.77" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-4.77" x2="-0.00" y2="-5.26" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-5.26" x2="-0.00" y2="-5.76" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-5.76" x2="-0.00" y2="-6.25" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-6.25" x2="-0.00" y2="-6.75" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-6.75" x2="-0.00" y2="-7.24" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-7.24" x2="-0.00" y2="-7.73" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-7.73" x2="-0.00" y2="-8.23" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-8.23" x2="-0.00" y2="-8.72" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-8.72" x2="-0.00" y2="-9.22" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-9.22" x2="-0.00" y2="-9.71" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-9.71" x2="-0.00" y2="-10.19" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-10.19" x2="-0.00" y2="-10.67" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-10.67" x2="-0.00" y2="-11.15" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-11.15" x2="-0.00" y2="-11.63" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-11.63" x2="-0.00" y2="-12.11" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-12.11" x2="-0.00" y2="-12.59" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-12.59" x2="-0.00" y2="-13.07" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-13.07" x2="-0.00" y2="-13.54" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-13.54" x2="-0.00" y2="-14.02" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-14.02" x2="-0.00" y2="-14.50" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-14.50" x2="-0.00" y2="-14.98" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-14.98" x2="-0.00" y2="-15.47" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-15.47" x2="-0.00" y2="-15.67" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="7.00" y1="-0.00" x2="7.00" y2="-0.42" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="7.00" y1="-0.42" x2="7.00" y2="-0.85" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="7.00" y1="-0.85" x2="7.00" y2="-1.27" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="7.00" y1="-1.27" x2="7.00" y2="-1.70" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="7.00" y1="-1.70" x2="7.00" y2="-2.17" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="7.00" y1="-2.17" x2="7.00" y2="-2.64" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="7.00" y1="-2.64" x2="7.00" y2="-3.11" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="7.00" y1="-3.11" x2="7.00" y2="-3.59" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="7.00" y1="-3.59" x2="7.00" y2="-4.06" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="7.00" y1="-4.06" x2="7.00" y2="-4.53" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="7.00" y1="-4.53" x2="7.00" y2="-5.00" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="7.00" y1="-5.00" x2="7.00" y2="-5.48" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="7.00" y1="-5.48" x2="7.00" y2="-5.96" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="7.00" y1="-5.96" x2="7.00" y2="-6.43" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="7.00" y1="-6.43" x2="7.00" y2="-6.91" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="7.00" y1="-6.91" x2="7.00" y2="-7.39" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="7.00" y1="-7.39" x2="7.00" y2="-7.87" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="7.00" y1="-7.87" x2="7.00" y2="-8.34" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="7.00" y1="-8.34" x2="7.00" y2="-8.82" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="7.00" y1="-8.82" x2="7.00" y2="-9.30" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="7.00" y1="-9.30" x2="7.00" y2="-9.78" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="7.00" y1="-9.78" x2="7.00" y2="-10.00" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="7.00" y1="-10.00" x2="7.00" y2="-10.15" stroke="currentColor" stroke-width="0.291" stroke-linecap="round"/><line x1="-0.00" y1="-7.73" x2="-0.00" y2="-7.73" stroke="currentColor" stroke-width="0.194" stroke-linecap="round"/><line x1="7.00" y1="-5.00" x2="7.00" y2="-5.00" stroke="currentColor" stroke-width="0.194" stroke-linecap="round"/><line x1="-0.00" y1="-7.73" x2="-0.00" y2="-7.73" stroke="currentColor" stroke-width="0.194" stroke-linecap="round"/><line x1="7.00" y1="-5.00" x2="7.00" y2="-5.00" stroke="currentColor" stroke-width="0.194" stroke-linecap="round"/><line x1="-6.41" y1="1.80" x2="10.00" y2="1.80" stroke="currentColor" stroke-opacity=".25" stroke-width="0.097"/></svg></div>
+  <div class="body">
+    <h3>Morgan 462 <span class="variant">triatic</span></h3>
+    <p class="muted">Masthead ketch &middot; 8 load cases</p>
+    <div class="est"><div class="bar"><span style="width:73%"></span></div><small>62 of 85 inputs are estimates</small></div>
+    <div class="actions"><a class="btn small" href="boats/morgan-462-ketch-triatic/viewer.html">3D viewer</a> <a href="boats/morgan-462-ketch-triatic/REPORT.html">Report</a> <a href="https://github.com/RigFrame/rigframe/releases/download/sample-reports/morgan-462-ketch-report.pdf">Study PDF</a> <a href="https://github.com/RigFrame/rigframe/releases/download/sample-reports/morgan-462-ketch-companion.pdf">Companion</a> <a href="https://colab.research.google.com/github/RigFrame/rigframe/blob/main/notebooks/morgan-462-ketch.ipynb" rel="noopener">Colab</a> <a href="https://github.com/RigFrame/rigframe/blob/main/boats/morgan-462-ketch-triatic.yaml" rel="noopener">YAML</a></div>
+  </div>
+</article></div>
+</div></section>
+
+<section class="block" id="ways"><div class="wrap">
+ <h2>Four ways to get a report</h2>
+ <p class="sub">The last three start from a boat file. The notebooks are separate: each holds one boat's whole analysis, and you
+edit its inputs in one cell.</p>
+ <div class="grid g4"><div class="card way"><h3><strong><a href="guide.html#the-notebooks-the-full-analysis-today">A notebook</a></strong>, in Colab or on your computer</h3><dl><dt>What you need</dt><dd>A web browser (Colab), or Python 3.12</dd><dt>Who sees your boat</dt><dd>Only you</dd><dt>What you get today</dt><dd>The full analysis and the 11 × 17 report</dd></dl></div><div class="card way"><h3><strong>A pull request to this repository</strong></h3><dl><dt>What you need</dt><dd>A free GitHub account and a web browser</dd><dt>Who sees your boat</dt><dd>Everyone: this repository is public</dd><dt>What you get today</dt><dd>Demo report and 3D viewer</dd></dl></div><div class="card way"><h3><strong>Your own private copy</strong></h3><dl><dt>What you need</dt><dd>A free GitHub account</dd><dt>Who sees your boat</dt><dd>Only you, and anyone you invite</dd><dt>What you get today</dt><dd>Demo report and 3D viewer</dd></dl></div><div class="card way"><h3><strong>Your own computer</strong>, with the package</h3><dl><dt>What you need</dt><dd>Python 3.12 or later</dd><dt>Who sees your boat</dt><dd>Only you</dd><dt>What you get today</dt><dd>Demo report and 3D viewer</dd></dl></div></div>
+ <p style="margin-top:22px"><a class="btn ghost" href="guide.html">Read the full guide</a></p>
+</div></section>
+
+<section class="block" id="notebooks"><div class="wrap">
+ <h2>The notebooks: the full analysis today</h2>
+ <p class="sub">Each notebook holds one boat's whole analysis and runs on its own, in Google Colab or on your computer.
+ Edit its <code>RigParams</code> cell for your own boat. <a href="guide.html#the-notebooks-the-full-analysis-today">How to run them</a>.</p>
+ <div class="grid g3"><div class="card"><h3 style="margin:0 0 6px;font-size:16px"><code>beneteau-oceanis-440-1994</code></h3><p class="muted" style="font-size:14px;margin-bottom:12px">Masthead sloop, two sets of swept spreaders, discontinuous shrouds, four lowers, split backstay, in-mast furler</p><p class="actions" style="padding:0"><a class="btn small" href="https://colab.research.google.com/github/RigFrame/rigframe/blob/main/notebooks/beneteau-oceanis-440-1994.ipynb" rel="noopener">Open in Colab</a><a href="https://github.com/RigFrame/rigframe/releases/download/sample-reports/beneteau-oceanis-440-1994-report.pdf">Report PDF</a><a href="https://github.com/RigFrame/rigframe/releases/download/sample-reports/beneteau-oceanis-440-1994-companion.pdf">Companion PDF</a></p></div><div class="card"><h3 style="margin:0 0 6px;font-size:16px"><code>island-packet-40-1996</code></h3><p class="muted" style="font-size:14px;margin-bottom:12px">Masthead cutter: one spreader set, fore and aft lowers, staysail stay, twin backstay</p><p class="actions" style="padding:0"><a class="btn small" href="https://colab.research.google.com/github/RigFrame/rigframe/blob/main/notebooks/island-packet-40-1996.ipynb" rel="noopener">Open in Colab</a><a href="https://github.com/RigFrame/rigframe/releases/download/sample-reports/island-packet-40-1996-report.pdf">Report PDF</a><a href="https://github.com/RigFrame/rigframe/releases/download/sample-reports/island-packet-40-1996-companion.pdf">Companion PDF</a></p></div><div class="card"><h3 style="margin:0 0 6px;font-size:16px"><code>morgan-462-ketch</code></h3><p class="muted" style="font-size:14px;margin-bottom:12px">Masthead ketch, two masts, run with a triatic and with split backstays</p><p class="actions" style="padding:0"><a class="btn small" href="https://colab.research.google.com/github/RigFrame/rigframe/blob/main/notebooks/morgan-462-ketch.ipynb" rel="noopener">Open in Colab</a><a href="https://github.com/RigFrame/rigframe/releases/download/sample-reports/morgan-462-ketch-report.pdf">Report PDF</a><a href="https://github.com/RigFrame/rigframe/releases/download/sample-reports/morgan-462-ketch-companion.pdf">Companion PDF</a></p></div></div>
+</div></section>
+
+<footer><div class="wrap">
+<span>rigframe is MIT-licensed. An engineering estimate, not a rig survey.</span>
+<span>Built 2026-10-29 from <a href="https://github.com/RigFrame/rigframe/commit/71490e1">71490e1</a> &middot; <a href="https://github.com/RigFrame/rigframe">GitHub</a> &middot; <a href="https://github.com/RigFrame/rigframe/issues">Issues</a></span>
+</div></footer>
+<script>
+(function(){
+ var root=document.documentElement,key='rigframe-theme';
+ try{var t=localStorage.getItem(key);if(t)root.dataset.theme=t;}catch(e){}
+ var b=document.getElementById('theme');
+ if(b)b.addEventListener('click',function(){
+  var dark=root.dataset.theme?root.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;
+  root.dataset.theme=dark?'light':'dark';try{localStorage.setItem(key,root.dataset.theme);}catch(e){}
+ });
+ function copy(btn,text){
+  var done=function(){var o=btn.textContent;btn.textContent='Copied';setTimeout(function(){btn.textContent=o;},1400);};
+  if(navigator.clipboard)navigator.clipboard.writeText(text).then(done,function(){});
+ }
+ document.querySelectorAll('.doc pre').forEach(function(pre){
+  var btn=document.createElement('button');btn.className='copy';btn.type='button';btn.textContent='Copy';
+  btn.addEventListener('click',function(){copy(btn,pre.querySelector('code').innerText);});pre.appendChild(btn);
+ });
+ document.querySelectorAll('[data-copy]').forEach(function(btn){
+  btn.addEventListener('click',function(){copy(btn,document.getElementById(btn.dataset.copy).value);});
+ });
+ document.querySelectorAll('.term .more').forEach(function(m){
+  m.addEventListener('click',function(){var t=m.closest('.term');t.classList.toggle('open');
+   m.textContent=t.classList.contains('open')?'Show less':'Show the whole prompt';});
+ });
+ var play=document.getElementById('play');
+ if(play)play.addEventListener('click',function(e){
+  e.preventDefault();var f=document.createElement('iframe');f.src=play.getAttribute('href');f.title='3D rig viewer';
+  var host=document.getElementById('shot');host.closest('figure').classList.add('live');host.replaceWith(f);play.remove();
+ });
+ var links=[].slice.call(document.querySelectorAll('aside.toc a'));
+ if(links.length&&'IntersectionObserver'in window){
+  var map={};links.forEach(function(a){map[a.hash.slice(1)]=a;});
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){
+   if(e.isIntersecting){links.forEach(function(a){a.classList.remove('on');});var a=map[e.target.id];if(a)a.classList.add('on');}
+  });},{rootMargin:'-70px 0px -70% 0px'});
+  Object.keys(map).forEach(function(id){var h=document.getElementById(id);if(h)io.observe(h);});
+ }
+})();
+</script>
+</body></html>

@@ -1,0 +1,656 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>rigframe guide</title>
+<meta name="description" content="How to make a boat file, get a report and read it.">
+<meta property="og:title" content="rigframe guide"><meta property="og:description" content="How to make a boat file, get a report and read it.">
+<meta property="og:image" content="https://rigframe.github.io/rigframe/img/viewer-morgan-462.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%20aria-hidden%3D%22true%22%3E%3Cpath%20d%3D%22M12%202.5v19M4.5%2020.5%2012%202.5l7.5%2018M7.6%2012.5h8.8M3%2021.5h18%22%20fill%3D%22none%22%20stroke%3D%22%231d5ea8%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f6f5f1;--surface:#fff;--sunk:#efede7;--ink:#15191f;--muted:#5d646e;--line:#e1ded6;
+--accent:#1d5ea8;--accent-ink:#fff;--accent-soft:#e3edf8;--warn:#b7791f;--warn-soft:#fbf1df;--code:#f1efe9;
+--hero:radial-gradient(1200px 500px at 85% -10%,#dfe9f5 0,transparent 60%);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1015;--surface:#151a21;--sunk:#11151b;
+--ink:#e7e5e0;--muted:#9aa2ad;--line:#262d36;--accent:#6aa9f5;--accent-ink:#0b1320;--accent-soft:#16243a;
+--warn:#e2a54b;--warn-soft:#2a2113;--code:#11161d;--hero:radial-gradient(1200px 500px at 85% -10%,#16243a 0,transparent 60%);
+color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0d1015;--surface:#151a21;--sunk:#11151b;--ink:#e7e5e0;--muted:#9aa2ad;--line:#262d36;
+--accent:#6aa9f5;--accent-ink:#0b1320;--accent-soft:#16243a;--warn:#e2a54b;--warn-soft:#2a2113;--code:#11161d;
+--hero:radial-gradient(1200px 500px at 85% -10%,#16243a 0,transparent 60%);color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-padding-top:72px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-underline-offset:2px}
+code,pre{font-family:"JetBrains Mono",ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.88em}
+:not(pre)>code{background:var(--code);border:1px solid var(--line);border-radius:5px;padding:.08em .35em}
+.muted{color:var(--muted)}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+/* top bar */
+header.top{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 85%,transparent);
+backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line)}
+header.top .wrap{display:flex;align-items:center;gap:20px;height:58px}
+.brand{display:flex;align-items:center;gap:8px;font-weight:700;color:var(--ink);text-decoration:none;letter-spacing:-.01em}
+.brand svg{width:22px;height:22px;color:var(--accent)}
+nav.links{display:flex;gap:4px;flex:1}
+nav.links a{color:var(--muted);text-decoration:none;font-size:14.5px;padding:6px 10px;border-radius:7px}
+nav.links a:hover,nav.links a[aria-current]{color:var(--ink);background:var(--sunk)}
+.icons{display:flex;gap:6px;margin-left:auto}
+.icon{display:inline-grid;place-items:center;width:36px;height:36px;border-radius:8px;border:1px solid var(--line);
+background:var(--surface);color:var(--ink);cursor:pointer}
+.icon svg{width:17px;height:17px}
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:var(--accent-ink);text-decoration:none;
+font-weight:600;padding:11px 18px;border-radius:9px;border:1px solid var(--accent);font-size:15px}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn.ghost:hover{background:var(--sunk)}
+.btn.small{padding:5px 11px;font-size:13.5px;border-radius:7px}
+/* hero */
+.hero{background:var(--hero)}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:48px;align-items:center;padding-top:64px;padding-bottom:56px}
+.eyebrow{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:0 0 14px}
+.hero h1{font-size:clamp(34px,4.6vw,54px);line-height:1.06;letter-spacing:-.025em;margin:0 0 20px;font-weight:750}
+.lead{font-size:18.5px;color:var(--muted);margin:0 0 26px;max-width:36em}
+.cta{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px}
+.note{font-size:14.5px;color:var(--muted);margin:0}
+.frame{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:var(--surface);
+box-shadow:0 1px 2px rgba(0,0,0,.04),0 18px 50px -20px rgba(16,40,80,.35)}
+.frame .bar{display:flex;align-items:center;gap:6px;padding:9px 12px;border-bottom:1px solid var(--line);font-size:12.5px;color:var(--muted)}
+.frame .bar i{width:10px;height:10px;border-radius:50%;background:var(--line)}
+.frame .bar span{margin-left:8px}
+.frame img{display:block;width:100%;height:auto}
+.frame iframe{display:block;width:100%;height:min(78vh,720px);border:0;background:#fff}
+figure.live{grid-column:1/-1}
+.play{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);box-shadow:0 8px 24px -8px rgba(0,0,0,.4)}
+figcaption{font-size:13px;color:var(--muted);margin-top:10px}
+/* bands and sections */
+.callouts{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding-bottom:40px;margin-top:-16px}
+.callout{background:var(--warn-soft);border:1px solid color-mix(in srgb,var(--warn) 30%,transparent);border-left:3px solid var(--warn);
+border-radius:10px;padding:14px 16px;font-size:14.5px}
+.callout p{margin:0}
+section.block{padding:56px 0;border-top:1px solid var(--line)}
+section.block h2{font-size:clamp(26px,3vw,34px);letter-spacing:-.02em;margin:0 0 8px;line-height:1.15}
+section.block>.wrap>p.sub{color:var(--muted);margin:0 0 28px;max-width:46em;font-size:17px}
+.grid{display:grid;gap:14px}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px}
+.card p{margin:0}
+.card .num{font:600 12px/1 "JetBrains Mono",monospace;color:var(--accent);margin-bottom:10px;display:block}
+.way h3{font-size:16px;margin:0 0 10px}
+.way dl{margin:0;font-size:14px}
+.way dt{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.05em;margin-top:10px}
+.way dd{margin:2px 0 0}
+/* prompt box */
+.promptgrid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:36px;align-items:start}
+ol.steps{list-style:none;padding:0;margin:0;counter-reset:s}
+ol.steps li{counter-increment:s;position:relative;padding:0 0 18px 44px;font-size:15px}
+ol.steps li::before{content:counter(s,decimal-leading-zero);position:absolute;left:0;top:0;font:600 12px/1 "JetBrains Mono",monospace;
+color:var(--accent);background:var(--accent-soft);border-radius:6px;padding:6px 7px}
+.term{border:1px solid var(--line);border-radius:12px;background:var(--code);overflow:hidden}
+.term .bar{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-bottom:1px solid var(--line);
+font-size:12.5px;color:var(--muted);background:var(--surface)}
+.term pre{margin:0;padding:16px 18px;white-space:pre-wrap;font-size:13px;line-height:1.55;max-height:300px;overflow:hidden;position:relative}
+.term.open pre{max-height:none}
+.term:not(.open) pre::after{content:"";position:absolute;inset:auto 0 0 0;height:90px;background:linear-gradient(transparent,var(--code))}
+.term .more{display:block;width:100%;border:0;border-top:1px solid var(--line);background:var(--surface);color:var(--accent);
+padding:9px;font:inherit;font-size:14px;cursor:pointer}
+.copy{font:inherit;font-size:12.5px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:6px;padding:3px 10px;cursor:pointer}
+/* boats */
+.boats{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.boat{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.boat .pic{height:200px;padding:14px 14px 0;background:linear-gradient(var(--sunk),var(--surface));color:var(--ink);display:flex;justify-content:center}
+.elev{width:100%;height:100%}
+.boat .body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:8px;flex:1}
+.boat h3{margin:0;font-size:17px}
+.boat p{margin:0;font-size:14px}
+.variant{font-size:12px;font-weight:600;color:var(--accent);background:var(--accent-soft);padding:2px 8px;border-radius:999px;vertical-align:2px}
+.est small{color:var(--muted);font-size:12.5px}
+.est .bar{height:5px;border-radius:9px;background:var(--accent-soft);overflow:hidden;margin:4px 0 2px}
+.est .bar span{display:block;height:100%;background:var(--warn)}
+.actions{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;margin-top:auto;padding-top:6px;font-size:13.5px}
+.legend{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted);margin:-12px 0 22px}
+.legend .ramp{width:120px;height:6px;border-radius:9px;background:linear-gradient(90deg,#d8c8a4,#c04a1a)}
+/* docs */
+.doclayout{display:grid;grid-template-columns:230px minmax(0,1fr);gap:48px;padding-top:36px;padding-bottom:80px}
+aside.toc{position:sticky;top:78px;align-self:start;max-height:calc(100vh - 96px);overflow:auto;font-size:13.5px;padding-right:6px}
+aside.toc p{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600;margin:0 0 8px}
+aside.toc a{display:block;color:var(--muted);text-decoration:none;padding:4px 0 4px 12px;border-left:2px solid var(--line);line-height:1.35}
+aside.toc a.l3{padding-left:24px;font-size:13px}
+aside.toc a:hover{color:var(--ink)}
+aside.toc a.on{color:var(--accent);border-left-color:var(--accent)}
+details.mtoc{display:none}
+.doc{max-width:780px;min-width:0}
+.doc h1{font-size:clamp(30px,4vw,42px);letter-spacing:-.02em;line-height:1.1;margin:0 0 18px}
+.doc h2{font-size:26px;letter-spacing:-.015em;margin:52px 0 12px;padding-top:28px;border-top:1px solid var(--line);line-height:1.2}
+.doc h3{font-size:19px;margin:32px 0 8px}
+.doc hr{display:none}
+.doc img{max-width:100%;height:auto;border-radius:10px;border:1px solid var(--line);background:#fff}
+.doc p>sub{display:block;font-size:13px;color:var(--muted);margin-top:-6px}
+.doc blockquote{margin:16px 0;background:var(--warn-soft);border:1px solid color-mix(in srgb,var(--warn) 30%,transparent);
+border-left:3px solid var(--warn);border-radius:10px;padding:12px 16px;font-size:15px}
+.doc blockquote p{margin:0}
+.doc pre{background:var(--code);border:1px solid var(--line);border-radius:10px;padding:14px 16px;overflow:auto;position:relative;line-height:1.5}
+.doc pre .copy{position:absolute;top:8px;right:8px;opacity:0;transition:opacity .15s}
+.doc pre:hover .copy,.doc pre .copy:focus{opacity:1}
+.table-wrap{overflow-x:auto;margin:16px 0;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+.doc table{border-collapse:collapse;width:100%;font-size:14.5px}
+.doc th,.doc td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+.doc tr:last-child td{border-bottom:0}
+.doc th{background:var(--sunk);font-size:13px}
+.doc li{margin:4px 0}
+.doc :not(pre)>code{overflow-wrap:anywhere}
+.header-anchor{opacity:0;margin-left:6px;text-decoration:none;color:var(--muted)}
+h2:hover .header-anchor,h3:hover .header-anchor{opacity:1}
+footer{border-top:1px solid var(--line);padding:28px 0 40px;font-size:13.5px;color:var(--muted)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between}
+@media (max-width:960px){
+ .hero .wrap,.promptgrid{grid-template-columns:1fr;gap:32px}
+ .hero .wrap{padding-top:40px}
+ .g3,.g4{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .doclayout{grid-template-columns:1fr;gap:0}
+ aside.toc{display:none}
+ details.mtoc{display:block;margin-bottom:20px;border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:10px 14px;font-size:14px}
+ details.mtoc a{display:block;padding:3px 0;text-decoration:none}
+ details.mtoc a.l3{padding-left:14px}
+}
+@media (max-width:720px){
+ header.top .wrap{flex-wrap:wrap;height:auto;padding-top:9px;padding-bottom:6px;gap:6px 12px}
+ nav.links{order:3;flex-basis:100%;overflow-x:auto;white-space:nowrap;margin:0 -6px;scrollbar-width:none}
+ nav.links a{padding:4px 8px;font-size:14px}
+ html{scroll-padding-top:110px}
+ aside.toc{top:110px}
+ .g3,.g4,.g2,.callouts{grid-template-columns:1fr}
+ .frame iframe{height:70vh}
+}
+</style></head>
+<body>
+<header class="top"><div class="wrap">
+<a class="brand" href="./"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5v19M4.5 20.5 12 2.5l7.5 18M7.6 12.5h8.8M3 21.5h18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>rigframe</a>
+<nav class="links"><a href="guide.html" aria-current=page>Guide</a><a href="index.html#boats">Boats</a><a href="boat-file.html">Boat file</a><a href="prompt.html">AI prompt</a><a href="index.html#notebooks">Notebooks</a></nav>
+<div class="icons">
+<button class="icon" id="theme" type="button" aria-label="Switch light or dark"><svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z"/></svg></button>
+<a class="icon" href="https://github.com/RigFrame/rigframe" aria-label="rigframe on GitHub" rel="noopener"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
+</div></div></header>
+<div class="wrap doclayout">
+<aside class="toc"><p>On this page</p><a class="l2" href="#four-ways-to-get-a-report">Four ways to get a report</a><a class="l2" href="#the-notebooks-the-full-analysis-today">The notebooks: the full analysis today</a><a class="l2" href="#what-runs-where">What runs where</a><a class="l2" href="#step-1-make-your-boat-file">Step 1: Make your boat file</a><a class="l3" href="#the-easy-way-have-an-ai-assistant-draft-it">The easy way: have an AI assistant draft it</a><a class="l3" href="#by-hand">By hand</a><a class="l3" href="#what-a-value-looks-like">What a value looks like</a><a class="l3" href="#name-the-file">Name the file</a><a class="l3" href="#leave-out-anything-personal">Leave out anything personal</a><a class="l2" href="#step-2-open-a-pull-request-with-your-file">Step 2: Open a pull request with your file</a><a class="l3" href="#21-add-the-file">2.1 Add the file</a><a class="l3" href="#22-propose-the-change">2.2 Propose the change</a><a class="l3" href="#23-fill-in-the-pull-request">2.3 Fill in the pull request</a><a class="l3" href="#24-watch-the-check">2.4 Watch the check</a><a class="l3" href="#25-if-the-check-fails">2.5 If the check fails</a><a class="l3" href="#26-open-the-3d-viewer-and-the-report">2.6 Open the 3D viewer and the report</a><a class="l3" href="#27-what-happens-next">2.7 What happens next</a><a class="l2" href="#step-3-read-the-report">Step 3: Read the report</a><a class="l3" href="#the-3d-viewer">The 3D viewer</a><a class="l3" href="#safety-factor">Safety factor</a><a class="l2" href="#keeping-your-boat-private">Keeping your boat private</a><a class="l2" href="#running-it-on-your-own-computer">Running it on your own computer</a><a class="l2" href="#how-it-works">How it works</a><a class="l2" href="#adding-to-rigframe">Adding to rigframe</a><a class="l2" href="#licences-and-credits">Licences and credits</a><p style="margin-top:18px"><a href="https://github.com/RigFrame/rigframe/blob/main/README.md">View README.md on GitHub</a></p></aside>
+<article class="doc"><details class="mtoc"><summary>On this page</summary><a class="l2" href="#four-ways-to-get-a-report">Four ways to get a report</a><a class="l2" href="#the-notebooks-the-full-analysis-today">The notebooks: the full analysis today</a><a class="l2" href="#what-runs-where">What runs where</a><a class="l2" href="#step-1-make-your-boat-file">Step 1: Make your boat file</a><a class="l3" href="#the-easy-way-have-an-ai-assistant-draft-it">The easy way: have an AI assistant draft it</a><a class="l3" href="#by-hand">By hand</a><a class="l3" href="#what-a-value-looks-like">What a value looks like</a><a class="l3" href="#name-the-file">Name the file</a><a class="l3" href="#leave-out-anything-personal">Leave out anything personal</a><a class="l2" href="#step-2-open-a-pull-request-with-your-file">Step 2: Open a pull request with your file</a><a class="l3" href="#21-add-the-file">2.1 Add the file</a><a class="l3" href="#22-propose-the-change">2.2 Propose the change</a><a class="l3" href="#23-fill-in-the-pull-request">2.3 Fill in the pull request</a><a class="l3" href="#24-watch-the-check">2.4 Watch the check</a><a class="l3" href="#25-if-the-check-fails">2.5 If the check fails</a><a class="l3" href="#26-open-the-3d-viewer-and-the-report">2.6 Open the 3D viewer and the report</a><a class="l3" href="#27-what-happens-next">2.7 What happens next</a><a class="l2" href="#step-3-read-the-report">Step 3: Read the report</a><a class="l3" href="#the-3d-viewer">The 3D viewer</a><a class="l3" href="#safety-factor">Safety factor</a><a class="l2" href="#keeping-your-boat-private">Keeping your boat private</a><a class="l2" href="#running-it-on-your-own-computer">Running it on your own computer</a><a class="l2" href="#how-it-works">How it works</a><a class="l2" href="#adding-to-rigframe">Adding to rigframe</a><a class="l2" href="#licences-and-credits">Licences and credits</a></details>
+<h1>Guide</h1>
+<blockquote>
+<p><strong>Status: draft, in demo mode.</strong> The boat-file format, its checker (<code>rigframe validate</code>), the example boats,
+the 3D viewer and the GitHub workflow are here. The analysis engine is still being moved out of the
+notebooks it was developed in. Until it lands, <code>rigframe run</code> checks your file and writes a report of its
+estimates, marked <strong>DEMO</strong>. For the four example boats it also replays the notebook studies' stored results
+in the viewer; those don't change if you edit the file. <code>pipx install rigframe</code> will work once it's released.
+<strong>For the full analysis today, use <a href="#the-notebooks-the-full-analysis-today">the notebooks</a>.</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>This is an engineering estimate, not a rig survey.</strong> It assumes the rig is in good condition, and it
+knows nothing about corrosion, fatigue, cracked swages or worn chainplates. Have a rigger inspect the
+rig. The report says which numbers are estimates; treat them that way.</p>
+</blockquote>
+<h2 id="four-ways-to-get-a-report">Four ways to get a report</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>What you need</th>
+<th>Who sees your boat</th>
+<th>What you get today</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><a href="#the-notebooks-the-full-analysis-today">A notebook</a></strong>, in Colab or on your computer</td>
+<td>A web browser (Colab), or Python 3.12</td>
+<td>Only you</td>
+<td>The full analysis and the 11 × 17 report</td>
+</tr>
+<tr>
+<td><strong>A pull request to this repository</strong></td>
+<td>A free GitHub account and a web browser</td>
+<td>Everyone: this repository is public</td>
+<td>Demo report and 3D viewer</td>
+</tr>
+<tr>
+<td><strong>Your own private copy</strong></td>
+<td>A free GitHub account</td>
+<td>Only you, and anyone you invite</td>
+<td>Demo report and 3D viewer</td>
+</tr>
+<tr>
+<td><strong>Your own computer</strong>, with the package</td>
+<td>Python 3.12 or later</td>
+<td>Only you</td>
+<td>Demo report and 3D viewer</td>
+</tr>
+</tbody>
+</table></div>
+<p>The last three start from a boat file. The notebooks are separate: each holds one boat's whole analysis, and you
+edit its inputs in one cell.</p>
+<h2 id="the-notebooks-the-full-analysis-today">The notebooks: the full analysis today</h2>
+<p><a href="https://github.com/RigFrame/rigframe/tree/main/notebooks" rel="noopener"><code>notebooks/</code></a> holds the three studies the method was built and checked on. Each runs on its own: it
+needs neither GitHub Actions nor the rigframe package. Each one tunes the rig at the dock, sails it through every
+load case, checks mast buckling, and cross-checks the main cases in a second solver. It ends in a table of 30 to 53
+PASS/FAIL checks.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Notebook</th>
+<th>Rig</th>
+<th>Open</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/RigFrame/rigframe/blob/main/notebooks/beneteau-oceanis-440-1994.ipynb" rel="noopener"><code>beneteau-oceanis-440-1994</code></a></td>
+<td>Masthead sloop, two sets of swept spreaders, discontinuous shrouds, four lowers, split backstay, in-mast furler</td>
+<td><a href="https://colab.research.google.com/github/RigFrame/rigframe/blob/main/notebooks/beneteau-oceanis-440-1994.ipynb" rel="noopener"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" loading="lazy" /></a></td>
+</tr>
+<tr>
+<td><a href="https://github.com/RigFrame/rigframe/blob/main/notebooks/island-packet-40-1996.ipynb" rel="noopener"><code>island-packet-40-1996</code></a></td>
+<td>Masthead cutter: one spreader set, fore and aft lowers, staysail stay, twin backstay</td>
+<td><a href="https://colab.research.google.com/github/RigFrame/rigframe/blob/main/notebooks/island-packet-40-1996.ipynb" rel="noopener"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" loading="lazy" /></a></td>
+</tr>
+<tr>
+<td><a href="https://github.com/RigFrame/rigframe/blob/main/notebooks/morgan-462-ketch.ipynb" rel="noopener"><code>morgan-462-ketch</code></a></td>
+<td>Masthead ketch, two masts, run with a triatic and with split backstays</td>
+<td><a href="https://colab.research.google.com/github/RigFrame/rigframe/blob/main/notebooks/morgan-462-ketch.ipynb" rel="noopener"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" loading="lazy" /></a></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>In Google Colab:</strong> click a badge, then Runtime → Run all.</p>
+<ul>
+<li>The setup cell fetches this repository for its data.</li>
+<li>The install cell adds what Colab lacks, in about a minute. It holds Colab's own numpy, SciPy, pandas and
+Matplotlib where they are, because swapping a package the session has already loaded breaks its imports. If it
+can't avoid that, it stops and asks you to restart the session (Runtime → Restart session) and run all again.</li>
+<li>The run takes a few minutes more. To keep the results, download the <code>output</code> folder from Colab's file pane.</li>
+</ul>
+<p>Colab runs a newer Python than 3.12. If OpenSees won't load there, the cross-check reports SKIP and the rest runs.</p>
+<p><strong>On your computer,</strong> with Python 3.12, from the <code>notebooks/</code> folder:</p>
+<pre><code class="language-bash">python -m venv .venv
+</code></pre>
+<p>Activate it (<code>.venv\Scripts\activate</code> on Windows, <code>source .venv/bin/activate</code> elsewhere), then:</p>
+<pre><code class="language-bash">pip install -r requirements.txt
+</code></pre>
+<p>Open the notebook in Jupyter or VS Code and run it. Python 3.12 matters only for the OpenSees cross-check: its
+Windows build needs exactly 3.12. Without OpenSees those checks report SKIP and everything else runs.</p>
+<p><strong>To study your own boat,</strong> pick the notebook nearest your rig and edit its <code>RigParams</code> cell. Every input is there,
+and the ones marked <code># PLACEHOLDER</code> are estimates.</p>
+<p><strong>What a run writes,</strong> in <code>notebooks/output/&lt;notebook&gt;/</code>:</p>
+<ul>
+<li><code>REPORT.md</code>, every load case item by item, with its figures in <code>assets/</code>;</li>
+<li><code>viewer-3d.html</code>, the standalone 3D viewer.</li>
+</ul>
+<p>To turn the report into an 11 × 17 in PDF:</p>
+<pre><code class="language-bash">python tools/md_to_tabloid_pdf.py notebooks/output/island-packet-40-1996/REPORT.md
+</code></pre>
+<p>LaTeX typesets it, in CMU Serif (Computer Modern) with proper math. That needs
+<a href="https://pandoc.org/installing.html" rel="noopener">pandoc</a>, a TeX distribution with XeLaTeX and the CMU fonts, and <code>rsvg-convert</code>
+for the figures:</p>
+<ul>
+<li><strong>Windows:</strong> <a href="https://miktex.org/" rel="noopener">MiKTeX</a> installs the fonts on demand.</li>
+<li><strong>Ubuntu:</strong> <code>sudo apt install pandoc texlive-xetex texlive-latex-extra texlive-science lmodern fonts-cmu librsvg2-bin</code>.</li>
+</ul>
+<p>Without LaTeX, add <code>--engine chromium</code> to print it with a browser instead (<code>pip install playwright</code>, then
+<code>playwright install chromium</code> once).</p>
+<p><strong>Sample reports.</strong> The <a href="https://github.com/rigframe/rigframe/releases/tag/sample-reports" rel="noopener">sample-reports release</a>
+has the finished PDFs for all three boats, so you can see what you'll get before running anything:</p>
+<ul>
+<li><code>*-report.pdf</code>, written by the notebooks;</li>
+<li><code>*-companion.pdf</code>, the method behind each study: every load case with free-body diagrams, how each sail load is
+applied, the terms, and the textbook equations by number and page.</li>
+</ul>
+<p>GitHub Actions rebuilds them whenever a notebook, a companion or the PDF tool changes: it runs the three notebooks,
+typesets the PDFs and replaces them on the release. The companions were written by hand for these three boats; their
+source is in <a href="https://github.com/RigFrame/rigframe/tree/main/docs/companions" rel="noopener"><code>docs/companions/</code></a>.</p>
+<h2 id="what-runs-where">What runs where</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>What it does</th>
+<th>Makes the 11 × 17 PDFs?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A notebook</strong> (Colab or your computer)</td>
+<td>The whole analysis, the report and the viewer</td>
+<td>Yes, with <code>tools/md_to_tabloid_pdf.py</code></td>
+</tr>
+<tr>
+<td><strong>GitHub Actions, sample reports</strong></td>
+<td>Runs the three notebooks and typesets their PDFs with LaTeX</td>
+<td>Yes: it rebuilds the sample-reports release</td>
+</tr>
+<tr>
+<td><strong>GitHub Actions, boat files</strong></td>
+<td>Runs the package on each boat file in a pull request</td>
+<td>Not yet. The report-writing code is still in the notebooks. Once it moves into the package, every pull request gets the same LaTeX PDF.</td>
+</tr>
+<tr>
+<td><strong>GitHub Pages</strong></td>
+<td>Hosts what Actions made. It doesn't compute anything</td>
+<td>It will host each boat's PDF once Actions makes it</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="step-1-make-your-boat-file">Step 1: Make your boat file</h2>
+<p>The boat file says what your rig is and where each number came from. Getting the numbers together is
+the hard part, so there are two ways in.</p>
+<h3 id="the-easy-way-have-an-ai-assistant-draft-it">The easy way: have an AI assistant draft it</h3>
+<p><a href="prompt.html"><code>prompts/make-boat-yaml.md</code></a> is a prompt you paste into an AI assistant with
+web search turned on (Claude, ChatGPT, Gemini or similar). It reads this repository's rules, looks up
+your boat's published data, asks you only what it can't find, and hands back:</p>
+<ul>
+<li>the file name to use;</li>
+<li>the finished YAML;</li>
+<li>the sources it used;</li>
+<li>a list of what to measure, most important first.</li>
+</ul>
+<p>Attach photos when it asks: the rig from the side and from astern, each chainplate, the label at the mast
+foot. They settle questions no website answers.</p>
+<h3 id="by-hand">By hand</h3>
+<p>Copy <a href="https://github.com/RigFrame/rigframe/blob/main/docs/boat-template.yaml" rel="noopener"><code>docs/boat-template.yaml</code></a>, or the example nearest your rig:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Your rig</th>
+<th>Start from</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sloop, one set of spreaders</td>
+<td><a href="https://github.com/RigFrame/rigframe/blob/main/docs/boat-template.yaml" rel="noopener"><code>docs/boat-template.yaml</code></a></td>
+</tr>
+<tr>
+<td>Sloop, two or more sets</td>
+<td><a href="https://github.com/RigFrame/rigframe/blob/main/boats/beneteau-oceanis-440-1994.yaml" rel="noopener"><code>boats/beneteau-oceanis-440-1994.yaml</code></a></td>
+</tr>
+<tr>
+<td>Cutter</td>
+<td><a href="https://github.com/RigFrame/rigframe/blob/main/boats/island-packet-40-1996.yaml" rel="noopener"><code>boats/island-packet-40-1996.yaml</code></a></td>
+</tr>
+<tr>
+<td>Ketch or yawl</td>
+<td><a href="https://github.com/RigFrame/rigframe/blob/main/boats/morgan-462-ketch-triatic.yaml" rel="noopener"><code>boats/morgan-462-ketch-triatic.yaml</code></a> or <a href="https://github.com/RigFrame/rigframe/blob/main/boats/morgan-462-ketch-split-backstays.yaml" rel="noopener"><code>…-split-backstays.yaml</code></a></td>
+</tr>
+</tbody>
+</table></div>
+<p><a href="boat-file.html"><code>docs/boat-yaml.md</code></a> explains every field, how to measure it and where to look it up.</p>
+<p><img src="img/rig-names.svg" alt="The names used in a boat file" loading="lazy" /></p>
+<h3 id="what-a-value-looks-like">What a value looks like</h3>
+<pre><code class="language-yaml">I: {value: 53.15 ft, basis: published, ref: gob}   # with its source
+gooseneck_z: 1.75 m                                 # bare: counts as an estimate
+</code></pre>
+<p>Every number has a unit, and you keep the unit your source used. <code>basis</code> is <code>measured</code>, <code>maker</code>,
+<code>published</code> or <code>estimate</code>. A file full of estimates still runs; the report just says so.</p>
+<h3 id="name-the-file">Name the file</h3>
+<p><code>&lt;builder&gt;-&lt;model&gt;-&lt;year&gt;.yaml</code>, lowercase, with hyphens: <code>catalina-36-1989.yaml</code>. To compare two
+arrangements of the same boat, make two files and add the difference to the name:
+<code>morgan-462-ketch-triatic.yaml</code> and <code>morgan-462-ketch-split-backstays.yaml</code>.</p>
+<h3 id="leave-out-anything-personal">Leave out anything personal</h3>
+<p>No owner's name, boat name, hull identification number, sail number or home port. A pull request here is
+public. If you'd rather keep the boat itself private, see <a href="#keeping-your-boat-private">Keeping your boat private</a>.</p>
+<h2 id="step-2-open-a-pull-request-with-your-file">Step 2: Open a pull request with your file</h2>
+<p>A pull request is how you hand a file to a GitHub repository you don't own. You do it all in the
+browser. GitHub makes your own copy of the repository (a <em>fork</em>) along the way, and you don't have to
+manage it.</p>
+<p><strong>Before you start:</strong> sign in to <a href="https://github.com" rel="noopener">github.com</a>. A free account is enough.</p>
+<h3 id="21-add-the-file">2.1 Add the file</h3>
+<ol>
+<li>Go to the <a href="https://github.com/rigframe/rigframe/tree/main/boats" rel="noopener"><code>boats</code> folder</a> of this repository.</li>
+<li>Click <strong>Add file</strong> (top right, above the file list), then either:
+<ul>
+<li><strong>Upload files</strong>, and drag your <code>.yaml</code> file onto the page; or</li>
+<li><strong>Create new file</strong>, type the file name into the box above the editor (the <code>boats/</code> part is already
+there), and paste your YAML into the editor.</li>
+</ul>
+</li>
+<li>GitHub says you need your own copy to propose a change. Click <strong>Fork this repository</strong>. This happens
+only the first time.</li>
+</ol>
+<h3 id="22-propose-the-change">2.2 Propose the change</h3>
+<ol start="4">
+<li>Click <strong>Commit changes…</strong> (or <strong>Propose changes</strong> on the upload page).</li>
+<li>In the box that opens, write a title such as <code>Add Catalina 36 (1989)</code>. The description can stay empty.</li>
+<li>Click <strong>Propose changes</strong>. GitHub shows a page titled <strong>Comparing changes</strong>, with your file in green.</li>
+<li>Click <strong>Create pull request</strong>.</li>
+</ol>
+<h3 id="23-fill-in-the-pull-request">2.3 Fill in the pull request</h3>
+<ol start="8">
+<li>The description box holds a short checklist. Tick what applies: where most of the numbers came from,
+and that the file has nothing personal in it.</li>
+<li>Click <strong>Create pull request</strong> again. That's it: your pull request is open.</li>
+</ol>
+<h3 id="24-watch-the-check">2.4 Watch the check</h3>
+<p>At the bottom of the pull request a check called <strong>Boat report</strong> appears.</p>
+<ul>
+<li><strong>&quot;Waiting for approval&quot;</strong> or <strong>&quot;1 workflow awaiting approval&quot;</strong>: GitHub holds the first pull request
+from a new contributor until a maintainer lets it run. You don't need to do anything. It usually
+happens within a day.</li>
+<li><strong>Yellow dot</strong>: it's running. A full run takes a few minutes.</li>
+<li><strong>Red ✗</strong>: something in the file needs fixing. Go to <a href="#25-if-the-check-fails">2.5</a>.</li>
+<li><strong>Green ✓</strong>: the report is ready. Go to <a href="#26-open-the-3d-viewer-and-the-report">2.6</a>.</li>
+</ul>
+<h3 id="25-if-the-check-fails">2.5 If the check fails</h3>
+<ol start="10">
+<li>
+<p>Click <strong>Details</strong> next to the red ✗. The log opens at the step that failed.</p>
+</li>
+<li>
+<p>Under <strong>Check the boat files</strong>, the checker lists each problem in plain words, usually with the line
+to fix:</p>
+<pre><code class="language-text">FAIL  boats/catalina-36-1989.yaml
+      - sail_plan.I (line 30): '45 feet' needs a number, a space, then one of: mm, cm, m, in, ft.
+      - masts.0.shrouds.cap (line 70): Additional properties are not allowed ('pretention' was
+        unexpected) Check the spelling against docs/boat-yaml.md.
+</code></pre>
+</li>
+<li>
+<p>Fix it in the browser: in your pull request click <strong>Files changed</strong>, then the <strong>⋯</strong> menu at the right
+of your file's header, then <strong>Edit file</strong>. Make the change, then click <strong>Commit changes…</strong> and
+<strong>Commit changes</strong>. Leave it on the same branch; GitHub offers that by default.</p>
+</li>
+<li>
+<p>The check runs again by itself. Repeat until it's green.</p>
+</li>
+</ol>
+<p>If you're stuck, write a comment on the pull request and paste the error. Someone will help.</p>
+<h3 id="26-open-the-3d-viewer-and-the-report">2.6 Open the 3D viewer and the report</h3>
+<p>There are two ways in. The first needs nothing but a click.</p>
+<p><strong>Online, from the pull request.</strong> A minute or two after the check goes green, a comment titled
+<strong>Rig report preview</strong> appears on your pull request, posted by <code>github-actions</code>.</p>
+<ol start="14">
+<li>Click <strong>Open the 3D viewer</strong>. It opens in your browser, on a phone too.</li>
+<li>Pick a load case with the buttons along the top. Drag to turn the rig, scroll or pinch to zoom, and
+hover over (or tap) any wire, mast panel or spreader to see its load. <a href="#the-3d-viewer">Step 3</a> explains
+the colours.</li>
+<li><strong>Report</strong> and <strong>PDF</strong>, in the same comment, open the full report.</li>
+</ol>
+<p>The links work for anyone you send them to. If one shows &quot;404&quot;, wait a minute: GitHub Pages takes a moment
+to publish. The preview follows every change you push, and it's removed when the pull request closes, so
+download a copy if you want to keep it.</p>
+<p><strong>As a download, to keep.</strong></p>
+<ol start="17">
+<li>Click <strong>Details</strong> next to the green ✓, then <strong>Summary</strong> at the top left of the page that opens. The
+summary shows the headline: the governing wire and its safety factor in each load case, the mast's peak
+stress, the lowest buckling factor, and how many inputs are still estimates.</li>
+<li>Scroll to the bottom, to <strong>Artifacts</strong>, and click <strong>rig-report-<your file name></strong>. You get a zip file.
+GitHub keeps it for 90 days.</li>
+<li>Unzip it and double-click <strong><code>viewer.html</code></strong>. It opens in your browser and works <strong>without internet</strong>,
+so you can show it to someone on the dock. The zip also holds <code>REPORT.html</code>, <code>REPORT.pdf</code>, the figures,
+<code>viewer.json</code> (the results as data) and a copy of your boat file.</li>
+</ol>
+<p>You can share the zip, <code>viewer.html</code> on its own, or just the PDF, with anyone.</p>
+<h3 id="27-what-happens-next">2.7 What happens next</h3>
+<ul>
+<li><strong>You only wanted the report:</strong> close the pull request (the <strong>Close pull request</strong> button at the bottom).
+Your report is already downloaded.</li>
+<li><strong>You'd like the boat to stay here as an example for others:</strong> leave it open and say so in a comment.
+The maintainer may ask a question or two, then merge it. A merged boat gets a permanent page: its 3D
+viewer at <code>https://rigframe.github.io/rigframe/boats/&lt;file name&gt;/viewer.html</code>, and its report beside it.
+<a href="./">The front page</a> lists every published boat. The pages update
+whenever rigframe improves.</li>
+<li><strong>You measured more later:</strong> edit the file in your pull request (step 12) and the report runs again.
+If the pull request is already closed or merged, open a new one the same way.</li>
+</ul>
+<h2 id="step-3-read-the-report">Step 3: Read the report</h2>
+<p>The report opens with the things to check first:</p>
+<ol>
+<li><strong>Estimates.</strong> Every input still marked <code>estimate</code>, most influential first. Until those are measured,
+the numbers that depend on them are estimates too.</li>
+<li><strong>Rigging list.</strong> Every wire with its size, length, breaking load, dock tension and highest load.
+The lengths run pin to pin on the model's geometry; they aren't cut lengths.</li>
+<li><strong>All cases at a glance.</strong> One row per load case: the governing wire and its safety factor, the mast's
+peak stress and utilisation, the buckling factor.</li>
+</ol>
+<p>Then each load case in full, and the method: what each case means, how the sail loads are applied, the
+textbook equations behind it, and the cross-check against a second solver.</p>
+<h3 id="the-3d-viewer">The 3D viewer</h3>
+<ul>
+<li><strong>Colour is utilisation</strong>, on one scale for everything: a wire's tension as a share of its breaking load,
+and a spar's peak stress as a share of the aluminium's yield. Pale is lightly loaded; dark brown is at or
+past 50%. A dotted grey wire is slack.</li>
+<li><strong>The cards</strong> above the view give the case's peak mast stress, the most-loaded wire and its safety
+factor, the peak spreader stress, and how far each masthead moves.</li>
+<li><strong>The shape is exaggerated.</strong> The <em>Displacement ×</em> slider sets by how much (8 times by default). Tick
+<em>Undeformed</em> to see the rig at rest behind it.</li>
+<li><strong>Hover</strong> shows each member's numbers: tension, safety factor and wire stress for a wire; peak stress,
+axial load and bending moments for a spar. The tooltip on each case button names the solver that ran it.</li>
+</ul>
+<h3 id="safety-factor">Safety factor</h3>
+<p><strong>Safety factor</strong> here is the wire's minimum breaking load over its tension in that case. It has to cover
+everything the model leaves out: gusts beyond the case, wave slamming, fatigue, worn fittings. Shigley's
+<em>Mechanical Engineering Design</em> asks for at least 3.5 on guy wires (Table 17-25). The report explains
+what each case's factor means.</p>
+<h2 id="keeping-your-boat-private">Keeping your boat private</h2>
+<p>If you'd rather nobody else saw your boat file or report, run rigframe in your own private copy of the
+repository.</p>
+<ol>
+<li>On this repository's page, click <strong>Use this template</strong> (top right), then <strong>Create a new repository</strong>.</li>
+<li>Give it a name, choose <strong>Private</strong>, and click <strong>Create repository</strong>.</li>
+<li>In your new repository, add your boat file to <code>boats/</code> exactly as in <a href="#21-add-the-file">2.1</a>, but
+commit it straight to <code>main</code> (there's nothing to fork).</li>
+<li>Open the <strong>Actions</strong> tab. The <strong>Boat report</strong> run appears within a minute. When it's green, open it
+and download the report from <strong>Artifacts</strong>, as in <a href="#26-open-the-3d-viewer-and-the-report">2.6</a>.
+<code>viewer.html</code> in the zip is the full 3D viewer and needs no internet.</li>
+</ol>
+<p>GitHub's free plan includes Actions minutes for private repositories, and one report takes a few of
+them. Private repositories can't publish GitHub Pages on the free plan, so there's no online preview and
+the report comes only as a download.</p>
+<h2 id="running-it-on-your-own-computer">Running it on your own computer</h2>
+<pre><code class="language-bash">pipx install rigframe
+</code></pre>
+<pre><code class="language-bash">rigframe validate boats/my-boat.yaml
+</code></pre>
+<pre><code class="language-bash">rigframe run boats/my-boat.yaml --out reports/
+</code></pre>
+<p><code>validate</code> checks the file in under a second. <code>run</code> writes the report folder, with <code>viewer.html</code> in it.
+The viewer carries its own copy of plotly.js (about 5 MB), so it opens offline. To rebuild it as a 50 kB file
+that fetches plotly.js from the internet instead, for a web page or an email, run
+<code>rigframe viewer reports/my-boat/viewer.json viewer.html --cdn</code>. The OpenSees cross-check
+needs the optional extra (<code>pipx install &quot;rigframe[opensees]&quot;</code>); see <a href="#licences-and-credits">Licences</a>.
+Without it, the report says the cross-check was skipped.</p>
+<p>In VS Code with the YAML extension, the first line of every boat file points at
+<a href="https://github.com/RigFrame/rigframe/blob/main/schema/boat.schema.json" rel="noopener"><code>schema/boat.schema.json</code></a>, so you get completion and error marks as you type.</p>
+<h2 id="how-it-works">How it works</h2>
+<ul>
+<li><strong>The frame.</strong> The mast and spreaders are beam elements and every wire is a tension-only bar, in
+<a href="https://github.com/JWock82/Pynite" rel="noopener">Pynite</a>. Both masts of a ketch or yawl are in one model.</li>
+<li><strong>The dock tune.</strong> Each turnbuckle's shortening is solved by Newton iteration so that every wire reaches
+its target tension at once. The forestay is reached the way a rigger reaches it, through the backstay
+(or, on a ketch with a triatic, the mizzen backstays).</li>
+<li><strong>Sailing.</strong> One sail pressure, chosen so the heeling moment about the deck equals the righting moment at
+30° heel (times the case's factor), acts on the main's and the headsail's areas. The main's force runs
+along the mast between the boom and the head, largest at the boom. A third of the headsail's force goes to
+the masthead and the rest straight to the stem, unless the case spreads it along the stay. P-Delta
+analysis includes the mast's bow.</li>
+<li><strong>Stays that sag.</strong> With the headsail's load spread along its stay, the stay's tension comes from its
+own stretch. That needs a large-displacement solver, so those cases run in
+<a href="https://opensees.berkeley.edu/" rel="noopener">OpenSees</a> with corotational elements and are checked against the cable
+equation.</li>
+<li><strong>Buckling</strong> comes from the stiffness and geometric-stiffness matrices; open-section torsional-flexural
+buckling is checked by hand.</li>
+<li><strong>Cross-check.</strong> The dock tune and the main load cases are re-run in OpenSees, and the report prints the
+differences. Pynite's linear P-Delta leaves out the shortening of a bowed mast, which puts its forestay
+1–2% above the large-displacement answer; the report flags it.</li>
+<li><strong>Checks.</strong> Every run ends in a table of PASS/FAIL checks: equilibrium, the cross-check, the cable
+equation, Euler buckling of each panel. A failed check stops the report from calling itself finished.</li>
+</ul>
+<p>The method was built and validated in three studies: a masthead sloop with discontinuous shrouds and four
+lowers, a masthead cutter, and a masthead ketch with both triatic and split-backstay arrangements. Those
+three are the example boats.</p>
+<h2 id="adding-to-rigframe">Adding to rigframe</h2>
+<ul>
+<li><strong>A new boat</strong> is a pull request with a YAML file, as above.</li>
+<li><strong>A new load case</strong> is a function registered in <code>rigframe/loads.py</code>. It takes the boat and returns
+forces on nodes; the rest of the run picks it up.</li>
+<li><strong>A new rig layout</strong> (running backstays, a fractional rig's diamonds, a bowsprit with a bobstay) means
+teaching <code>rigframe/geometry.py</code> a new kind of wire, adding it to the schema, and adding an example boat
+that uses it. Open an issue first.</li>
+<li>Every change has to keep the example boats' numbers. <code>pytest</code> compares each run with stored results.</li>
+</ul>
+<h2 id="licences-and-credits">Licences and credits</h2>
+<ul>
+<li><strong>rigframe</strong> is MIT.</li>
+<li><strong>Pynite</strong> is MIT. <strong>sectionproperties</strong> is MIT. <strong>plotly.js</strong>, which the 3D viewer carries inside it,
+is MIT. <strong>NumPy, SciPy, matplotlib, pandas</strong> are BSD.</li>
+<li><strong>OpenSeesPy</strong> is free for research, education and internal use; commercial redistribution needs a
+licence from its owners. It is not open source in the OSI sense. rigframe doesn't ship it: it's an
+optional extra you install yourself, and everything except the cross-check runs without it.</li>
+<li><strong>Wire data:</strong> 1x19 316 minimum breaking loads from four suppliers' catalogues (Lindemann, S3i, Nance &amp;
+Underwood, Lexco), one column each in <a href="https://github.com/RigFrame/rigframe/blob/main/data/wire_1x19_316.csv" rel="noopener"><code>data/wire_1x19_316.csv</code></a>. The design value
+is the lowest of them.</li>
+<li><strong>Sail-plan and hull data</strong> for the example boats come from the sources listed in each file.</li>
+</ul>
+</article></div>
+<footer><div class="wrap">
+<span>rigframe is MIT-licensed. An engineering estimate, not a rig survey.</span>
+<span>Built 2026-10-29 from <a href="https://github.com/RigFrame/rigframe/commit/71490e1">71490e1</a> &middot; <a href="https://github.com/RigFrame/rigframe">GitHub</a> &middot; <a href="https://github.com/RigFrame/rigframe/issues">Issues</a></span>
+</div></footer>
+<script>
+(function(){
+ var root=document.documentElement,key='rigframe-theme';
+ try{var t=localStorage.getItem(key);if(t)root.dataset.theme=t;}catch(e){}
+ var b=document.getElementById('theme');
+ if(b)b.addEventListener('click',function(){
+  var dark=root.dataset.theme?root.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;
+  root.dataset.theme=dark?'light':'dark';try{localStorage.setItem(key,root.dataset.theme);}catch(e){}
+ });
+ function copy(btn,text){
+  var done=function(){var o=btn.textContent;btn.textContent='Copied';setTimeout(function(){btn.textContent=o;},1400);};
+  if(navigator.clipboard)navigator.clipboard.writeText(text).then(done,function(){});
+ }
+ document.querySelectorAll('.doc pre').forEach(function(pre){
+  var btn=document.createElement('button');btn.className='copy';btn.type='button';btn.textContent='Copy';
+  btn.addEventListener('click',function(){copy(btn,pre.querySelector('code').innerText);});pre.appendChild(btn);
+ });
+ document.querySelectorAll('[data-copy]').forEach(function(btn){
+  btn.addEventListener('click',function(){copy(btn,document.getElementById(btn.dataset.copy).value);});
+ });
+ document.querySelectorAll('.term .more').forEach(function(m){
+  m.addEventListener('click',function(){var t=m.closest('.term');t.classList.toggle('open');
+   m.textContent=t.classList.contains('open')?'Show less':'Show the whole prompt';});
+ });
+ var play=document.getElementById('play');
+ if(play)play.addEventListener('click',function(e){
+  e.preventDefault();var f=document.createElement('iframe');f.src=play.getAttribute('href');f.title='3D rig viewer';
+  var host=document.getElementById('shot');host.closest('figure').classList.add('live');host.replaceWith(f);play.remove();
+ });
+ var links=[].slice.call(document.querySelectorAll('aside.toc a'));
+ if(links.length&&'IntersectionObserver'in window){
+  var map={};links.forEach(function(a){map[a.hash.slice(1)]=a;});
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){
+   if(e.isIntersecting){links.forEach(function(a){a.classList.remove('on');});var a=map[e.target.id];if(a)a.classList.add('on');}
+  });},{rootMargin:'-70px 0px -70% 0px'});
+  Object.keys(map).forEach(function(id){var h=document.getElementById(id);if(h)io.observe(h);});
+ }
+})();
+</script>
+</body></html>

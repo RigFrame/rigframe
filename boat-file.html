@@ -1,0 +1,919 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The boat file · rigframe</title>
+<meta name="description" content="Every field in a rigframe boat file, its units and where to find it.">
+<meta property="og:title" content="The boat file · rigframe"><meta property="og:description" content="Every field in a rigframe boat file, its units and where to find it.">
+<meta property="og:image" content="https://rigframe.github.io/rigframe/img/viewer-morgan-462.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%20aria-hidden%3D%22true%22%3E%3Cpath%20d%3D%22M12%202.5v19M4.5%2020.5%2012%202.5l7.5%2018M7.6%2012.5h8.8M3%2021.5h18%22%20fill%3D%22none%22%20stroke%3D%22%231d5ea8%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f6f5f1;--surface:#fff;--sunk:#efede7;--ink:#15191f;--muted:#5d646e;--line:#e1ded6;
+--accent:#1d5ea8;--accent-ink:#fff;--accent-soft:#e3edf8;--warn:#b7791f;--warn-soft:#fbf1df;--code:#f1efe9;
+--hero:radial-gradient(1200px 500px at 85% -10%,#dfe9f5 0,transparent 60%);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1015;--surface:#151a21;--sunk:#11151b;
+--ink:#e7e5e0;--muted:#9aa2ad;--line:#262d36;--accent:#6aa9f5;--accent-ink:#0b1320;--accent-soft:#16243a;
+--warn:#e2a54b;--warn-soft:#2a2113;--code:#11161d;--hero:radial-gradient(1200px 500px at 85% -10%,#16243a 0,transparent 60%);
+color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0d1015;--surface:#151a21;--sunk:#11151b;--ink:#e7e5e0;--muted:#9aa2ad;--line:#262d36;
+--accent:#6aa9f5;--accent-ink:#0b1320;--accent-soft:#16243a;--warn:#e2a54b;--warn-soft:#2a2113;--code:#11161d;
+--hero:radial-gradient(1200px 500px at 85% -10%,#16243a 0,transparent 60%);color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-padding-top:72px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-underline-offset:2px}
+code,pre{font-family:"JetBrains Mono",ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.88em}
+:not(pre)>code{background:var(--code);border:1px solid var(--line);border-radius:5px;padding:.08em .35em}
+.muted{color:var(--muted)}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+/* top bar */
+header.top{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 85%,transparent);
+backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line)}
+header.top .wrap{display:flex;align-items:center;gap:20px;height:58px}
+.brand{display:flex;align-items:center;gap:8px;font-weight:700;color:var(--ink);text-decoration:none;letter-spacing:-.01em}
+.brand svg{width:22px;height:22px;color:var(--accent)}
+nav.links{display:flex;gap:4px;flex:1}
+nav.links a{color:var(--muted);text-decoration:none;font-size:14.5px;padding:6px 10px;border-radius:7px}
+nav.links a:hover,nav.links a[aria-current]{color:var(--ink);background:var(--sunk)}
+.icons{display:flex;gap:6px;margin-left:auto}
+.icon{display:inline-grid;place-items:center;width:36px;height:36px;border-radius:8px;border:1px solid var(--line);
+background:var(--surface);color:var(--ink);cursor:pointer}
+.icon svg{width:17px;height:17px}
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:var(--accent-ink);text-decoration:none;
+font-weight:600;padding:11px 18px;border-radius:9px;border:1px solid var(--accent);font-size:15px}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn.ghost:hover{background:var(--sunk)}
+.btn.small{padding:5px 11px;font-size:13.5px;border-radius:7px}
+/* hero */
+.hero{background:var(--hero)}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:48px;align-items:center;padding-top:64px;padding-bottom:56px}
+.eyebrow{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:0 0 14px}
+.hero h1{font-size:clamp(34px,4.6vw,54px);line-height:1.06;letter-spacing:-.025em;margin:0 0 20px;font-weight:750}
+.lead{font-size:18.5px;color:var(--muted);margin:0 0 26px;max-width:36em}
+.cta{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px}
+.note{font-size:14.5px;color:var(--muted);margin:0}
+.frame{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:var(--surface);
+box-shadow:0 1px 2px rgba(0,0,0,.04),0 18px 50px -20px rgba(16,40,80,.35)}
+.frame .bar{display:flex;align-items:center;gap:6px;padding:9px 12px;border-bottom:1px solid var(--line);font-size:12.5px;color:var(--muted)}
+.frame .bar i{width:10px;height:10px;border-radius:50%;background:var(--line)}
+.frame .bar span{margin-left:8px}
+.frame img{display:block;width:100%;height:auto}
+.frame iframe{display:block;width:100%;height:min(78vh,720px);border:0;background:#fff}
+figure.live{grid-column:1/-1}
+.play{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);box-shadow:0 8px 24px -8px rgba(0,0,0,.4)}
+figcaption{font-size:13px;color:var(--muted);margin-top:10px}
+/* bands and sections */
+.callouts{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding-bottom:40px;margin-top:-16px}
+.callout{background:var(--warn-soft);border:1px solid color-mix(in srgb,var(--warn) 30%,transparent);border-left:3px solid var(--warn);
+border-radius:10px;padding:14px 16px;font-size:14.5px}
+.callout p{margin:0}
+section.block{padding:56px 0;border-top:1px solid var(--line)}
+section.block h2{font-size:clamp(26px,3vw,34px);letter-spacing:-.02em;margin:0 0 8px;line-height:1.15}
+section.block>.wrap>p.sub{color:var(--muted);margin:0 0 28px;max-width:46em;font-size:17px}
+.grid{display:grid;gap:14px}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px}
+.card p{margin:0}
+.card .num{font:600 12px/1 "JetBrains Mono",monospace;color:var(--accent);margin-bottom:10px;display:block}
+.way h3{font-size:16px;margin:0 0 10px}
+.way dl{margin:0;font-size:14px}
+.way dt{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.05em;margin-top:10px}
+.way dd{margin:2px 0 0}
+/* prompt box */
+.promptgrid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:36px;align-items:start}
+ol.steps{list-style:none;padding:0;margin:0;counter-reset:s}
+ol.steps li{counter-increment:s;position:relative;padding:0 0 18px 44px;font-size:15px}
+ol.steps li::before{content:counter(s,decimal-leading-zero);position:absolute;left:0;top:0;font:600 12px/1 "JetBrains Mono",monospace;
+color:var(--accent);background:var(--accent-soft);border-radius:6px;padding:6px 7px}
+.term{border:1px solid var(--line);border-radius:12px;background:var(--code);overflow:hidden}
+.term .bar{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-bottom:1px solid var(--line);
+font-size:12.5px;color:var(--muted);background:var(--surface)}
+.term pre{margin:0;padding:16px 18px;white-space:pre-wrap;font-size:13px;line-height:1.55;max-height:300px;overflow:hidden;position:relative}
+.term.open pre{max-height:none}
+.term:not(.open) pre::after{content:"";position:absolute;inset:auto 0 0 0;height:90px;background:linear-gradient(transparent,var(--code))}
+.term .more{display:block;width:100%;border:0;border-top:1px solid var(--line);background:var(--surface);color:var(--accent);
+padding:9px;font:inherit;font-size:14px;cursor:pointer}
+.copy{font:inherit;font-size:12.5px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:6px;padding:3px 10px;cursor:pointer}
+/* boats */
+.boats{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.boat{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.boat .pic{height:200px;padding:14px 14px 0;background:linear-gradient(var(--sunk),var(--surface));color:var(--ink);display:flex;justify-content:center}
+.elev{width:100%;height:100%}
+.boat .body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:8px;flex:1}
+.boat h3{margin:0;font-size:17px}
+.boat p{margin:0;font-size:14px}
+.variant{font-size:12px;font-weight:600;color:var(--accent);background:var(--accent-soft);padding:2px 8px;border-radius:999px;vertical-align:2px}
+.est small{color:var(--muted);font-size:12.5px}
+.est .bar{height:5px;border-radius:9px;background:var(--accent-soft);overflow:hidden;margin:4px 0 2px}
+.est .bar span{display:block;height:100%;background:var(--warn)}
+.actions{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;margin-top:auto;padding-top:6px;font-size:13.5px}
+.legend{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted);margin:-12px 0 22px}
+.legend .ramp{width:120px;height:6px;border-radius:9px;background:linear-gradient(90deg,#d8c8a4,#c04a1a)}
+/* docs */
+.doclayout{display:grid;grid-template-columns:230px minmax(0,1fr);gap:48px;padding-top:36px;padding-bottom:80px}
+aside.toc{position:sticky;top:78px;align-self:start;max-height:calc(100vh - 96px);overflow:auto;font-size:13.5px;padding-right:6px}
+aside.toc p{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600;margin:0 0 8px}
+aside.toc a{display:block;color:var(--muted);text-decoration:none;padding:4px 0 4px 12px;border-left:2px solid var(--line);line-height:1.35}
+aside.toc a.l3{padding-left:24px;font-size:13px}
+aside.toc a:hover{color:var(--ink)}
+aside.toc a.on{color:var(--accent);border-left-color:var(--accent)}
+details.mtoc{display:none}
+.doc{max-width:780px;min-width:0}
+.doc h1{font-size:clamp(30px,4vw,42px);letter-spacing:-.02em;line-height:1.1;margin:0 0 18px}
+.doc h2{font-size:26px;letter-spacing:-.015em;margin:52px 0 12px;padding-top:28px;border-top:1px solid var(--line);line-height:1.2}
+.doc h3{font-size:19px;margin:32px 0 8px}
+.doc hr{display:none}
+.doc img{max-width:100%;height:auto;border-radius:10px;border:1px solid var(--line);background:#fff}
+.doc p>sub{display:block;font-size:13px;color:var(--muted);margin-top:-6px}
+.doc blockquote{margin:16px 0;background:var(--warn-soft);border:1px solid color-mix(in srgb,var(--warn) 30%,transparent);
+border-left:3px solid var(--warn);border-radius:10px;padding:12px 16px;font-size:15px}
+.doc blockquote p{margin:0}
+.doc pre{background:var(--code);border:1px solid var(--line);border-radius:10px;padding:14px 16px;overflow:auto;position:relative;line-height:1.5}
+.doc pre .copy{position:absolute;top:8px;right:8px;opacity:0;transition:opacity .15s}
+.doc pre:hover .copy,.doc pre .copy:focus{opacity:1}
+.table-wrap{overflow-x:auto;margin:16px 0;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+.doc table{border-collapse:collapse;width:100%;font-size:14.5px}
+.doc th,.doc td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+.doc tr:last-child td{border-bottom:0}
+.doc th{background:var(--sunk);font-size:13px}
+.doc li{margin:4px 0}
+.doc :not(pre)>code{overflow-wrap:anywhere}
+.header-anchor{opacity:0;margin-left:6px;text-decoration:none;color:var(--muted)}
+h2:hover .header-anchor,h3:hover .header-anchor{opacity:1}
+footer{border-top:1px solid var(--line);padding:28px 0 40px;font-size:13.5px;color:var(--muted)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between}
+@media (max-width:960px){
+ .hero .wrap,.promptgrid{grid-template-columns:1fr;gap:32px}
+ .hero .wrap{padding-top:40px}
+ .g3,.g4{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .doclayout{grid-template-columns:1fr;gap:0}
+ aside.toc{display:none}
+ details.mtoc{display:block;margin-bottom:20px;border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:10px 14px;font-size:14px}
+ details.mtoc a{display:block;padding:3px 0;text-decoration:none}
+ details.mtoc a.l3{padding-left:14px}
+}
+@media (max-width:720px){
+ header.top .wrap{flex-wrap:wrap;height:auto;padding-top:9px;padding-bottom:6px;gap:6px 12px}
+ nav.links{order:3;flex-basis:100%;overflow-x:auto;white-space:nowrap;margin:0 -6px;scrollbar-width:none}
+ nav.links a{padding:4px 8px;font-size:14px}
+ html{scroll-padding-top:110px}
+ aside.toc{top:110px}
+ .g3,.g4,.g2,.callouts{grid-template-columns:1fr}
+ .frame iframe{height:70vh}
+}
+</style></head>
+<body>
+<header class="top"><div class="wrap">
+<a class="brand" href="./"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5v19M4.5 20.5 12 2.5l7.5 18M7.6 12.5h8.8M3 21.5h18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>rigframe</a>
+<nav class="links"><a href="guide.html">Guide</a><a href="index.html#boats">Boats</a><a href="boat-file.html" aria-current=page>Boat file</a><a href="prompt.html">AI prompt</a><a href="index.html#notebooks">Notebooks</a></nav>
+<div class="icons">
+<button class="icon" id="theme" type="button" aria-label="Switch light or dark"><svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z"/></svg></button>
+<a class="icon" href="https://github.com/RigFrame/rigframe" aria-label="rigframe on GitHub" rel="noopener"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
+</div></div></header>
+<div class="wrap doclayout">
+<aside class="toc"><p>On this page</p><a class="l2" href="#writing-a-value">Writing a value</a><a class="l3" href="#three-yaml-traps">Three YAML traps</a><a class="l2" href="#axes">Axes</a><a class="l2" href="#boat">boat</a><a class="l2" href="#hull">hull</a><a class="l2" href="#sail_plan">sail_plan</a><a class="l2" href="#masts">masts</a><a class="l3" href="#section">section</a><a class="l3" href="#spreaders">spreaders</a><a class="l3" href="#shrouds">shrouds</a><a class="l2" href="#stays">stays</a><a class="l3" href="#what-each-rig-type-needs">What each rig type needs</a><a class="l2" href="#load_cases">load_cases</a><a class="l2" href="#analysis">analysis</a><a class="l2" href="#what-the-checker-checks">What the checker checks</a><p style="margin-top:18px"><a href="https://github.com/RigFrame/rigframe/blob/main/docs/boat-yaml.md">View docs/boat-yaml.md on GitHub</a></p></aside>
+<article class="doc"><details class="mtoc"><summary>On this page</summary><a class="l2" href="#writing-a-value">Writing a value</a><a class="l3" href="#three-yaml-traps">Three YAML traps</a><a class="l2" href="#axes">Axes</a><a class="l2" href="#boat">boat</a><a class="l2" href="#hull">hull</a><a class="l2" href="#sail_plan">sail_plan</a><a class="l2" href="#masts">masts</a><a class="l3" href="#section">section</a><a class="l3" href="#spreaders">spreaders</a><a class="l3" href="#shrouds">shrouds</a><a class="l2" href="#stays">stays</a><a class="l3" href="#what-each-rig-type-needs">What each rig type needs</a><a class="l2" href="#load_cases">load_cases</a><a class="l2" href="#analysis">analysis</a><a class="l2" href="#what-the-checker-checks">What the checker checks</a></details>
+<h1>The boat file</h1>
+<p>A boat file is one YAML file in <code>boats/</code> that describes one rig. rigframe reads it, builds the 3D frame,
+tunes it at the dock, sails it through the load cases and writes the report. Nothing else about the boat
+lives anywhere else.</p>
+<ul>
+<li>Start from <a href="https://github.com/RigFrame/rigframe/blob/main/docs/boat-template.yaml" rel="noopener"><code>boat-template.yaml</code></a>, or from the example closest to your rig:
+<a href="https://github.com/RigFrame/rigframe/blob/main/boats/beneteau-oceanis-440-1994.yaml" rel="noopener">masthead sloop, two spreader sets</a>,
+<a href="https://github.com/RigFrame/rigframe/blob/main/boats/island-packet-40-1996.yaml" rel="noopener">masthead cutter</a>,
+<a href="https://github.com/RigFrame/rigframe/blob/main/boats/morgan-462-ketch-triatic.yaml" rel="noopener">ketch with a triatic</a>,
+<a href="https://github.com/RigFrame/rigframe/blob/main/boats/morgan-462-ketch-split-backstays.yaml" rel="noopener">ketch with split backstays</a>.</li>
+<li>Or have an AI assistant draft it for you with <a href="prompt.html">the boat-file prompt</a>.</li>
+<li>The machine-readable rules are in <a href="https://github.com/RigFrame/rigframe/blob/main/schema/boat.schema.json" rel="noopener"><code>schema/boat.schema.json</code></a>. VS Code with
+the YAML extension reads the first line of every boat file and checks it as you type.</li>
+</ul>
+<p><img src="img/rig-names.svg" alt="The names used in a boat file, on a side view and a view from astern" loading="lazy" /></p>
+<p><sub>Drawn for this repository from the Oceanis 440 example. MIT.</sub></p>
+<hr />
+<h2 id="writing-a-value">Writing a value</h2>
+<p>Every number carries its unit. Use the unit your source used; rigframe converts.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Kind</th>
+<th>Units</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Length</td>
+<td><code>mm</code> <code>cm</code> <code>m</code> <code>in</code> <code>ft</code></td>
+<td><code>53.15 ft</code>, <code>-19 in</code>, <code>3.7 mm</code></td>
+</tr>
+<tr>
+<td>Wire size</td>
+<td>the same, with fractions</td>
+<td><code>10 mm</code>, <code>3/8 in</code>, <code>1 1/4 in</code></td>
+</tr>
+<tr>
+<td>Mass</td>
+<td><code>kg</code> <code>t</code> <code>lb</code></td>
+<td><code>9299 kg</code>, <code>22800 lb</code></td>
+</tr>
+<tr>
+<td>Percentage</td>
+<td><code>%</code></td>
+<td><code>20 %</code> (pretension), <code>135 %</code> (LP), <code>37 %</code> (a height)</td>
+</tr>
+<tr>
+<td>Angle</td>
+<td><code>deg</code></td>
+<td><code>15 deg</code></td>
+</tr>
+<tr>
+<td>Area</td>
+<td><code>mm^2</code> <code>cm^2</code> <code>m^2</code> <code>in^2</code></td>
+<td><code>36.0 cm^2</code></td>
+</tr>
+<tr>
+<td>Second moment, torsion constant</td>
+<td><code>mm^4</code> <code>cm^4</code> <code>m^4</code> <code>in^4</code></td>
+<td><code>2430 cm^4</code></td>
+</tr>
+<tr>
+<td>Stress, modulus</td>
+<td><code>MPa</code> <code>GPa</code> <code>ksi</code> <code>psi</code></td>
+<td><code>240 MPa</code>, <code>70 GPa</code></td>
+</tr>
+<tr>
+<td>Moment</td>
+<td><code>N*m</code> <code>kN*m</code> <code>kgf*m</code> <code>lbf*ft</code></td>
+<td><code>46.5 kN*m</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>A value can be bare, or carry where it came from:</p>
+<pre><code class="language-yaml">I: 53.15 ft                                        # bare: counts as an estimate
+I: {value: 53.15 ft, basis: published, ref: gob}   # with its source
+</code></pre>
+<p><code>basis</code> is one of four words. The report's first page lists every input still marked <code>estimate</code>, so the
+owner knows what to measure.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>basis</th>
+<th>Means</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>measured</code></td>
+<td>Taken on this boat.</td>
+</tr>
+<tr>
+<td><code>maker</code></td>
+<td>The spar or rigging maker's figure for this part.</td>
+</tr>
+<tr>
+<td><code>published</code></td>
+<td>The builder, the designer, a class association, a review, a broker listing.</td>
+</tr>
+<tr>
+<td><code>estimate</code></td>
+<td>Anything else, including a value copied from an example file.</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>ref</code> names a key in <code>boat.sources</code>, where the full citation goes once:</p>
+<pre><code class="language-yaml">boat:
+  sources:
+    gob: Good Old Boat sail data, Beneteau Oceanis 440, https://goodoldboat.com/saildata/boat/beneteau-oceanis-440/
+</code></pre>
+<h3 id="three-yaml-traps">Three YAML traps</h3>
+<ol>
+<li><strong>A comma inside <code>{ }</code> ends the value.</strong> <code>{value: 650 cm^4, basis: estimate, note: traced, cell closed}</code>
+turns <code>cell closed</code> into a new key. Quote any note with a comma: <code>note: &quot;traced, cell closed&quot;</code>.</li>
+<li><strong>No tabs.</strong> Indent with two spaces per level.</li>
+<li><strong>A bare number needs a unit.</strong> <code>I: 53.15</code> fails; <code>I: 53.15 ft</code> passes. <code>RM_factor</code> is the one plain number.</li>
+</ol>
+<hr />
+<h2 id="axes">Axes</h2>
+<ul>
+<li><code>x</code> forward, measured from the <strong>main mast's centreline</strong>. Forward of the mast is positive, aft negative.</li>
+<li><code>y</code> to port. Give <code>|y|</code> for anything with a port and a starboard twin; both sides are built.</li>
+<li><code>z</code> up, measured from the <strong>sheer</strong> (the deck edge). Below deck is negative.</li>
+</ul>
+<hr />
+<h2 id="boat"><code>boat</code></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Required</th>
+<th>What</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name</code></td>
+<td>yes</td>
+<td>Builder and model.</td>
+</tr>
+<tr>
+<td><code>year</code></td>
+<td></td>
+<td>Model year of this boat.</td>
+</tr>
+<tr>
+<td><code>designer</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>rig</code></td>
+<td>yes</td>
+<td><code>masthead sloop</code>, <code>fractional sloop</code>, <code>masthead cutter</code>, <code>fractional cutter</code>, <code>masthead ketch</code>, <code>fractional ketch</code>, <code>masthead yawl</code>, <code>fractional yawl</code>.</td>
+</tr>
+<tr>
+<td><code>variant</code></td>
+<td></td>
+<td>What sets this file apart from another file for the same boat (<code>split backstays</code>).</td>
+</tr>
+<tr>
+<td><code>notes</code></td>
+<td></td>
+<td>Anything a reader should know: changes from factory, a replacement mast, a bowsprit, conflicting sources.</td>
+</tr>
+<tr>
+<td><code>sources</code></td>
+<td></td>
+<td>Short id → full citation.</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Don't put the owner's name, the hull identification number, the boat's name or where it's kept in this
+file.</strong> A pull request to a public repository is public.</p>
+<h2 id="hull"><code>hull</code></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Required</th>
+<th>What</th>
+<th>Where to find it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>displacement</code></td>
+<td>yes</td>
+<td>Design displacement.</td>
+<td>Builder's brochure, sailboatdata.com, class association. When sources disagree, give the figure you used and say why in <code>note</code>.</td>
+</tr>
+<tr>
+<td><code>beam</code></td>
+<td>yes</td>
+<td>Maximum beam.</td>
+<td>Same.</td>
+</tr>
+<tr>
+<td><code>GZ30</code></td>
+<td>yes</td>
+<td>Righting arm at 30° heel. $RM_{30} = \Delta \cdot g \cdot GZ_{30}$ sizes every sailing case.</td>
+<td>A stability curve: the CE stability documents, the builder, a naval architect. Small-angle figures, such as a racing certificate's righting moment, don't give GZ at 30°. Without a curve, use <code>0.70 m</code> with <code>basis: estimate</code> and say so.</td>
+</tr>
+<tr>
+<td><code>RM30</code></td>
+<td></td>
+<td>Righting moment at 30°, if published. It wins over <code>GZ30</code>.</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="sail_plan"><code>sail_plan</code></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Required</th>
+<th>What</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>I</code></td>
+<td>yes</td>
+<td>Forestay hounds above the sheer.</td>
+</tr>
+<tr>
+<td><code>J</code></td>
+<td>yes</td>
+<td>Front face of the main mast to the forestay tack.</td>
+</tr>
+<tr>
+<td><code>P</code>, <code>E</code></td>
+<td>yes</td>
+<td>Main luff and foot.</td>
+</tr>
+<tr>
+<td><code>J2</code></td>
+<td>cutters</td>
+<td>Main mast to the staysail stay's tack.</td>
+</tr>
+<tr>
+<td><code>PY</code>, <code>EY</code></td>
+<td>ketches, yawls</td>
+<td>Mizzen luff and foot.</td>
+</tr>
+<tr>
+<td><code>headsail_LP</code></td>
+<td></td>
+<td>Genoa LP as a percentage of J. Default <code>135 %</code>.</td>
+</tr>
+<tr>
+<td><code>staysail_LP</code></td>
+<td>cutters</td>
+<td>Staysail LP as a percentage of J2.</td>
+</tr>
+<tr>
+<td><code>headsail_furling</code></td>
+<td></td>
+<td><code>true</code> or <code>false</code>.</td>
+</tr>
+<tr>
+<td><code>main_furling</code></td>
+<td></td>
+<td><code>none</code>, <code>in-mast</code>, <code>in-boom</code>. An in-mast furler means the section has an open luff slot.</td>
+</tr>
+<tr>
+<td><code>reef_fraction</code></td>
+<td></td>
+<td>The deep-reefed luff as a percentage of P. Default <code>60 %</code>.</td>
+</tr>
+<tr>
+<td><code>main_load_shape</code></td>
+<td></td>
+<td><code>triangular</code> (most load at the boom; default) or <code>uniform</code>.</td>
+</tr>
+</tbody>
+</table></div>
+<p>I, J, P and E are the most widely published rig figures. sailboatdata.com, Good Old Boat's sail data and
+sailmakers' online sail-plan databases list them for most production boats.</p>
+<h2 id="masts"><code>masts</code></h2>
+<p>A list of one mast (sloop, cutter) or two (ketch, yawl). One of them must have <code>id: main</code>.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Required</th>
+<th>What</th>
+<th>How to measure</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>yes</td>
+<td><code>main</code> or <code>mizzen</code>.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>x</code></td>
+<td></td>
+<td>Fore-and-aft position. The main is <code>0 m</code>; a mizzen is negative.</td>
+<td>Deck tape from the main mast to the mizzen.</td>
+</tr>
+<tr>
+<td><code>hounds_z</code></td>
+<td>mizzen</td>
+<td>Hounds height above the sheer. The main's is <code>I</code>.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>step</code></td>
+<td>yes</td>
+<td><code>keel</code> or <code>deck</code>.</td>
+<td>Look below: does the mast pass through the deck?</td>
+</tr>
+<tr>
+<td><code>heel_z</code></td>
+<td>keel-stepped</td>
+<td>The heel below the sheer, negative.</td>
+<td>Partners to the mast step, below.</td>
+</tr>
+<tr>
+<td><code>gooseneck_z</code></td>
+<td>yes</td>
+<td>Gooseneck above the sheer.</td>
+<td>Tape from the deck.</td>
+</tr>
+<tr>
+<td><code>above_hounds</code></td>
+<td>yes</td>
+<td>Masthead above the forestay tang.</td>
+<td>From the sail plan, or from a photo with the forestay toggle for scale.</td>
+</tr>
+<tr>
+<td><code>section</code></td>
+<td>yes</td>
+<td>See below.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>spreaders</code></td>
+<td>yes</td>
+<td>List, bottom to top. Can be empty.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>spreader_section</code></td>
+<td></td>
+<td>Spreader airfoil properties.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>spreader_root</code></td>
+<td></td>
+<td><code>released</code> (free to rotate up and down; default) or <code>fixed</code>.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>shrouds</code></td>
+<td>yes</td>
+<td>See below.</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="section"><code>section</code></h3>
+<p>Give the maker's figures when you have them; they win over anything rigframe works out from the outline.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Key</th>
+<th>What</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>profile</code></td>
+<td>Maker and profile name, such as <code>Z-Spars Z900E</code>. The single most useful thing to find: spar makers publish section tables with A and I for their profiles, and the profile code is often on a label at the mast foot or in the boat's papers.</td>
+</tr>
+<tr>
+<td><code>shape</code></td>
+<td><code>oval</code> (default), <code>elliptical</code>, <code>pear</code>.</td>
+</tr>
+<tr>
+<td><code>chord</code>, <code>width</code>, <code>wall</code></td>
+<td>Fore-and-aft depth, athwart width, wall thickness. Calipers on the mast at the gooseneck.</td>
+</tr>
+<tr>
+<td><code>luff_slot</code></td>
+<td>Width of an open luff slot (in-mast furlers).</td>
+</tr>
+<tr>
+<td><code>torsion</code></td>
+<td><code>closed</code> (default). The frame always uses a closed-section J; an open section's torsion is checked by hand in the report.</td>
+</tr>
+<tr>
+<td><code>A</code>, <code>mass_per_length</code></td>
+<td>Area, or mass per metre (rigframe divides by 2700 kg/m³).</td>
+</tr>
+<tr>
+<td><code>I_fore_aft</code>, <code>I_athwart</code></td>
+<td>Second moments: fore-and-aft bending and athwartships bending.</td>
+</tr>
+<tr>
+<td><code>J</code></td>
+<td>Torsion constant, if known.</td>
+</tr>
+<tr>
+<td><code>E</code>, <code>yield</code></td>
+<td>Default 70 GPa and 240 MPa (6061-T6 / 6082-T6). Yield is used only for the utilisation figures.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="spreaders"><code>spreaders</code></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Key</th>
+<th>What</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>height</code></td>
+<td>Above the sheer, as a length or as a percentage of this mast's hounds height.</td>
+</tr>
+<tr>
+<td><code>length</code></td>
+<td>Mast centreline to the tip, along the spreader.</td>
+</tr>
+<tr>
+<td><code>sweep</code></td>
+<td>Sweep aft in plan view. <code>0 deg</code> is in line with the mast.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Spreader heights are easy to get from a photo of the rig taken square-on, scaled by a known height.</p>
+<h3 id="shrouds"><code>shrouds</code></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Key</th>
+<th>What</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>arrangement</code></td>
+<td><code>continuous</code>: each shroud runs from its chainplate to its mast fitting, over the spreader tips. <code>discontinuous</code>: V1 runs from the chainplate to the lowest spreader tip, and the upper wires (V2, D2 ...) start there.</td>
+</tr>
+<tr>
+<td><code>cap</code></td>
+<td>The upper shroud to the hounds.</td>
+</tr>
+<tr>
+<td><code>intermediate</code></td>
+<td>Needed with two or more spreader sets.</td>
+</tr>
+<tr>
+<td><code>lowers</code></td>
+<td><code>single</code> (one lower each side), or <code>forward</code> and/or <code>aft</code>.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Each shroud takes:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Key</th>
+<th>What</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>size</code></td>
+<td>1x19 diameter: <code>10 mm</code>, <code>3/8 in</code>. Read it off the swage or the turnbuckle, or caliper the wire.</td>
+</tr>
+<tr>
+<td><code>segments</code></td>
+<td>Segments of a different size: <code>{V1: 12 mm}</code>.</td>
+</tr>
+<tr>
+<td><code>chainplate</code></td>
+<td><code>{x, y}</code> of the chainplate pin. Not needed for an intermediate in a discontinuous rig.</td>
+</tr>
+<tr>
+<td><code>pretension</code></td>
+<td>Dock tune target, as a percentage of the wire's breaking load, on the gauged segment. Typical: caps 15–20 %, lowers 10–15 %.</td>
+</tr>
+<tr>
+<td><code>gauge_on</code></td>
+<td>The segment the tune is measured on (<code>V2</code>). Default: the bottom one.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Segment names: V1, V2, V3 run up the cap from the bottom; D1 is a lower, D2 an intermediate. The figure
+at the top shows them.</p>
+<p><strong>Chainplate positions are the measurement that matters most.</strong> In the cutter example, how far aft the aft
+lowers land decides whether they can hold the staysail stay.</p>
+<h2 id="stays"><code>stays</code></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Required</th>
+<th>What</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>yes</td>
+<td>Your name for it. Other stays refer to it by this.</td>
+</tr>
+<tr>
+<td><code>kind</code></td>
+<td>yes</td>
+<td><code>forestay</code>, <code>inner_forestay</code>, <code>backstay</code>, <code>triatic</code>, <code>mizzen_forestay</code>, <code>mizzen_backstay</code>.</td>
+</tr>
+<tr>
+<td><code>top</code></td>
+<td>yes</td>
+<td><code>{mast: main, at: hounds}</code>, <code>{mast: main, at: masthead}</code>, or <code>{mast: main, at: 50 %}</code>.</td>
+</tr>
+<tr>
+<td><code>bottom</code></td>
+<td>yes</td>
+<td>A deck point <code>{x, y, z}</code>, or a mast fitting (a triatic's bottom is <code>{mast: mizzen, at: hounds}</code>).</td>
+</tr>
+<tr>
+<td><code>legs</code></td>
+<td></td>
+<td><code>single</code> (default) or <code>split</code>: one leg each side, and <code>bottom.y</code> is half the spread.</td>
+</tr>
+<tr>
+<td><code>size</code></td>
+<td>yes</td>
+<td>1x19 diameter.</td>
+</tr>
+<tr>
+<td><code>pretension</code></td>
+<td></td>
+<td>Dock tune target, % of breaking load.</td>
+</tr>
+<tr>
+<td><code>adjusts</code></td>
+<td></td>
+<td>The stay whose tension this stay's adjuster sets. A backstay usually <code>adjusts: forestay</code>, because the forestay sits inside the furler.</td>
+</tr>
+<tr>
+<td><code>carries</code></td>
+<td></td>
+<td><code>headsail</code>, <code>staysail</code>.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="what-each-rig-type-needs">What each rig type needs</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Rig</th>
+<th>Masts</th>
+<th>Stays</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sloop</td>
+<td><code>main</code></td>
+<td><code>forestay</code>, and a <code>backstay</code> (single or split)</td>
+</tr>
+<tr>
+<td>Cutter</td>
+<td><code>main</code></td>
+<td><code>forestay</code>, <code>inner_forestay</code>, <code>backstay</code>. Without running backstays, the aft lowers or the backstay hold the inner forestay.</td>
+</tr>
+<tr>
+<td>Ketch or yawl, triatic</td>
+<td><code>main</code>, <code>mizzen</code></td>
+<td><code>forestay</code>, <code>triatic</code>, <code>mizzen_backstay</code> that <code>adjusts: forestay</code></td>
+</tr>
+<tr>
+<td>Ketch or yawl, split backstays</td>
+<td><code>main</code>, <code>mizzen</code></td>
+<td><code>forestay</code>, <code>backstay</code> (split, round the mizzen), <code>mizzen_forestay</code>, <code>mizzen_backstay</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>A two-masted rig with no triatic needs a <code>mizzen_forestay</code>, or nothing holds the mizzen head forward and
+the dock tune has no solution. The checker says so.</p>
+<p>To compare two arrangements of the same boat, write two files and set <code>boat.variant</code> in each.</p>
+<h2 id="load_cases"><code>load_cases</code></h2>
+<p>Leave it out and rigframe runs a default set for the rig type: full sail at RM ×1.0 and ×1.5, headsail
+only, deeply reefed main only, and the forestay-sag case. To choose your own:</p>
+<pre><code class="language-yaml">load_cases:
+  - {name: &quot;Full sails, RM ×1.0&quot;, sails: full, RM_factor: 1.0}
+  - {name: &quot;Forestay sag, RM ×1.5&quot;, sails: full, RM_factor: 1.5, headsail_load: along_stay}
+</code></pre>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th><code>sails</code></th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>full</code></td>
+<td>Full main and headsail.</td>
+</tr>
+<tr>
+<td><code>headsail_only</code></td>
+<td>Headsail alone.</td>
+</tr>
+<tr>
+<td><code>main_only</code></td>
+<td>Full main alone.</td>
+</tr>
+<tr>
+<td><code>reefed_main_only</code></td>
+<td>Main reefed to <code>reef_fraction</code>, nothing else.</td>
+</tr>
+<tr>
+<td><code>staysail_reefed_main</code></td>
+<td>Cutter heavy-weather rig.</td>
+</tr>
+<tr>
+<td><code>jib_and_jigger</code></td>
+<td>Ketch or yawl: headsail and mizzen, no main.</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>RM_factor</code> scales $RM_{30}$ (gusts, heel past 30°). <code>headsail_load: along_stay</code> spreads the sail's pull
+along its stay so the stay sags, and runs the large-displacement (corotational) solver, which is the only
+way to get the stay's real tension in that case.</p>
+<h2 id="analysis"><code>analysis</code></h2>
+<p>All optional.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Default</th>
+<th>What</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>wire.construction</code></td>
+<td><code>1x19</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>wire.material</code></td>
+<td><code>316</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>wire.E</code></td>
+<td><code>107.5 GPa</code></td>
+<td>Effective modulus on the gross area.</td>
+</tr>
+<tr>
+<td><code>max_element</code></td>
+<td><code>0.5 m</code></td>
+<td>Longest mast element.</td>
+</tr>
+<tr>
+<td><code>stay_segments</code></td>
+<td><code>12</code></td>
+<td>Segments per stay in the sag cases.</td>
+</tr>
+<tr>
+<td><code>crosscheck</code></td>
+<td><code>opensees</code></td>
+<td><code>none</code> skips the OpenSees cross-check.</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="what-the-checker-checks">What the checker checks</h2>
+<p><code>rigframe validate boats/my-boat.yaml</code> runs first, on your machine or in the pull request. It checks:</p>
+<ul>
+<li>the YAML itself (indentation, tabs, the comma trap);</li>
+<li>every key name and every unit, against the schema;</li>
+<li>that the masts and stays match the rig type (a cutter has an inner forestay, a ketch has two masts);</li>
+<li>that every <code>mast:</code> and <code>adjusts:</code> names something that exists;</li>
+<li>that the main's head fits below the masthead, spreaders run bottom to top below the hounds, and a
+keel-stepped mast has its heel below deck;</li>
+<li>that something holds each masthead aft and forward.</li>
+</ul>
+<p>It then prints how many inputs are still estimates. A file can pass with every value an estimate; the
+report will say so on its first page.</p>
+</article></div>
+<footer><div class="wrap">
+<span>rigframe is MIT-licensed. An engineering estimate, not a rig survey.</span>
+<span>Built 2026-10-29 from <a href="https://github.com/RigFrame/rigframe/commit/71490e1">71490e1</a> &middot; <a href="https://github.com/RigFrame/rigframe">GitHub</a> &middot; <a href="https://github.com/RigFrame/rigframe/issues">Issues</a></span>
+</div></footer>
+<script>
+(function(){
+ var root=document.documentElement,key='rigframe-theme';
+ try{var t=localStorage.getItem(key);if(t)root.dataset.theme=t;}catch(e){}
+ var b=document.getElementById('theme');
+ if(b)b.addEventListener('click',function(){
+  var dark=root.dataset.theme?root.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;
+  root.dataset.theme=dark?'light':'dark';try{localStorage.setItem(key,root.dataset.theme);}catch(e){}
+ });
+ function copy(btn,text){
+  var done=function(){var o=btn.textContent;btn.textContent='Copied';setTimeout(function(){btn.textContent=o;},1400);};
+  if(navigator.clipboard)navigator.clipboard.writeText(text).then(done,function(){});
+ }
+ document.querySelectorAll('.doc pre').forEach(function(pre){
+  var btn=document.createElement('button');btn.className='copy';btn.type='button';btn.textContent='Copy';
+  btn.addEventListener('click',function(){copy(btn,pre.querySelector('code').innerText);});pre.appendChild(btn);
+ });
+ document.querySelectorAll('[data-copy]').forEach(function(btn){
+  btn.addEventListener('click',function(){copy(btn,document.getElementById(btn.dataset.copy).value);});
+ });
+ document.querySelectorAll('.term .more').forEach(function(m){
+  m.addEventListener('click',function(){var t=m.closest('.term');t.classList.toggle('open');
+   m.textContent=t.classList.contains('open')?'Show less':'Show the whole prompt';});
+ });
+ var play=document.getElementById('play');
+ if(play)play.addEventListener('click',function(e){
+  e.preventDefault();var f=document.createElement('iframe');f.src=play.getAttribute('href');f.title='3D rig viewer';
+  var host=document.getElementById('shot');host.closest('figure').classList.add('live');host.replaceWith(f);play.remove();
+ });
+ var links=[].slice.call(document.querySelectorAll('aside.toc a'));
+ if(links.length&&'IntersectionObserver'in window){
+  var map={};links.forEach(function(a){map[a.hash.slice(1)]=a;});
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){
+   if(e.isIntersecting){links.forEach(function(a){a.classList.remove('on');});var a=map[e.target.id];if(a)a.classList.add('on');}
+  });},{rootMargin:'-70px 0px -70% 0px'});
+  Object.keys(map).forEach(function(id){var h=document.getElementById(id);if(h)io.observe(h);});
+ }
+})();
+</script>
+</body></html>
