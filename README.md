@@ -120,7 +120,7 @@ LaTeX typesets it, in CMU Serif (Computer Modern) with proper math. That needs
 [pandoc](https://pandoc.org/installing.html), a TeX distribution with XeLaTeX and the CMU fonts, and `rsvg-convert`
 for the figures:
 - **Windows:** [MiKTeX](https://miktex.org/) installs the fonts on demand.
-- **Ubuntu:** `sudo apt install pandoc texlive-xetex texlive-latex-extra fonts-cmu librsvg2-bin`.
+- **Ubuntu:** `sudo apt install pandoc texlive-xetex texlive-latex-extra texlive-science lmodern fonts-cmu librsvg2-bin`.
 
 Without LaTeX, add `--engine chromium` to print it with a browser instead (`pip install playwright`, then
 `playwright install chromium` once).

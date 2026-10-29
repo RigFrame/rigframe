@@ -34,7 +34,7 @@ jobs:
         run: |
           sudo apt-get update -q
           sudo apt-get install -y -q --no-install-recommends pandoc texlive-xetex texlive-latex-recommended \
-            texlive-latex-extra texlive-fonts-recommended fonts-lmodern fonts-cmu librsvg2-bin
+            texlive-latex-extra texlive-fonts-recommended texlive-science lmodern fonts-lmodern fonts-cmu librsvg2-bin
       - name: Install the notebooks' packages
         run: pip install -q -r notebooks/requirements.txt nbclient nbformat
       - name: Run the notebooks
