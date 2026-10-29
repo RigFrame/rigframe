@@ -9,10 +9,10 @@ name: Boat report
 
 on:
   pull_request:
-    paths: ["boats/*.yaml", "src/**", "schema/**", "data/**"]
+    paths: ["boats/*.yaml", "src/**", "schema/**", "data/**", "tools/site_index.py"]
   push:
     branches: [main]
-    paths: ["boats/*.yaml", "src/**", "schema/**", "data/**"]
+    paths: ["boats/*.yaml", "src/**", "schema/**", "data/**", "tools/site_index.py"]
   workflow_dispatch:
 
 permissions:

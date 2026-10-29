@@ -116,26 +116,35 @@ To turn the report into an 11 × 17 in PDF:
 python tools/md_to_tabloid_pdf.py notebooks/output/island-packet-40-1996/REPORT.md
 ```
 
-That needs [pandoc](https://pandoc.org/installing.html), `pip install playwright`, and
-`playwright install chromium` once.
+LaTeX typesets it, in CMU Serif (Computer Modern) with proper math. That needs
+[pandoc](https://pandoc.org/installing.html), a TeX distribution with XeLaTeX and the CMU fonts, and `rsvg-convert`
+for the figures:
+- **Windows:** [MiKTeX](https://miktex.org/) installs the fonts on demand.
+- **Ubuntu:** `sudo apt install pandoc texlive-xetex texlive-latex-extra fonts-cmu librsvg2-bin`.
 
-**Sample reports.** The [sample-reports release](https://github.com/rigframe/rigframe/releases/tag/sample-reports) has the finished PDFs for all three boats, so you can see
-what you'll get before running anything:
-- `*-report.pdf`, written by the notebooks' last run;
+Without LaTeX, add `--engine chromium` to print it with a browser instead (`pip install playwright`, then
+`playwright install chromium` once).
+
+**Sample reports.** The [sample-reports release](https://github.com/rigframe/rigframe/releases/tag/sample-reports)
+has the finished PDFs for all three boats, so you can see what you'll get before running anything:
+- `*-report.pdf`, written by the notebooks;
 - `*-companion.pdf`, the method behind each study: every load case with free-body diagrams, how each sail load is
   applied, the terms, and the textbook equations by number and page.
 
-The companions were written by hand for these three boats.
+GitHub Actions rebuilds them whenever a notebook, a companion or the PDF tool changes: it runs the three notebooks,
+typesets the PDFs and replaces them on the release. The companions were written by hand for these three boats; their
+source is in [`docs/companions/`](docs/companions/).
 
 ---
 
 ## What runs where
 
-| | What it does | Can it make the 11 × 17 PDFs? |
+| | What it does | Makes the 11 × 17 PDFs? |
 |---|---|---|
 | **A notebook** (Colab or your computer) | The whole analysis, the report and the viewer | Yes, with `tools/md_to_tabloid_pdf.py` |
-| **GitHub Actions** | Runs the package on each boat file in a pull request | Not yet. Actions can install pandoc and Chromium, but the report-writing code is still in the notebooks. Once it moves into the package, every pull request gets the same PDF. |
-| **GitHub Pages** | Hosts what Actions made. It doesn't compute anything | It will host the PDFs once Actions makes them |
+| **GitHub Actions, sample reports** | Runs the three notebooks and typesets their PDFs with LaTeX | Yes: it rebuilds the sample-reports release |
+| **GitHub Actions, boat files** | Runs the package on each boat file in a pull request | Not yet. The report-writing code is still in the notebooks. Once it moves into the package, every pull request gets the same LaTeX PDF. |
+| **GitHub Pages** | Hosts what Actions made. It doesn't compute anything | It will host each boat's PDF once Actions makes it |
 
 ---
 

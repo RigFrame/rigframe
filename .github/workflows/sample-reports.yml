@@ -1,0 +1,62 @@
+# Sample reports: run the three notebooks, typeset their reports and companions as 11 x 17 in PDFs with
+# LaTeX, and replace the PDFs on the "sample-reports" release. The download links stay the same.
+#
+# Runs when the notebooks, the companions, the wire data or the PDF tool change on main, and on demand
+# (Actions tab > Sample reports > Run workflow). Takes about 15 minutes, most of it the notebooks.
+name: Sample reports
+
+on:
+  push:
+    branches: [main]
+    paths: ["notebooks/**", "docs/companions/**", "data/**", "tools/md_to_tabloid_pdf.py", "tools/run_notebooks.py",
+            ".github/workflows/sample-reports.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: write                     # to replace the files on the release
+
+concurrency:
+  group: sample-reports
+  cancel-in-progress: true
+
+jobs:
+  pdfs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: notebooks/requirements.txt
+      - name: Install LaTeX, pandoc and the CMU fonts
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y -q --no-install-recommends pandoc texlive-xetex texlive-latex-recommended \
+            texlive-latex-extra texlive-fonts-recommended fonts-lmodern fonts-cmu librsvg2-bin
+      - name: Install the notebooks' packages
+        run: pip install -q -r notebooks/requirements.txt nbclient nbformat
+      - name: Run the notebooks
+        run: python tools/run_notebooks.py notebooks/*.ipynb --require-opensees
+      - name: Typeset the PDFs
+        run: |
+          mkdir -p pdfs
+          for nb in notebooks/*.ipynb; do
+            s=$(basename "$nb" .ipynb)
+            python tools/md_to_tabloid_pdf.py "notebooks/output/$s/REPORT.md" --out "pdfs/$s-report.pdf"
+            python tools/md_to_tabloid_pdf.py "docs/companions/$s-companion.md" --out "pdfs/$s-companion.pdf"
+          done
+          ls -l pdfs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sample-reports
+          path: |
+            pdfs/
+            notebooks/output/
+          retention-days: 30
+      - name: Replace the PDFs on the sample-reports release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload sample-reports pdfs/*.pdf --clobber
