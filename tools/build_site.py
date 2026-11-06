@@ -50,7 +50,8 @@ def study_of(stem):
 def rewrite(href, src, here):
     """A link as written in repository file `src`, as it should read on page `here`."""
     if href.startswith(SITE):
-        return href[len(SITE):] or "./"
+        rest = href[len(SITE):]                    # a bare "#boats" would point into the guide, not the front page
+        return ("index.html" + rest if rest.startswith("#") else rest) or "./"
     if re.match(r"[a-z]+:", href) or href.startswith("//"):
         return href
     path, _, frag = href.partition("#")

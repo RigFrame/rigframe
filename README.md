@@ -1,6 +1,6 @@
 # rigframe
 
-**A sailboat's standing rig, analysed as a 3D frame, from one YAML file.**
+**A sailboat's standing rig, analysed as a 3D frame, from one short text file.**
 
 You describe your boat's rig in a short text file: the sail plan, the mast, the spreaders, and where each
 wire goes. rigframe tunes the rig at the dock, sails it through a set of load cases, and writes a report
@@ -20,15 +20,16 @@ you can share with the owner, the rigger or the surveyor:
 <sub>The 3D viewer on the Morgan 462 example (placeholder rig): full sail at RM ×1.0, every member coloured by
 how close it is to its limit. Drawn with plotly.js (MIT).</sub>
 
-You don't need to install anything or run Python. Put your file in a pull request and GitHub runs the
-analysis for you.
+**You don't need to code, install anything, or have used GitHub before.** An AI assistant can draft the file
+for you, and the rest happens in your web browser: you paste the file into GitHub's website and GitHub runs
+the analysis. If GitHub is new to you, [start here](#start-here).
 
-> **Status: draft, in demo mode.** The boat-file format, its checker (`rigframe validate`), the example boats,
-> the 3D viewer and the GitHub workflow are here. The analysis engine is still being moved out of the
-> notebooks it was developed in. Until it lands, `rigframe run` checks your file and writes a report of its
-> estimates, marked **DEMO**. For the four example boats it also replays the notebook studies' stored results
-> in the viewer; those don't change if you edit the file. `pipx install rigframe` will work once it's released.
-> **For the full analysis today, use [the notebooks](#the-notebooks-the-full-analysis-today).**
+> **Status: draft, in demo mode.** The boat file, its checker, the example boats, the 3D viewer and the GitHub
+> workflow all work. The analysis engine is still being moved out of the notebooks it was developed in. Until it
+> lands, a boat file you send in is checked and gets a report of its estimates, marked **DEMO**. For the four
+> example boats the viewer also replays the notebook studies' stored results; those don't change if you edit the
+> file. **For the full analysis today, use [the notebooks](#the-notebooks-the-full-analysis-today)**, which also
+> run in your browser.
 
 > **This is an engineering estimate, not a rig survey.** It assumes the rig is in good condition, and it
 > knows nothing about corrosion, fatigue, cracked swages or worn chainplates. Have a rigger inspect the
@@ -38,31 +39,78 @@ analysis for you.
 
 ## Contents
 
+- [Start here](#start-here)
 - [Four ways to get a report](#four-ways-to-get-a-report)
 - [The notebooks: the full analysis today](#the-notebooks-the-full-analysis-today)
-- [What runs where](#what-runs-where)
 - [Step 1: Make your boat file](#step-1-make-your-boat-file)
 - [Step 2: Open a pull request with your file](#step-2-open-a-pull-request-with-your-file)
 - [Step 3: Read the report](#step-3-read-the-report)
 - [Keeping your boat private](#keeping-your-boat-private)
 - [Running it on your own computer](#running-it-on-your-own-computer)
+- [What runs where](#what-runs-where)
 - [How it works](#how-it-works)
 - [Adding to rigframe](#adding-to-rigframe)
 - [Licences and credits](#licences-and-credits)
 
 ---
 
+## Start here
+
+Pick what you want to do. None of it needs you to write code.
+
+| You want to | Do this | You need |
+|---|---|---|
+| **See what rigframe makes** | Open the [example boats](https://rigframe.github.io/rigframe/#boats) and click **Open the 3D viewer**, or download a finished report from the [sample reports](https://github.com/rigframe/rigframe/releases/tag/sample-reports) | Nothing: no account, no install |
+| **Get a report for your boat** | [Step 1](#step-1-make-your-boat-file): an AI assistant drafts your boat file. [Step 2](#step-2-open-a-pull-request-with-your-file): paste it into GitHub's website. [Step 3](#step-3-read-the-report): read the report | A free GitHub account and a web browser |
+| **Keep your boat private** | The same steps, in [your own private copy](#keeping-your-boat-private) | A free GitHub account |
+| **Run the full analysis today** | Open [a notebook in Google Colab](#in-google-colab-nothing-to-install) and click **Run all** | A free Google account |
+
+The whole of Step 1 and Step 2 takes about half an hour the first time, most of it answering the AI
+assistant's questions about your boat.
+
+### Words you'll meet
+
+- **GitHub** is the website this project lives on. A free account lets you send it files.
+- **Repository** (or *repo*): a project's folder on GitHub. This page is the front of the rigframe repository.
+- **Boat file**: the short text file that describes your rig. It's written in **YAML**, a plain-text format of
+  `name: value` lines. You can read it like a list, and edit it in any text editor or straight on GitHub's
+  website.
+- **Pull request**: how you offer a file to a repository you don't own. It's a request, not a change: nothing
+  in rigframe changes unless a maintainer accepts it, and you can close it at any time.
+- **Fork**: your own copy of the repository. GitHub makes it for you during a pull request, and you don't need
+  to do anything with it.
+- **Check**: the program GitHub runs on your file when you open a pull request (*GitHub Actions* runs it). Here
+  it checks your file and writes your report.
+- **Artifact**: a zip file of results that a check leaves for you to download.
+- **Notebook**: a document that mixes explanation, code and results. You run it top to bottom; you don't need
+  to read the code.
+- **Google Colab**: Google's free service that runs notebooks in your web browser.
+
+### You can't break anything
+
+Nothing you do from these pages changes rigframe or anyone else's files. A pull request only proposes your
+file. A notebook in Colab runs on Google's computers, in a copy that's yours alone. If something goes wrong,
+close the pull request or the browser tab and start again.
+
+**Stuck?** Ask. Write a comment on your pull request, or open an issue: the **Issues** tab at the top of this
+repository, then **New issue** (you need to be signed in). Say what you tried and paste any error message.
+Questions from people new to GitHub are welcome.
+
+---
+
 ## Four ways to get a report
 
-| | What you need | Who sees your boat | What you get today |
-|---|---|---|---|
-| **[A notebook](#the-notebooks-the-full-analysis-today)**, in Colab or on your computer | A web browser (Colab), or Python 3.12 | Only you | The full analysis and the 11 × 17 report |
-| **A pull request to this repository** | A free GitHub account and a web browser | Everyone: this repository is public | Demo report and 3D viewer |
-| **Your own private copy** | A free GitHub account | Only you, and anyone you invite | Demo report and 3D viewer |
-| **Your own computer**, with the package | Python 3.12 or later | Only you | Demo report and 3D viewer |
+| | What you need | Do you write code? | Who sees your boat | What you get today |
+|---|---|---|---|---|
+| **[A pull request](#step-2-open-a-pull-request-with-your-file)** to this repository | A free GitHub account and a web browser | No | Everyone: this repository is public | Demo report and 3D viewer |
+| **[Your own private copy](#keeping-your-boat-private)** | A free GitHub account and a web browser | No | Only you, and anyone you invite | Demo report and 3D viewer |
+| **[A notebook](#the-notebooks-the-full-analysis-today)**, in Colab or on your computer | A web browser and a free Google account (Colab), or Python 3.12 | No: you change numbers in one cell and click Run all | Only you | The full analysis and the 11 × 17 report |
+| **[Your own computer](#running-it-on-your-own-computer)**, with the package | Python 3.12 or later | A few typed commands | Only you | Demo report and 3D viewer |
 
-The last three start from a boat file. The notebooks are separate: each holds one boat's whole analysis, and you
-edit its inputs in one cell.
+The pull request, the private copy and your own computer all start from a boat file, and the first two happen
+entirely on GitHub's website. The notebooks are separate: each holds one boat's whole analysis, and you edit its
+inputs in one cell. Until the analysis engine moves into the package, the notebooks are the only way to get the
+full analysis.
 
 ---
 
@@ -79,16 +127,45 @@ PASS/FAIL checks.
 | [`island-packet-40-1996`](notebooks/island-packet-40-1996.ipynb) | Masthead cutter: one spreader set, fore and aft lowers, staysail stay, twin backstay | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/RigFrame/rigframe/blob/main/notebooks/island-packet-40-1996.ipynb) |
 | [`morgan-462-ketch`](notebooks/morgan-462-ketch.ipynb) | Masthead ketch, two masts, run with a triatic and with split backstays | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/RigFrame/rigframe/blob/main/notebooks/morgan-462-ketch.ipynb) |
 
-**In Google Colab:** click a badge, then Runtime → Run all.
-- The setup cell fetches this repository for its data.
-- The install cell adds what Colab lacks, in about a minute. It holds Colab's own numpy, SciPy, pandas and
-  Matplotlib where they are, because swapping a package the session has already loaded breaks its imports. If it
-  can't avoid that, it stops and asks you to restart the session (Runtime → Restart session) and run all again.
-- The run takes a few minutes more. To keep the results, download the `output` folder from Colab's file pane.
+**Just want to see the result?** The [sample-reports release](https://github.com/rigframe/rigframe/releases/tag/sample-reports)
+has the finished PDFs for all three boats. Click a file name to download it; nothing to run.
+- `*-report.pdf`, written by the notebooks;
+- `*-companion.pdf`, the method behind each study: every load case with free-body diagrams, how each sail load is
+  applied, the terms, and the textbook equations by number and page.
+
+### In Google Colab, nothing to install
+
+1. Click **Open in Colab** next to the boat you want. The notebook opens in a new tab. Sign in to Google if it
+   asks.
+2. In Colab's menu, click **Runtime**, then **Run all**.
+3. Colab warns that the notebook wasn't written by Google. Click **Run anyway**. (It comes from this repository,
+   and you can read every line of it first.)
+4. Wait. The first cells fetch this repository and add what Colab lacks, in about a minute. The analysis takes a
+   few minutes more. A cell that's still running has a spinning circle at its left.
+5. If a cell asks you to restart, click **Runtime**, then **Restart session**, then **Runtime**, then **Run all**
+   again. The install cell asks only when it can't avoid replacing a package Colab has already loaded.
+6. Scroll down to read the results. The last table lists every check and whether it passed.
+7. **To keep the report,** click the folder icon on Colab's left edge and open `rigframe`, then `notebooks`, then
+   `output`, then the boat's folder. Hover over a file, click its **⋮** menu, then **Download**. `viewer-3d.html`
+   is the 3D viewer; it opens in any browser, offline. Download before you close the tab: Colab deletes the files
+   when the session ends.
 
 Colab runs a newer Python than 3.12. If OpenSees won't load there, the cross-check reports SKIP and the rest runs.
 
-**On your computer,** with Python 3.12, from the `notebooks/` folder:
+### Your own boat in a notebook
+
+1. Open the notebook nearest your rig in Colab, as above.
+2. Click **File**, then **Save a copy in Drive**, and work in the copy. Colab doesn't keep changes to the
+   original.
+3. Find the cell that starts `class RigParams`. Every input is there, one per line, with a note after the `#`
+   saying what it is. Lines marked `# PLACEHOLDER` are estimates.
+4. Change the numbers, and only the numbers. `* FT` after a number means feet and `* IN` inches; a number with
+   neither is in metres (or the unit the note gives). Leave the commas, brackets and quote marks as they are.
+5. Click **Runtime**, then **Run all**.
+
+### On your computer, if you use Python
+
+With Python 3.12, from the `notebooks/` folder:
 
 ```bash
 python -m venv .venv
@@ -102,9 +179,6 @@ pip install -r requirements.txt
 
 Open the notebook in Jupyter or VS Code and run it. Python 3.12 matters only for the OpenSees cross-check: its
 Windows build needs exactly 3.12. Without OpenSees those checks report SKIP and everything else runs.
-
-**To study your own boat,** pick the notebook nearest your rig and edit its `RigParams` cell. Every input is there,
-and the ones marked `# PLACEHOLDER` are estimates.
 
 **What a run writes,** in `notebooks/output/<notebook>/`:
 - `REPORT.md`, every load case item by item, with its figures in `assets/`;
@@ -125,26 +199,9 @@ for the figures:
 Without LaTeX, add `--engine chromium` to print it with a browser instead (`pip install playwright`, then
 `playwright install chromium` once).
 
-**Sample reports.** The [sample-reports release](https://github.com/rigframe/rigframe/releases/tag/sample-reports)
-has the finished PDFs for all three boats, so you can see what you'll get before running anything:
-- `*-report.pdf`, written by the notebooks;
-- `*-companion.pdf`, the method behind each study: every load case with free-body diagrams, how each sail load is
-  applied, the terms, and the textbook equations by number and page.
-
-GitHub Actions rebuilds them whenever a notebook, a companion or the PDF tool changes: it runs the three notebooks,
-typesets the PDFs and replaces them on the release. The companions were written by hand for these three boats; their
-source is in [`docs/companions/`](docs/companions/).
-
----
-
-## What runs where
-
-| | What it does | Makes the 11 × 17 PDFs? |
-|---|---|---|
-| **A notebook** (Colab or your computer) | The whole analysis, the report and the viewer | Yes, with `tools/md_to_tabloid_pdf.py` |
-| **GitHub Actions, sample reports** | Runs the three notebooks and typesets their PDFs with LaTeX | Yes: it rebuilds the sample-reports release |
-| **GitHub Actions, boat files** | Runs the package on each boat file in a pull request | Not yet. The report-writing code is still in the notebooks. Once it moves into the package, every pull request gets the same LaTeX PDF. |
-| **GitHub Pages** | Hosts what Actions made. It doesn't compute anything | It will host each boat's PDF once Actions makes it |
+GitHub Actions rebuilds the sample reports whenever a notebook, a companion or the PDF tool changes: it runs the
+three notebooks, typesets the PDFs and replaces them on the release. The companions were written by hand for these
+three boats; their source is in [`docs/companions/`](docs/companions/).
 
 ---
 
@@ -164,8 +221,16 @@ your boat's published data, asks you only what it can't find, and hands back:
 - the sources it used;
 - a list of what to measure, most important first.
 
-Attach photos when it asks: the rig from the side and from astern, each chainplate, the label at the mast
-foot. They settle questions no website answers.
+1. Open [the prompt](prompts/make-boat-yaml.md) and copy the text in the grey box. The copy button is at its top
+   right.
+2. Paste it into the AI assistant as your first message.
+3. Answer its questions. "Don't know" is a fine answer. Attach photos when it asks: the rig from the side and
+   from astern, each chainplate, the label at the mast foot. They settle questions no website answers.
+4. When it hands back the file, copy the file name and the YAML somewhere safe, such as a note or an email to
+   yourself. You don't need to save it as a file: in Step 2 you paste it straight into GitHub.
+
+Expect two or three rounds of questions and about 20 minutes. The file will have plenty of estimates in it.
+That's normal: the report lists them, and you can measure them later and send the file again.
 
 ### By hand
 
@@ -178,6 +243,8 @@ Copy [`docs/boat-template.yaml`](docs/boat-template.yaml), or the example neares
 | Cutter | [`boats/island-packet-40-1996.yaml`](boats/island-packet-40-1996.yaml) |
 | Ketch or yawl | [`boats/morgan-462-ketch-triatic.yaml`](boats/morgan-462-ketch-triatic.yaml) or [`…-split-backstays.yaml`](boats/morgan-462-ketch-split-backstays.yaml) |
 
+To copy one, open it, click the **Copy raw file** button (two overlapping squares, top right of the file), and
+paste it into a text editor: Notepad on Windows, TextEdit on a Mac (choose **Format → Make Plain Text** first).
 [`docs/boat-yaml.md`](docs/boat-yaml.md) explains every field, how to measure it and where to look it up.
 
 ![The names used in a boat file](docs/img/rig-names.svg)
@@ -191,6 +258,14 @@ gooseneck_z: 1.75 m                                 # bare: counts as an estimat
 
 Every number has a unit, and you keep the unit your source used. `basis` is `measured`, `maker`,
 `published` or `estimate`. A file full of estimates still runs; the report just says so.
+
+Three rules keep a YAML file working:
+- **Indentation counts.** The spaces at the start of a line say what it belongs to. Use spaces, never tabs, and
+  line a new entry up with its neighbours.
+- **A colon is followed by a space:** `I: 53.15 ft`, not `I:53.15 ft`.
+- **`#` starts a note.** Everything after it on the line is ignored, so you can write anything there.
+
+The checker in Step 2 catches mistakes and tells you the line to fix, so don't worry about getting it perfect.
 
 ### Name the file
 
@@ -211,15 +286,17 @@ A pull request is how you hand a file to a GitHub repository you don't own. You 
 browser. GitHub makes your own copy of the repository (a *fork*) along the way, and you don't have to
 manage it.
 
-**Before you start:** sign in to [github.com](https://github.com). A free account is enough.
+**Before you start:** you need a free GitHub account. If you don't have one, go to
+[github.com/signup](https://github.com/signup), give an email address, a password and a username, and confirm
+the code GitHub emails you. Then sign in.
 
 ### 2.1 Add the file
 
 1. Go to the [`boats` folder](https://github.com/rigframe/rigframe/tree/main/boats) of this repository.
 2. Click **Add file** (top right, above the file list), then either:
-   - **Upload files**, and drag your `.yaml` file onto the page; or
-   - **Create new file**, type the file name into the box above the editor (the `boats/` part is already
-     there), and paste your YAML into the editor.
+   - **Create new file** (easiest if you have the YAML from an AI assistant): type the file name into the box
+     above the editor (the `boats/` part is already there), and paste your YAML into the editor; or
+   - **Upload files**, and drag your `.yaml` file onto the page.
 3. GitHub says you need your own copy to propose a change. Click **Fork this repository**. This happens
    only the first time.
 
@@ -232,8 +309,8 @@ manage it.
 
 ### 2.3 Fill in the pull request
 
-8. The description box holds a short checklist. Tick what applies: where most of the numbers came from,
-   and that the file has nothing personal in it.
+8. The description box holds a short checklist. Tick what applies, by typing an `x` between the brackets:
+   `[ ]` becomes `[x]`. Say where most of the numbers came from, and confirm the file has nothing personal in it.
 9. Click **Create pull request** again. That's it: your pull request is open.
 
 ### 2.4 Watch the check
@@ -248,6 +325,8 @@ At the bottom of the pull request a check called **Boat report** appears.
 - **Green ✓**: the report is ready. Go to [2.6](#26-open-the-3d-viewer-and-the-report).
 
 ### 2.5 If the check fails
+
+A red ✗ is normal on a first try, and easy to fix.
 
 10. Click **Details** next to the red ✗. The log opens at the step that failed.
 11. Under **Check the boat files**, the checker lists each problem in plain words, usually with the line
@@ -265,7 +344,8 @@ At the bottom of the pull request a check called **Boat report** appears.
     **Commit changes**. Leave it on the same branch; GitHub offers that by default.
 13. The check runs again by itself. Repeat until it's green.
 
-If you're stuck, write a comment on the pull request and paste the error. Someone will help.
+You can also paste the error into the AI assistant that drafted the file and ask it for the fix. If you're
+still stuck, write a comment on the pull request and paste the error. Someone will help.
 
 ### 2.6 Open the 3D viewer and the report
 
@@ -278,7 +358,8 @@ There are two ways in. The first needs nothing but a click.
 15. Pick a load case with the buttons along the top. Drag to turn the rig, scroll or pinch to zoom, and
     hover over (or tap) any wire, mast panel or spreader to see its load. [Step 3](#the-3d-viewer) explains
     the colours.
-16. **Report** and **PDF**, in the same comment, open the full report.
+16. **Report**, in the same comment, opens the full report (with a **PDF** link beside it once the package
+    writes one).
 
 The links work for anyone you send them to. If one shows "404", wait a minute: GitHub Pages takes a moment
 to publish. The preview follows every change you push, and it's removed when the pull request closes, so
@@ -291,11 +372,12 @@ download a copy if you want to keep it.
     stress, the lowest buckling factor, and how many inputs are still estimates.
 18. Scroll to the bottom, to **Artifacts**, and click **rig-report-<your file name>**. You get a zip file.
     GitHub keeps it for 90 days.
-19. Unzip it and double-click **`viewer.html`**. It opens in your browser and works **without internet**,
-    so you can show it to someone on the dock. The zip also holds `REPORT.html`, `REPORT.pdf`, the figures,
-    `viewer.json` (the results as data) and a copy of your boat file.
+19. Unzip it (on Windows, right-click it and choose **Extract All**; on a Mac, double-click it) and
+    double-click **`viewer.html`**. It opens in your browser and works **without internet**, so you can show
+    it to someone on the dock. The zip also holds `REPORT.html`, the figures, `viewer.json` (the results as
+    data) and a copy of your boat file.
 
-You can share the zip, `viewer.html` on its own, or just the PDF, with anyone.
+You can share the zip, or `viewer.html` on its own, with anyone.
 
 ### 2.7 What happens next
 
@@ -349,12 +431,12 @@ what each case's factor means.
 ## Keeping your boat private
 
 If you'd rather nobody else saw your boat file or report, run rigframe in your own private copy of the
-repository.
+repository. It's no harder than a pull request, and there's no waiting for approval.
 
 1. On this repository's page, click **Use this template** (top right), then **Create a new repository**.
 2. Give it a name, choose **Private**, and click **Create repository**.
-3. In your new repository, add your boat file to `boats/` exactly as in [2.1](#21-add-the-file), but
-   commit it straight to `main` (there's nothing to fork).
+3. In your new repository, add your boat file to `boats/` exactly as in [2.1](#21-add-the-file). When you
+   click **Commit changes…**, leave it on **Commit directly to the main branch** (there's nothing to fork).
 4. Open the **Actions** tab. The **Boat report** run appears within a minute. When it's green, open it
    and download the report from **Artifacts**, as in [2.6](#26-open-the-3d-viewer-and-the-report).
    `viewer.html` in the zip is the full 3D viewer and needs no internet.
@@ -366,6 +448,9 @@ the report comes only as a download.
 ---
 
 ## Running it on your own computer
+
+This route is for people at home on a command line. Everything it does, the pull request does in the browser.
+`pipx install rigframe` will work once rigframe is released.
 
 ```bash
 pipx install rigframe
@@ -388,6 +473,17 @@ Without it, the report says the cross-check was skipped.
 
 In VS Code with the YAML extension, the first line of every boat file points at
 [`schema/boat.schema.json`](schema/boat.schema.json), so you get completion and error marks as you type.
+
+---
+
+## What runs where
+
+| | What it does | Makes the 11 × 17 PDFs? |
+|---|---|---|
+| **A notebook** (Colab or your computer) | The whole analysis, the report and the viewer | Yes, with `tools/md_to_tabloid_pdf.py` |
+| **GitHub Actions, sample reports** | Runs the three notebooks and typesets their PDFs with LaTeX | Yes: it rebuilds the sample-reports release |
+| **GitHub Actions, boat files** | Runs the package on each boat file in a pull request | Not yet. The report-writing code is still in the notebooks. Once it moves into the package, every pull request gets the same LaTeX PDF. |
+| **GitHub Pages** | Hosts what Actions made. It doesn't compute anything | It will host each boat's PDF once Actions makes it |
 
 ---
 

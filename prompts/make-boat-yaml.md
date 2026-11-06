@@ -13,8 +13,9 @@ you. It also asks you only for what it can't find, and keeps track of what's sti
 3. Answer its questions. "Don't know" is a fine answer. It helps a lot to attach photos: the rig from the
    side and from astern, each chainplate, the label at the mast foot, and the sail plan drawing if you
    have one.
-4. It hands back a file name, the YAML, its sources and a list of things to measure. Save the YAML and
-   go to [Step 2 in the README](../README.md#step-2-open-a-pull-request-with-your-file).
+4. It hands back a file name, the YAML, its sources and a list of things to measure. Keep the file name
+   and the YAML (a note or an email to yourself will do; it needn't be a file), then go to
+   [Step 2 in the README](../README.md#step-2-open-a-pull-request-with-your-file).
 
 Expect two or three rounds of questions and about 20 minutes. The file will have plenty of estimates in
 it. That's normal: the report lists them, and you can measure them later and open a second pull request.
