@@ -1,8 +1,8 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>rigframe: A sailboat&#x27;s standing rig, analysed as a 3D frame, from one YAML file.</title>
-<meta name="description" content="A sailboat&#x27;s standing rig, analysed as a 3D frame, from one YAML file.">
-<meta property="og:title" content="rigframe: A sailboat&#x27;s standing rig, analysed as a 3D frame, from one YAML file."><meta property="og:description" content="A sailboat&#x27;s standing rig, analysed as a 3D frame, from one YAML file.">
+<title>rigframe: A sailboat&#x27;s standing rig, analysed as a 3D frame, from one short text file.</title>
+<meta name="description" content="A sailboat&#x27;s standing rig, analysed as a 3D frame, from one short text file.">
+<meta property="og:title" content="rigframe: A sailboat&#x27;s standing rig, analysed as a 3D frame, from one short text file."><meta property="og:description" content="A sailboat&#x27;s standing rig, analysed as a 3D frame, from one short text file.">
 <meta property="og:image" content="https://rigframe.github.io/rigframe/img/viewer-morgan-462.png">
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%20aria-hidden%3D%22true%22%3E%3Cpath%20d%3D%22M12%202.5v19M4.5%2020.5%2012%202.5l7.5%2018M7.6%2012.5h8.8M3%2021.5h18%22%20fill%3D%22none%22%20stroke%3D%22%231d5ea8%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -178,7 +178,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
 <section class="hero"><div class="wrap">
  <div>
   <p class="eyebrow">Sailboat standing rigs &middot; 3D frame analysis</p>
-  <h1>A sailboat's standing rig, analysed as a 3D frame, from one YAML file.</h1>
+  <h1>A sailboat's standing rig, analysed as a 3D frame, from one short text file.</h1>
   <p class="lead">You describe your boat's rig in a short text file: the sail plan, the mast, the spreaders, and where each
 wire goes. rigframe tunes the rig at the dock, sails it through a set of load cases, and writes a report
 you can share with the owner, the rigger or the surveyor.</p>
@@ -187,8 +187,9 @@ you can share with the owner, the rigger or the surveyor.</p>
    <a class="btn ghost" href="guide.html#step-1-make-your-boat-file">Add your boat</a>
    <a class="btn ghost" href="#notebooks">Run a notebook</a>
   </div>
-  <p class="note">You don't need to install anything or run Python. Put your file in a pull request and GitHub runs the
-analysis for you.</p>
+  <p class="note"><strong>You don't need to code, install anything, or have used GitHub before.</strong> An AI assistant can draft the file
+for you, and the rest happens in your web browser: you paste the file into GitHub's website and GitHub runs
+the analysis. If GitHub is new to you, <a href="guide.html#start-here">start here</a>.</p>
  </div>
  <figure style="margin:0">
   <div class="frame"><div class="bar"><i></i><i></i><i></i><span>viewer.html &middot; works offline</span></div>
@@ -197,12 +198,12 @@ analysis for you.</p>
 how close it is to its limit. Drawn with plotly.js (MIT).</figcaption>
  </figure>
 </div>
-<div class="wrap callouts"><div class="callout"><p><strong>Status: draft, in demo mode.</strong> The boat-file format, its checker (<code>rigframe validate</code>), the example boats,
-the 3D viewer and the GitHub workflow are here. The analysis engine is still being moved out of the
-notebooks it was developed in. Until it lands, <code>rigframe run</code> checks your file and writes a report of its
-estimates, marked <strong>DEMO</strong>. For the four example boats it also replays the notebook studies' stored results
-in the viewer; those don't change if you edit the file. <code>pipx install rigframe</code> will work once it's released.
-<strong>For the full analysis today, use <a href="guide.html#the-notebooks-the-full-analysis-today">the notebooks</a>.</strong></p>
+<div class="wrap callouts"><div class="callout"><p><strong>Status: draft, in demo mode.</strong> The boat file, its checker, the example boats, the 3D viewer and the GitHub
+workflow all work. The analysis engine is still being moved out of the notebooks it was developed in. Until it
+lands, a boat file you send in is checked and gets a report of its estimates, marked <strong>DEMO</strong>. For the four
+example boats the viewer also replays the notebook studies' stored results; those don't change if you edit the
+file. <strong>For the full analysis today, use <a href="guide.html#the-notebooks-the-full-analysis-today">the notebooks</a></strong>, which also
+run in your browser.</p>
 </div><div class="callout"><p><strong>This is an engineering estimate, not a rig survey.</strong> It assumes the rig is in good condition, and it
 knows nothing about corrosion, fatigue, cracked swages or worn chainplates. Have a rigger inspect the
 rig. The report says which numbers are estimates; treat them that way.</p>
@@ -221,7 +222,7 @@ rig. The report says which numbers are estimates; treat them that way.</p>
   <p class="sub" style="margin-bottom:24px">Getting the numbers together is the hard part. Paste this prompt into an AI
   assistant with web search turned on. It reads this repository's rules, looks up your boat, and asks you only what it
   can't find.</p>
-  <ol class="steps"><li>Open an AI assistant <strong>with web search turned on</strong>: Claude, ChatGPT, Gemini or similar. Without web search it can't read this repository or look up your boat, and it will tell you so.</li><li>Copy the whole prompt below (the copy button is at the top right of the box) and paste it in as your first message.</li><li>Answer its questions. &quot;Don't know&quot; is a fine answer. It helps a lot to attach photos: the rig from the side and from astern, each chainplate, the label at the mast foot, and the sail plan drawing if you have one.</li><li>It hands back a file name, the YAML, its sources and a list of things to measure. Save the YAML and go to <a href="guide.html#step-2-open-a-pull-request-with-your-file">Step 2 in the README</a>.</li></ol>
+  <ol class="steps"><li>Open an AI assistant <strong>with web search turned on</strong>: Claude, ChatGPT, Gemini or similar. Without web search it can't read this repository or look up your boat, and it will tell you so.</li><li>Copy the whole prompt below (the copy button is at the top right of the box) and paste it in as your first message.</li><li>Answer its questions. &quot;Don't know&quot; is a fine answer. It helps a lot to attach photos: the rig from the side and from astern, each chainplate, the label at the mast foot, and the sail plan drawing if you have one.</li><li>It hands back a file name, the YAML, its sources and a list of things to measure. Keep the file name and the YAML (a note or an email to yourself will do; it needn't be a file), then go to <a href="guide.html#step-2-open-a-pull-request-with-your-file">Step 2 in the README</a>.</li></ol>
   <p><a href="prompt.html">Read the prompt page</a> &middot; <a href="boat-file.html">Every field in the boat file</a></p>
  </div>
  <div class="term"><div class="bar"><span>Paste into Claude, ChatGPT or Gemini</span><button class="copy" type="button" data-copy="prompt-text">Copy prompt</button></div>
@@ -472,9 +473,11 @@ Keep your messages short, and ask one round of questions at a time.</textarea><b
 
 <section class="block" id="ways"><div class="wrap">
  <h2>Four ways to get a report</h2>
- <p class="sub">The last three start from a boat file. The notebooks are separate: each holds one boat's whole analysis, and you
-edit its inputs in one cell.</p>
- <div class="grid g4"><div class="card way"><h3><strong><a href="guide.html#the-notebooks-the-full-analysis-today">A notebook</a></strong>, in Colab or on your computer</h3><dl><dt>What you need</dt><dd>A web browser (Colab), or Python 3.12</dd><dt>Who sees your boat</dt><dd>Only you</dd><dt>What you get today</dt><dd>The full analysis and the 11 × 17 report</dd></dl></div><div class="card way"><h3><strong>A pull request to this repository</strong></h3><dl><dt>What you need</dt><dd>A free GitHub account and a web browser</dd><dt>Who sees your boat</dt><dd>Everyone: this repository is public</dd><dt>What you get today</dt><dd>Demo report and 3D viewer</dd></dl></div><div class="card way"><h3><strong>Your own private copy</strong></h3><dl><dt>What you need</dt><dd>A free GitHub account</dd><dt>Who sees your boat</dt><dd>Only you, and anyone you invite</dd><dt>What you get today</dt><dd>Demo report and 3D viewer</dd></dl></div><div class="card way"><h3><strong>Your own computer</strong>, with the package</h3><dl><dt>What you need</dt><dd>Python 3.12 or later</dd><dt>Who sees your boat</dt><dd>Only you</dd><dt>What you get today</dt><dd>Demo report and 3D viewer</dd></dl></div></div>
+ <p class="sub">The pull request, the private copy and your own computer all start from a boat file, and the first two happen
+entirely on GitHub's website. The notebooks are separate: each holds one boat's whole analysis, and you edit its
+inputs in one cell. Until the analysis engine moves into the package, the notebooks are the only way to get the
+full analysis.</p>
+ <div class="grid g4"><div class="card way"><h3><strong><a href="guide.html#step-2-open-a-pull-request-with-your-file">A pull request</a></strong> to this repository</h3><dl><dt>What you need</dt><dd>A free GitHub account and a web browser</dd><dt>Do you write code?</dt><dd>No</dd><dt>Who sees your boat</dt><dd>Everyone: this repository is public</dd><dt>What you get today</dt><dd>Demo report and 3D viewer</dd></dl></div><div class="card way"><h3><strong><a href="guide.html#keeping-your-boat-private">Your own private copy</a></strong></h3><dl><dt>What you need</dt><dd>A free GitHub account and a web browser</dd><dt>Do you write code?</dt><dd>No</dd><dt>Who sees your boat</dt><dd>Only you, and anyone you invite</dd><dt>What you get today</dt><dd>Demo report and 3D viewer</dd></dl></div><div class="card way"><h3><strong><a href="guide.html#the-notebooks-the-full-analysis-today">A notebook</a></strong>, in Colab or on your computer</h3><dl><dt>What you need</dt><dd>A web browser and a free Google account (Colab), or Python 3.12</dd><dt>Do you write code?</dt><dd>No: you change numbers in one cell and click Run all</dd><dt>Who sees your boat</dt><dd>Only you</dd><dt>What you get today</dt><dd>The full analysis and the 11 × 17 report</dd></dl></div><div class="card way"><h3><strong><a href="guide.html#running-it-on-your-own-computer">Your own computer</a></strong>, with the package</h3><dl><dt>What you need</dt><dd>Python 3.12 or later</dd><dt>Do you write code?</dt><dd>A few typed commands</dd><dt>Who sees your boat</dt><dd>Only you</dd><dt>What you get today</dt><dd>Demo report and 3D viewer</dd></dl></div></div>
  <p style="margin-top:22px"><a class="btn ghost" href="guide.html">Read the full guide</a></p>
 </div></section>
 
@@ -487,7 +490,7 @@ edit its inputs in one cell.</p>
 
 <footer><div class="wrap">
 <span>rigframe is MIT-licensed. An engineering estimate, not a rig survey.</span>
-<span>Built 2026-10-29 from <a href="https://github.com/RigFrame/rigframe/commit/71490e1">71490e1</a> &middot; <a href="https://github.com/RigFrame/rigframe">GitHub</a> &middot; <a href="https://github.com/RigFrame/rigframe/issues">Issues</a></span>
+<span>Built 2026-11-06 from <a href="https://github.com/RigFrame/rigframe/commit/b6f7284">b6f7284</a> &middot; <a href="https://github.com/RigFrame/rigframe">GitHub</a> &middot; <a href="https://github.com/RigFrame/rigframe/issues">Issues</a></span>
 </div></footer>
 <script>
 (function(){
